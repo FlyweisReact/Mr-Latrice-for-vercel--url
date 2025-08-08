@@ -1,0 +1,74 @@
+/* Custom styles for RecommendForYou component */
+
+/* Main section */
+.recommended-for-you-section {
+  width: 100%;
+  background-color: white;
+  padding: 4rem 0;
+  position: relative;
+}
+
+/* Heading */
+.recommended-for-you-heading {
+  font-family: 'Glamore', serif;
+  font-size: 40px;
+  color: #2F2F2F;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+/* Card styling */
+.recommended-card {
+  display: block;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  background-color: #123E41;
+}
+
+.recommended-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Card image container */
+.recommended-card-image {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .recommended-card-image {
+    height: 180px;
+  }
+}
+
+
+
+.recommended-card-title h3 {
+  font-family: 'Rasa', serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .recommended-for-you-heading {
+    font-size: 32px;
+    text-align: center;
+  }
+  
+  .recommended-card-title h3 {
+    font-size: 18px;
+  }
+  
+  /* Hide beauty kit images on very small screens */
+  .recommended-card-image.hidden {
+    display: none;
+  }
+}

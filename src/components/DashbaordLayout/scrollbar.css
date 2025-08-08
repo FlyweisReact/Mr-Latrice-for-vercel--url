@@ -1,0 +1,53 @@
+/* Custom scrollbar styling for the dashboard sidebar */
+
+/* For Webkit browsers (Chrome, Safari, newer versions of Opera) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #123E41; /* Dark teal background color from the project's color scheme */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FF827F; /* Secondary color (salmon) from the project's color scheme */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFE6D8; /* Lighter version of the secondary color for hover state */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #FF827F #123E41;
+}
+
+/* Applying custom scrollbar to the sidebar specifically */
+#mobile-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: #FF827F #123E41;
+}
+
+/* For Internet Explorer and Edge */
+#mobile-sidebar {
+  -ms-overflow-style: none;
+}
+
+#mobile-sidebar::-ms-scrollbar {
+  width: 6px;
+}
+
+#mobile-sidebar::-ms-scrollbar-track {
+  background: #123E41;
+}
+
+#mobile-sidebar::-ms-scrollbar-thumb {
+  background: #FF827F;
+  border-radius: 10px;
+}
+
+#mobile-sidebar::-ms-scrollbar-thumb:hover {
+  background: #FFE6D8;
+}

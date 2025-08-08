@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Gotu&family=Inter:wght@400;500;600;700&family=Rasa:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Sansation Font */
+@font-face {
+  font-family: 'Sansation';
+  src: url('./assets/fonts/Sansation_Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sansation';
+  src: url('./assets/fonts/Sansation_Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sansation';
+  src: url('./assets/fonts/Sansation_Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sansation';
+  src: url('./assets/fonts/Sansation_Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sansation';
+  src: url('./assets/fonts/Sansation_Light_Italic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sansation';
+  src: url('./assets/fonts/Sansation_Bold_Italic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Glamore Font */
+@font-face {
+  font-family: 'Glamore';
+  src: url('./assets/fonts/Glamore.ttf') format('truetype'),
+    url('./assets/fonts/Glamore.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary: #123E41;
+  --color-secondary: #FF827F;
+  --color-text-primary: #FAF9F6;
+  --color-charcoal: #2F2F2F;
+  --color-text-black: #2F2F2F;
+  --font-rasa: 'Rasa', serif;
+  --font-gotu: 'Gotu', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+  --font-sansation: 'Sansation', sans-serif;
+  --font-glamore: 'Glamore', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --be-vietnam-pro: 'Be Vietnam Pro', sans-serif;
+}
+
+body {
+  /* font-family: var(--font-gotu); */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-black {
+  color: var(--color-text-black);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.text-charcoal {
+  color: var(--color-charcoal);
+}
+
+.font-rasa {
+  font-family: var(--font-rasa);
+}
+
+.font-gotu {
+  font-family: var(--font-gotu);
+}
+
+.font-inter {
+  font-family: var(--font-inter);
+}
+
+.font-outfit {
+  font-family: var(--font-outfit);
+}
+
+.bg-charocal {
+  background-color: var(--color-charcoal);
+}
+
+.text-secondary {
+  color: var(--color-secondary);
+}
+
+.font-sansation {
+  font-family: var(--font-sansation);
+}
+
+.font-glamore {
+  font-family: var(--font-glamore);
+}
+
+.font-poppins {
+  font-family: var(--font-poppins);
+}
+
+.font-be-vietnam-pro {
+  font-family: var(--be-vietnam-pro);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

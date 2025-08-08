@@ -1,0 +1,1146 @@
+/* Scrollbar styles */
+.scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+    background: #123E41;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #FF827F;
+    border-radius: 2px;
+}
+
+/* Client dashboard navbar styles */
+.client-navbar-filters {
+    width: 100%;
+    min-width: 300px;
+    height: 58px;
+    border-radius: 6px;
+    background: #FAF9F6;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.client-navbar-search-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 150px;
+}
+
+.client-navbar-input {
+    width: 100%;
+    height: 42px;
+    border-radius: 8px;
+    border: 1px solid #2F2F2F;
+    outline: none;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    color: #2F2F2F;
+    padding: 0 0.5rem;
+    font-family: var(--font-rasa);
+}
+
+.client-navbar-input::placeholder {
+    font-family: var(--font-rasa);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    color: #2F2F2F;
+}
+
+.client-navbar-divider {
+    border-left: 1px solid #2F2F2F;
+    height: 42px;
+}
+
+.client-navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.client-navbar-extra-btn {
+    height: 37px;
+    border-radius: 8px;
+    padding: 0 10px;
+    background-color: #123E41;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    color: white;
+    outline: none;
+    border: none;
+    font-family: var(--font-rasa);
+    white-space: nowrap;
+}
+
+.client-navbar-icon {
+    color: #2F2F2F;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.client-navbar-search-btn {
+    width: 71px;
+    height: 37px;
+    border-radius: 8px;
+    background-color: #2F2F2F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.client-navbar-username {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 140%;
+    font-family: var(--font-rasa);
+    white-space: nowrap;
+}
+
+.client-navbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+
+.client-navbar-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .client-navbar-filters {
+        height: auto;
+        flex-wrap: wrap;
+        padding: 0.5rem;
+    }
+
+    .client-navbar-search-group {
+        min-width: 100%;
+    }
+
+    .client-navbar-divider {
+        display: none;
+    }
+
+    .client-navbar-actions {
+        width: 100%;
+        justify-content: flex-end;
+        padding-top: 0.5rem;
+    }
+
+    .client-navbar-input {
+        font-size: 12px;
+    }
+
+    .client-navbar-input::placeholder {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 640px) {
+    .client-navbar-input {
+        font-size: 16px;
+    }
+
+    .client-navbar-input::placeholder {
+        font-size: 16px;
+    }
+}
+
+
+/* Account setting dashboard styles */
+
+
+.modal2 {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.modal2::-webkit-scrollbar {
+    display: none !important;
+    /* Chrome, Safari, Opera */
+}
+
+/* src/styles/ticket-shape.css */
+.ticket-shape {
+    clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 20px,
+            100% 80%, calc(100% - 10px) 100%, 0% 100%,
+            10px 80%, 10px 20%);
+}
+
+
+
+
+
+
+
+/* Center the calendar */
+.react-datepicker {
+    background-color: transparent !important;
+    color: #FAF9F6 !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    border: none !important;
+    font-family: var(--font-rasa) !important;
+    padding: 20px !important;
+    width: 100%;
+}
+
+/* Header */
+.react-datepicker__header {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+
+}
+
+/* Month + year */
+.react-datepicker__current-month {
+    font-size: 17px !important;
+    font-weight: 600 !important;
+    color: #FFFFFF !important;
+    margin-bottom: 10px !important;
+}
+
+/* Day names */
+.react-datepicker__day-name {
+    color: #B5BEC6 !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    margin: 8px !important;
+}
+
+/* Day cell */
+.react-datepicker__day {
+    margin: 8px !important;
+    color: #FAF9F6 !important;
+    transition: background 0.2s ease;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    border-radius: 100% !important;
+}
+
+.react-datepicker__day--outside-month {
+    color: #777 !important;
+}
+
+/* Hover effect */
+.react-datepicker__day:hover {
+    background-color: #FF827F !important;
+}
+
+/* Selected day */
+.selected-day {
+    background-color: #f87171 !important;
+    color: #2F2F2F !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    border-radius: 100% !important;
+}
+
+
+
+/* Arrows */
+.react-datepicker__navigation-icon::before {
+    border-color: white !important;
+}
+
+/* Remove default border */
+.react-datepicker__triangle {
+    display: none !important;
+}
+
+
+
+.time-picker-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.timepicker-container {
+    width: 100%;
+    border-radius: 8px;
+    background-color: #2F2F2F;
+    padding-bottom: 0.5rem;
+}
+
+.timepicker-header {
+    background-color: #123E41;
+    border-radius: 8px 8px 0 0;
+}
+
+.tabs {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tab {
+    padding: 8px;
+    cursor: pointer;
+    color: #DFE4EA;
+    transition: all 0.2s ease;
+    font-family: "Roboto", sans-serif;
+    border-radius: 8px 0 0 0;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.tab:last-child {
+    border-radius: 0 8px 0 0;
+}
+
+.tab.active {
+    background-color: #FF827F;
+    color: #2F2F2F;
+    font-weight: 700;
+}
+
+.display-time {
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+}
+
+.selected-hour,
+.selected-minute {
+    color: #FFFFFF80;
+    transition: color 0.2s ease;
+}
+
+.selected-hour.active-tab {
+    color: #FFFFFF;
+}
+
+.selected-minute.active-tab {
+    color: #FFFFFF;
+}
+
+.clock-face {
+    position: relative;
+    width: 340px;
+    height: 340px;
+    background-color: #2F2F2F;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.number-mark {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.number-mark:hover {
+    background-color: #FF827F;
+}
+
+.number-mark.selected {
+    background-color: #FF827F;
+    color: #2F2F2F;
+    font-weight: 600;
+    font-size: 15px;
+    z-index: 5;
+}
+
+.center-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    background-color: #FF827F;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+
+.hand {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2px;
+    height: 40%;
+    background-color: #FF827F;
+    transform-origin: 50% 0%;
+    z-index: 2;
+    margin-left: -1px;
+}
+
+
+.current-time {
+    width: 100%px;
+    height: 100px;
+    border-radius: 10px;
+    background-image: url('../assets/images/dashboard/img27.jpg');
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+    /* Safari support */
+    overflow: hidden;
+    padding: 0.5rem;
+    margin-top: 1rem;
+}
+
+.current-time h5 {
+    font-family: var(--font-rasa);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 138%;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.current-time h6 {
+    font-family: 'DS-Digital', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 0;
+    color: #FFFFFF;
+    margin: 0;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.cancelbookings {
+    box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+
+
+/* business owner */
+
+
+
+.slider-wrapper {
+    position: relative;
+    flex: 1;
+    /* Add some padding to prevent clipping */
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    background: #D9D9D9;
+    /* Default track color */
+    outline: none;
+}
+
+/* Fill the track up to the thumb position */
+.slider::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #FF827F 0%, #FF827F var(--fill-percent, 0%), #D9D9D9 var(--fill-percent, 0%), #D9D9D9 100%);
+}
+
+.slider::-moz-range-track {
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #FF827F 0%, #FF827F var(--fill-percent, 0%), #D9D9D9 var(--fill-percent, 0%), #D9D9D9 100%);
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    background: #2F2F2F;
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -9px;
+    position: relative;
+    z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.slider::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    background: #2F2F2F;
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.slider-value {
+    font-family: var(--font-sansation);
+    text-align: center;
+    margin-top: 5px;
+    font-size: 17px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+.slider-wrapper11 {
+    position: relative;
+    flex: 1;
+    /* Add some padding to prevent clipping */
+}
+
+.slider1 {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    background: #D9D9D9;
+    /* Default track color */
+    outline: none;
+}
+
+/* Fill the track up to the thumb position */
+.slider1::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #123E41 0%, #123E41 var(--fill-percent, 0%), #D9D9D9 var(--fill-percent, 0%), #D9D9D9 100%);
+}
+
+.slider1::-moz-range-track {
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #123E41 0%, #123E41 var(--fill-percent, 0%), #D9D9D9 var(--fill-percent, 0%), #D9D9D9 100%);
+}
+
+.slider1::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    background: #2F2F2F;
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -9px;
+    position: relative;
+    z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.slider1::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    background: #2F2F2F;
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.slider-value {
+    font-family: var(--font-sansation);
+    text-align: center;
+    margin-top: 5px;
+    font-size: 17px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+}
+
+
+
+
+
+
+
+.mangertimedate {
+    width: 100%;
+    max-width: 400px;
+
+}
+
+
+/* Center the calendar */
+.mangertimedate .react-datepicker {
+    background-color: #FFFFFF !important;
+    color: #FAF9F6 !important;
+    border-radius: 8px !important;
+    box-shadow: 2px 16px 19px 0px #00000017 !important;
+    border: none !important;
+    font-family: var(--font-rasa) !important;
+    padding: 20px !important;
+    width: 100% !important;
+}
+
+/* Header */
+.mangertimedate .react-datepicker__header {
+    background-color: #FFFFFF !important;
+    border: none !important;
+    padding: 0 !important;
+
+}
+
+/* Month + year */
+.mangertimedate .react-datepicker__current-month {
+    font-size: 17px !important;
+    font-weight: 600 !important;
+    color: #123E41 !important;
+    margin-bottom: 10px !important;
+}
+
+/* Day names */
+.mangertimedate .react-datepicker__day-name {
+    color: #2F2F2F80 !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    margin: 10px !important;
+    width: 28px !important;
+    line-height: 28px !important;
+}
+
+/* Day cell */
+.mangertimedate .react-datepicker__day {
+    margin: 10px !important;
+    color: #123E41 !important;
+    transition: background 0.2s ease;
+    font-weight: 600 !important;
+    font-size: 18px !important;
+    width: 28px !important;
+    line-height: 28px !important;
+    border-radius: 50% !important;
+}
+
+.mangertimedate .react-datepicker__day--outside-month {
+    color: #777 !important;
+}
+
+/* Hover effect */
+.mangertimedate .react-datepicker__day:hover {
+    background-color: #FF827F !important;
+    color: #FAF9F6 !important;
+}
+
+/* Selected day */
+.mangertimedate .selected-day {
+    background-color: #f87171 !important;
+    color: #FAF9F6 !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    border-radius: 100% !important;
+}
+
+.mangertimedate .react-datepicker__navigation-icon::before {
+    border-color: #2F2F2F !important;
+}
+
+/* Remove default border */
+.mangertimedate .react-datepicker__triangle {
+    display: none !important;
+}
+
+
+
+
+
+/* Base overrides */
+.custom-date-range {
+    font-family: 'Inter', sans-serif;
+    border-radius: 8px !important;
+    overflow: hidden;
+    box-shadow: 2px 16px 19px 0px #00000017;
+}
+
+/* Navigation arrows */
+.custom-date-range .rdrNextPrevButton i {
+    margin: auto !important;
+}
+
+.custom-date-range .rdrNextPrevButton {
+    color: #2F2F2F !important;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+
+}
+
+.custom-date-range .rdrNextPrevButton:hover {
+    background-color: #FF827Fed !important;
+}
+
+/* Month and year title */
+.custom-date-range .rdrMonthAndYearPickers select {
+    font-size: 14px;
+    font-weight: 600;
+    color: #123E41;
+}
+
+/* Day cell styles */
+.custom-date-range .rdrDay {
+    font-size: 14px;
+    color: #2F2F2F80 !important;
+}
+
+/* Selected range */
+.custom-date-range .rdrDay.rdrSelected,
+.custom-date-range .rdrDay.rdrInRange,
+.custom-date-range .rdrDay.rdrStartEdge,
+.custom-date-range .rdrDay.rdrEndEdge {
+    background: #123E41 !important;
+    color: white !important;
+}
+
+.custom-date-range .rdrDayNumber span {
+    color: #123E41;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+
+/* Today highlight */
+.custom-date-range .rdrDay.rdrToday span::after {
+    background: #123E41;
+    width: 6px;
+    height: 6px;
+}
+
+/* Disable default border */
+.custom-date-range .rdrMonth {
+    border: none;
+}
+
+/* Custom weekday header */
+.custom-date-range .rdrWeekDay {
+    color: #123E41;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.custom-date-range .rdrDateDisplayWrapper {
+    display: none;
+}
+
+
+
+/* Optional: Make tooltip font more elegant */
+.earning-chart-wrapper .recharts-tooltip-label,
+.earning-chart-wrapper .recharts-tooltip-item {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: white;
+}
+
+
+.aboutus-container {
+    background-image: url('../assets/images/dashboard/img92.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+.privacypolicy-container {
+    background-image: url('../assets/images/dashboard/img93.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+.termsofservices-container {
+    background-image: url('../assets/images/dashboard/img94.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+.cookies-container {
+    background-image: url('../assets/images/dashboard/img95.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+.faqs-container {
+    background-image: url('../assets/images/dashboard/img96.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+.blogs-container {
+    background-image: url('../assets/images/dashboard/img97.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+.blogs-container1 {
+    box-shadow: 0px 4px 4px 0px #00000040;
+    backdrop-filter: blur(80px);
+    border-radius: 20px;
+    width: 90%;
+}
+
+.careers-container {
+    background-image: url('../assets/images/dashboard/img102.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+.contactus-container {
+    background-image: url('../assets/images/dashboard/img106.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+.contactus-container1 {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.text-shadow-custom {
+    text-shadow: 0px 8px 4px #00000080;
+}
+
+
+
+.accountsetting-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+
+
+
+.mangertimedate1 {
+    width: 100%;
+}
+
+
+/* Center the calendar */
+.mangertimedate1 .react-datepicker {
+    background-color: #FFFFFF !important;
+    border-radius: 8px !important;
+    border: none !important;
+    font-family: var(--font-rasa) !important;
+    width: 100% !important;
+    box-shadow: none !important;
+}
+
+/* Header */
+.mangertimedate1 .react-datepicker__header {
+    background-color: #FFFFFF !important;
+    border: none !important;
+    padding: 0 !important;
+
+}
+
+/* Month + year */
+.mangertimedate1 .react-datepicker__current-month {
+    font-size: 30px !important;
+    font-weight: 700 !important;
+    color: #36363A !important;
+    margin-bottom: 10px !important;
+    font-family: var(--font-rasa) !important;
+}
+
+/* Day names */
+.mangertimedate1 .react-datepicker__day-name {
+    color: #000000 !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    margin: 10px !important;
+    line-height: 28px !important;
+    width: 50px !important;
+}
+
+/* Day cell */
+.mangertimedate1 .react-datepicker__day {
+    width: 50px !important;
+    height: 45px !important;
+    margin: 10px !important;
+    border: 1px solid #2F2F2F !important;
+    color: #000000 !important;
+    transition: background 0.2s ease;
+    font-weight: 500 !important;
+    font-size: 20px !important;
+    line-height: 40px !important;
+    border-radius: 6px !important;
+}
+
+.mangertimedate1 .react-datepicker__day--outside-month {
+    color: #8B8B8B !important;
+    background-color: #E3E3E3 !important;
+    cursor: not-allowed !important;
+}
+
+/* Hover effect */
+.mangertimedate1 .react-datepicker__day:hover {
+    background-color: #FF827F !important;
+    color: #FAF9F6 !important;
+}
+
+/* Selected day */
+.mangertimedate1 .selected-day {
+    background-color: #f87171 !important;
+    color: #FAF9F6 !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    border-radius: 100% !important;
+}
+
+.mangertimedate1 .react-datepicker__navigation-icon::before {
+    border-color: #2F2F2F !important;
+}
+
+/* Remove default border */
+.mangertimedate1 .react-datepicker__triangle {
+    display: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mangertimedate2 {
+    width: 100%;
+}
+
+/* Hide the input field */
+.mangertimedate2 .react-datepicker__input-container {
+    display: none;
+}
+
+/* Center the calendar */
+.mangertimedate2 .react-datepicker {
+    background-color: #FFFFFF !important;
+    border-radius: 8px !important;
+    border: none !important;
+    font-family: var(--font-rasa) !important;
+    width: 100% !important;
+    box-shadow: none !important;
+}
+
+/* Header */
+.mangertimedate2 .react-datepicker__header {
+    background-color: #FFFFFF !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Month + year */
+.mangertimedate2 .react-datepicker__current-month {
+    font-size: 25px !important;
+    font-weight: 700 !important;
+    color: #36363A !important;
+    margin-bottom: 10px !important;
+    font-family: var(--font-rasa) !important;
+}
+
+/* Day names */
+.mangertimedate2 .react-datepicker__day-name {
+    color: #000000 !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    /* margin: 10px !important; */
+    line-height: 28px !important;
+    width: 50px !important;
+}
+
+/* Day cell */
+.mangertimedate2 .react-datepicker__day {
+    width: 50px !important;
+    height: 45px !important;
+    /* margin: 10px !important; */
+    border: 1px solid #292524 !important;
+    color: #292524 !important;
+    transition: background 0.2s ease;
+    font-weight: 500 !important;
+    font-size: 20px !important;
+    line-height: 40px !important;
+    border-radius: 6px !important;
+    position: relative;
+}
+
+/* Selected day */
+.mangertimedate2 .react-datepicker__day--selected {
+    background-color: #f87171 !important;
+    color: #FAF9F6 !important;
+}
+
+/* Yellow Indicator Under Day */
+.mangertimedate2 .react-datepicker__day--has-indicator::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 4px;
+    background-color: #EC9301;
+    border-radius: 2px;
+}
+
+/* Booked/Disabled Day */
+.mangertimedate2 .react-datepicker__day--booked {
+    /* color: #d1d5db !important; */
+    /* background-color: #f3f4f6 !important; */
+    position: relative;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+.mangertimedate2 .react-datepicker__day--has-waitinglist  {
+    color: #000000 !important;
+    background-color: #FFE6D8 !important;
+}
+
+
+/* Days outside current month */
+.mangertimedate2 .react-datepicker__day--outside-month {
+    color: #9ca3af !important;
+    background-color: #f3f4f6 !important;
+    cursor: not-allowed !important;
+}
+
+/* Navigation arrows */
+.mangertimedate2 .react-datepicker__navigation-icon::before {
+    border-color: #2F2F2F !important;
+    border-width: 2px 2px 0 0 !important;
+}
+
+/* Remove default triangle */
+.mangertimedate2 .react-datepicker__triangle {
+    display: none !important;
+}
+
+/* Hover effect */
+.mangertimedate2 .react-datepicker__day:hover:not(.react-datepicker__day--disabled):not(.react-datepicker__day--selected) {
+    background-color: #fcd9d8 !important;
+}
+
+
+
+
+
+
+.slider-wrapper22 {
+    position: relative;
+    flex: 1;
+    /* Add some padding to prevent clipping */
+}
+
+.slider22 {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    background: #B4B4B4;
+    border: 1px solid #2F2F2F;
+    /* Default track color */
+    outline: none;
+}
+
+/* Fill the track up to the thumb position */
+.slider22::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #FF827F 0%, #FF827F var(--fill-percent, 0%), #D9D9D9 var(--fill-percent, 0%), #D9D9D9 100%);
+}
+
+.slider22::-moz-range-track {
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #FF827F 0%, #FF827F var(--fill-percent, 0%), #D9D9D9 var(--fill-percent, 0%), #D9D9D9 100%);
+}
+
+.slider22::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    background: #FF827F;
+    border: 5px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -9px;
+    position: relative;
+    z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.slider22::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    background: #2F2F2F;
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
