@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../../../components/AuthLayout";
 import UplaodBar from "../../../../assets/images/signup/upload.png"
+import { useSignupMutation } from "../../../../redux/api/api";
 
 const ClientType = () => {
   const navigate = useNavigate();
@@ -18,6 +19,25 @@ const ClientType = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [apiError, setApiError] = useState(null);
+
+  const [signup, { isLoading }] = useSignupMutation();
+
+  const countries = [
+    { country: 'India', code: '+91', flag: 'https://flagcdn.com/w20/in.png' },
+    { country: 'United States', code: '+1', flag: 'https://flagcdn.com/w20/us.png' },
+    { country: 'United Kingdom', code: '+44', flag: 'https://flagcdn.com/w20/gb.png' },
+    { country: 'Australia', code: '+61', flag: 'https://flagcdn.com/w20/au.png' },
+    { country: 'Canada', code: '+1', flag: 'https://flagcdn.com/w20/ca.png' },
+    { country: 'Germany', code: '+49', flag: 'https://flagcdn.com/w20/de.png' },
+    { country: 'France', code: '+33', flag: 'https://flagcdn.com/w20/fr.png' },
+    { country: 'Japan', code: '+81', flag: 'https://flagcdn.com/w20/jp.png' },
+    { country: 'China', code: '+86', flag: 'https://flagcdn.com/w20/cn.png' },
+    { country: 'Brazil', code: '+55', flag: 'https://flagcdn.com/w20/br.png' },
+  ];
+
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -37,10 +57,37 @@ const ClientType = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiError(null);
 
-    navigate("/signup-verification");
+    if (formData.password !== formData.confirmPassword) {
+      setApiError("Passwords do not match");
+      return;
+    }
+
+    if (!formData.agreeTerms) {
+      setApiError("You must agree to the terms");
+      return;
+    }
+
+    const fd = new FormData();
+    fd.append('fullName', `${formData.firstName} ${formData.lastName}`);
+    fd.append('firstName', formData.firstName);
+    fd.append('lastName', formData.lastName);
+    fd.append('mobileNumber', formData.phoneNumber);
+    fd.append('email', formData.email);
+    fd.append('password', formData.password);
+    if (formData.profilePhoto) {
+      fd.append('image', formData.profilePhoto); // Assuming the API accepts 'profilePhoto'
+    }
+
+    try {
+      await signup(fd).unwrap();
+      navigate("/signin");
+    } catch (err) {
+      setApiError(err?.data?.message || "Signup failed. Please try again.");
+    }
   };
 
   return (
@@ -181,14 +228,31 @@ const ClientType = () => {
                   Enter your phone number
                 </label>
                 <div className="flex">
-                  <div className="flex items-center border border-gray-300 rounded-l-md px-3 bg-white">
+                  <div className="relative flex items-center border border-gray-300 rounded-l-md px-3 bg-white cursor-pointer" onClick={() => setShowDropdown(!showDropdown)}>
                     <img
-                      src="https://flagcdn.com/w20/us.png"
-                      alt="US flag"
+                      src={selectedCountry.flag}
+                      alt={`${selectedCountry.country} flag`}
                       className="h-4 mr-1"
                     />
-                    <span className="text-gray-600 text-sm">+1</span>
+                    <span className="text-gray-600 text-sm">{selectedCountry.code}</span>
                   </div>
+                  {showDropdown && (
+                    <div className="absolute z-10 bg-white border border-gray-300 rounded-md mt-10 w-48 max-h-60 overflow-y-auto">
+                      {countries.map((country, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => {
+                            setSelectedCountry(country);
+                            setShowDropdown(false);
+                          }}
+                        >
+                          <img src={country.flag} alt={`${country.country} flag`} className="h-4 mr-2" />
+                          <span>{country.country} ({country.code})</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <input
                     type="tel"
                     id="phoneNumber"
@@ -372,12 +436,15 @@ const ClientType = () => {
               </label>
             </div>
 
+            {apiError && <p className="text-red-500 mb-4">{apiError}</p>}
+
             {/* Submit button */}
             <button
               type="submit"
-              className="w-full bg-[#FFE6D8] text-secondary font-medium py-3 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
+              disabled={isLoading}
+              className="w-full bg-[#FFE6D8] text-secondary font-medium py-3 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)] disabled:opacity-50"
             >
-              Next step
+              {isLoading ? 'Signing up...' : 'Next step'}
             </button>
           </form>
         </div>

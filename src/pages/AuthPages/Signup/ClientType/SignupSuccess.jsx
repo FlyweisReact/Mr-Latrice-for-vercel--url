@@ -6,25 +6,13 @@ const SignupSuccess = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const userData = {
-      email: 'admin@gmail.com',
-    };
-
-    localStorage.setItem("user", JSON.stringify(userData));
-    navigate("/dashboard/account-setting");
+    navigate("/signin");
   };
 
   return (
     <AuthLayout>
       <div className="relative flex bg-white w-full h-full px-4 sm:px-6 py-4 font-sansation">
         <div className="w-full max-w-4xl mx-auto">
-          {/* Already have an account link */}
-          {/* <div className="text-right mb-6">
-            <Link to="/signin" className="text-secondary hover:underline">
-              Already have an account?
-            </Link>
-          </div> */}
-
           {/* Step by Step header */}
           <div className="mb-4">
             <h1 className="font-sansation text-[28px] sm:text-[32px] text-[#2F2F2F] font-semibold">

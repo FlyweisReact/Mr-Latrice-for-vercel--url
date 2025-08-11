@@ -1,5 +1,8 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Provider, useSelector } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './redux/store';
 import { ScrollToTop } from './utils/utils';
 
 // Layout components
@@ -148,6 +151,11 @@ const LoadingFallback = () => (
   </div>
 );
 
+const ProtectedRoute = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  return isAuthenticated ? <Outlet /> : <Navigate to="/signin" replace />;
+};
+
 /**
  * The main application component with optimized routing and lazy loading.
  * 
@@ -156,143 +164,153 @@ const LoadingFallback = () => (
  */
 export default function App() {
   return (
-    <Router>
-      <Suspense fallback={<LoadingFallback />}>
-        <ScrollToTop />
-        <Routes>
-          {/* Main route */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/services-details" element={<SalonServicesDetails />} />
-          <Route path="/salons/:city" element={<CitybySalonsList />} />
-          <Route path="/about-us" element={<AboutUss />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicys />} />
-          <Route path="/terms-of-service" element={<TermsOfServices />} />
-          <Route path="/cookies" element={<Cookiess />} />
-          <Route path="/contact-us" element={<ContactUss />} />
-          <Route path="/faqs" element={<FAQss />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/careers" element={<Careers />} />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <Suspense fallback={<LoadingFallback />}>
+            <ScrollToTop />
+            <Routes>
+              {/* Main route */}
+              <Route path="/" element={<HomePage />} />
+              <Route path="/services-details" element={<SalonServicesDetails />} />
+              <Route path="/salons/:city" element={<CitybySalonsList />} />
+              <Route path="/about-us" element={<AboutUss />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicys />} />
+              <Route path="/terms-of-service" element={<TermsOfServices />} />
+              <Route path="/cookies" element={<Cookiess />} />
+              <Route path="/contact-us" element={<ContactUss />} />
+              <Route path="/faqs" element={<FAQss />} />
+              <Route path="/blogs" element={<Blogs />} />
+              <Route path="/careers" element={<Careers />} />
 
-          {/* Authentication routes */}
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/otp" element={<LoginOtpVerify />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/account-type" element={<AccountType />} />
-          <Route path="/contact" element={<ContactPage />} />
+              {/* Authentication routes */}
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/otp" element={<LoginOtpVerify />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/account-type" element={<AccountType />} />
+              <Route path="/contact" element={<ContactPage />} />
 
-          {/* Client signup flow */}
-          <Route path="/client-signup" element={<ClientType />} />
-          <Route path="/signup-verification" element={<OtpVerification />} />
-          <Route path="/signup-success" element={<SignupSuccess />} />
+              {/* Client signup flow */}
+              <Route path="/client-signup" element={<ClientType />} />
+              <Route path="/signup-verification" element={<OtpVerification />} />
+              <Route path="/signup-success" element={<SignupSuccess />} />
 
-          {/* Business Owner signup flow */}
-          <Route path="/business-owner" element={<BusinessOwnerInfo />} />
-          <Route path="/business-owner/account-form" element={<BusinessOwnerForm />} />
-          <Route path="/business-owner/verification" element={<BusinessOwnerVerification />} />
-          <Route path="/business-owner/profile-image" element={<BusinessOwnerProfileImage />} />
-          <Route path="/business-owner/business-details" element={<BusinessOwnerDetails />} />
-          <Route path="/business-owner/amenities" element={<BusinessOwnerAmenities />} />
-          <Route path="/business-owner/services" element={<BusinessOwnerServices />} />
-          <Route path="/business-owner/success" element={<BusinessOwnerSuccess />} />
+              {/* Business Owner signup flow */}
+              <Route path="/business-owner" element={<BusinessOwnerInfo />} />
+              <Route path="/business-owner/account-form" element={<BusinessOwnerForm />} />
+              <Route path="/business-owner/verification" element={<BusinessOwnerVerification />} />
+              <Route path="/business-owner/profile-image" element={<BusinessOwnerProfileImage />} />
+              <Route path="/business-owner/business-details" element={<BusinessOwnerDetails />} />
+              <Route path="/business-owner/amenities" element={<BusinessOwnerAmenities />} />
+              <Route path="/business-owner/services" element={<BusinessOwnerServices />} />
+              <Route path="/business-owner/success" element={<BusinessOwnerSuccess />} />
 
-          {/* Independent Professional signup flow */}
-          <Route path="/independent" element={<IndependentInfo />} />
-          <Route path="/independent/verification" element={<IndependentVerification />} />
-          <Route path="/independent/profile-image" element={<IndependentProfileImage />} />
-          <Route path="/independent/business-details" element={<IndependentBusinessDetails />} />
-          <Route path="/independent/services" element={<IndependentServices />} />
-          <Route path="/independent/success" element={<IndependentSuccess />} />
+              {/* Independent Professional signup flow */}
+              <Route path="/independent" element={<IndependentInfo />} />
+              <Route path="/independent/verification" element={<IndependentVerification />} />
+              <Route path="/independent/profile-image" element={<IndependentProfileImage />} />
+              <Route path="/independent/business-details" element={<IndependentBusinessDetails />} />
+              <Route path="/independent/services" element={<IndependentServices />} />
+              <Route path="/independent/success" element={<IndependentSuccess />} />
 
-          {/* user Dashboard routes with DashboardLayout */}
-          <Route path="/dashboard/basket" element={<Basket />} />
-          <Route path="/dashboard/account-setting" element={<UserAccountSettingPage />} />
-          <Route path="/dashboard/appointments/current-bookings" element={<Currentbookings />} />
-          <Route path="/dashboard/appointments/upcoming-bookings" element={<Upcomingbookings />} />
-          <Route path="/dashboard/appointments/past-bookings" element={<Pastbookings />} />
-          <Route path="/dashboard/appointments/cancellation-bookings" element={<Cancellation />} />
-          <Route path="/dashboard/appointments/claim/dispute-bookings" element={<ClaimDispute />} />
-          <Route path="/dashboard/post-project" element={<PostProject />} />
-          <Route path="/dashboard/gift-cards" element={<GiftCards />} />
-          <Route path="/dashboard/family-friends" element={<FamilyandFriends />} />
-          <Route path="/dashboard/favorite" element={<Favourites />} />
-          <Route path="/dashboard/discounts" element={<DiscountPromotion />} />
-          <Route path="/dashboard/reviews" element={<Reviews />} />
-          <Route path="/dashboard/chat" element={<Chat />} />
-          <Route path="/dashboard/payments" element={<Payments />} />
-          <Route path="/dashboard/customer-forms" element={<CustomerForms />} />
-          <Route path="/dashboard/know-more/about-us" element={<AboutUs />} />
-          <Route path="/dashboard/know-more/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/dashboard/know-more/terms-of-service" element={<TermsOfService />} />
-          <Route path="/dashboard/know-more/contact-us" element={<ContactUs />} />
-          <Route path="/dashboard/know-more/cookies" element={<Cookies />} />
-          <Route path="/dashboard/know-more/faqs" element={<FAQs />} />
+              {/* user Dashboard routes with DashboardLayout */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard/basket" element={<Basket />} />
+                <Route path="/dashboard/account-setting" element={<UserAccountSettingPage />} />
+                <Route path="/dashboard/appointments/current-bookings" element={<Currentbookings />} />
+                <Route path="/dashboard/appointments/upcoming-bookings" element={<Upcomingbookings />} />
+                <Route path="/dashboard/appointments/past-bookings" element={<Pastbookings />} />
+                <Route path="/dashboard/appointments/cancellation-bookings" element={<Cancellation />} />
+                <Route path="/dashboard/appointments/claim/dispute-bookings" element={<ClaimDispute />} />
+                <Route path="/dashboard/post-project" element={<PostProject />} />
+                <Route path="/dashboard/gift-cards" element={<GiftCards />} />
+                <Route path="/dashboard/family-friends" element={<FamilyandFriends />} />
+                <Route path="/dashboard/favorite" element={<Favourites />} />
+                <Route path="/dashboard/discounts" element={<DiscountPromotion />} />
+                <Route path="/dashboard/reviews" element={<Reviews />} />
+                <Route path="/dashboard/chat" element={<Chat />} />
+                <Route path="/dashboard/payments" element={<Payments />} />
+                <Route path="/dashboard/customer-forms" element={<CustomerForms />} />
+                <Route path="/dashboard/know-more/about-us" element={<AboutUs />} />
+                <Route path="/dashboard/know-more/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/dashboard/know-more/terms-of-service" element={<TermsOfService />} />
+                <Route path="/dashboard/know-more/contact-us" element={<ContactUs />} />
+                <Route path="/dashboard/know-more/cookies" element={<Cookies />} />
+                <Route path="/dashboard/know-more/faqs" element={<FAQs />} />
+              </Route>
 
 
-          {/* Business Owner Dashboard routes with DashboardLayout */}
-          <Route path="/business-owner/dashboard/account-setting" element={<BusinessOwnerAccountSettingPage />} />
-          <Route path="/business-owner/dashboard/basket" element={<BusinessOwnerBasket />} />
-          <Route path="/business-owner/dashboard/appointments/current-bookings" element={<BusinessCurrentbookings />} />
-          <Route path="/business-owner/dashboard/appointments/upcoming-bookings" element={<BusinessUpcomingbookings />} />
-          <Route path="/business-owner/dashboard/appointments/past-bookings" element={<BusinessPastbookings />} />
-          <Route path="/business-owner/dashboard/appointments/claim/dispute-bookings" element={<BusinessClaimDispute />} />
-          <Route path="/business-owner/dashboard/post-project" element={<BusinessPostProject />} />
-          <Route path="/business-owner/dashboard/services" element={<Services />} />
-          <Route path="/business-owner/dashboard/staffs" element={<Staffs />} />
-          <Route path="/business-owner/dashboard/manage-time" element={<ManageTime />} />
-          <Route path="/business-owner/dashboard/manager" element={<Manager />} />
-          <Route path="/business-owner/dashboard/manager/permissions" element={<Permissions />} />
-          <Route path="/business-owner/dashboard/discounts" element={<BussinessDiscountPromotion />} />
-          <Route path="/business-owner/dashboard/discounts/create" element={<CreateDiscount />} />
-          <Route path="/business-owner/dashboard/availability-management" element={<AvailabilityManagement />} />
-          <Route path="/business-owner/dashboard/availability-management/shop-manage-time" element={<ShopManageTime />} />
-          <Route path="/business-owner/dashboard/reviews" element={<BusinessReviews />} />
-          <Route path="/business-owner/dashboard/chat" element={<BusinessChat />} />
-          <Route path="/business-owner/dashboard/earning" element={<Earning />} />
-          <Route path="/business-owner/dashboard/payments" element={<BusinessPayments />} />
-          <Route path="/business-owner/dashboard/gift-cards" element={<BusinessGiftCards />} />
-          <Route path="/business-owner/dashboard/family-friends" element={<BusinessFamilyandFriends />} />
-          <Route path="/business-owner/dashboard/customer-forms" element={<BusinessCustomerForms />} />
-          <Route path="/business-owner/dashboard/favorite" element={<BusinessFavourites />} />
-          <Route path="/business-owner/dashboard/know-more/about-us" element={<BusinessAboutUs />} />
-          <Route path="/business-owner/dashboard/know-more/privacy-policy" element={<BusinessPrivacyPolicy />} />
-          <Route path="/business-owner/dashboard/know-more/terms-of-service" element={<BusinessTermsOfService />} />
-          <Route path="/business-owner/dashboard/know-more/contact-us" element={<BusinessContactUs />} />
-          <Route path="/business-owner/dashboard/know-more/cookies" element={<BusinessCookies />} />
-          <Route path="/business-owner/dashboard/know-more/faqs" element={<BusinessFAQs />} />
+              {/* Business Owner Dashboard routes with DashboardLayout */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/business-owner/dashboard/account-setting" element={<BusinessOwnerAccountSettingPage />} />
+                <Route path="/business-owner/dashboard/basket" element={<BusinessOwnerBasket />} />
+                <Route path="/business-owner/dashboard/appointments/current-bookings" element={<BusinessCurrentbookings />} />
+                <Route path="/business-owner/dashboard/appointments/upcoming-bookings" element={<BusinessUpcomingbookings />} />
+                <Route path="/business-owner/dashboard/appointments/past-bookings" element={<BusinessPastbookings />} />
+                <Route path="/business-owner/dashboard/appointments/claim/dispute-bookings" element={<BusinessClaimDispute />} />
+                <Route path="/business-owner/dashboard/post-project" element={<BusinessPostProject />} />
+                <Route path="/business-owner/dashboard/services" element={<Services />} />
+                <Route path="/business-owner/dashboard/staffs" element={<Staffs />} />
+                <Route path="/business-owner/dashboard/manage-time" element={<ManageTime />} />
+                <Route path="/business-owner/dashboard/manager" element={<Manager />} />
+                <Route path="/business-owner/dashboard/manager/permissions" element={<Permissions />} />
+                <Route path="/business-owner/dashboard/discounts" element={<BussinessDiscountPromotion />} />
+                <Route path="/business-owner/dashboard/discounts/create" element={<CreateDiscount />} />
+                <Route path="/business-owner/dashboard/availability-management" element={<AvailabilityManagement />} />
+                <Route path="/business-owner/dashboard/availability-management/shop-manage-time" element={<ShopManageTime />} />
+                <Route path="/business-owner/dashboard/reviews" element={<BusinessReviews />} />
+                <Route path="/business-owner/dashboard/chat" element={<BusinessChat />} />
+                <Route path="/business-owner/dashboard/earning" element={<Earning />} />
+                <Route path="/business-owner/dashboard/payments" element={<BusinessPayments />} />
+                <Route path="/business-owner/dashboard/gift-cards" element={<BusinessGiftCards />} />
+                <Route path="/business-owner/dashboard/family-friends" element={<BusinessFamilyandFriends />} />
+                <Route path="/business-owner/dashboard/customer-forms" element={<BusinessCustomerForms />} />
+                <Route path="/business-owner/dashboard/favorite" element={<BusinessFavourites />} />
+                <Route path="/business-owner/dashboard/know-more/about-us" element={<BusinessAboutUs />} />
+                <Route path="/business-owner/dashboard/know-more/privacy-policy" element={<BusinessPrivacyPolicy />} />
+                <Route path="/business-owner/dashboard/know-more/terms-of-service" element={<BusinessTermsOfService />} />
+                <Route path="/business-owner/dashboard/know-more/contact-us" element={<BusinessContactUs />} />
+                <Route path="/business-owner/dashboard/know-more/cookies" element={<BusinessCookies />} />
+                <Route path="/business-owner/dashboard/know-more/faqs" element={<BusinessFAQs />} />
+              </Route>
 
-          {/* Independent Dashboard routes with DashboardLayout */}
-          <Route path="/independent/dashboard/account-setting" element={<IndependentAccountSettingPage />} />
-          <Route path="/independent/dashboard/basket" element={<IndependentBasket />} />
-          <Route path="/independent/dashboard/appointments/current-bookings" element={<IndependentCurrentbookings />} />
-          <Route path="/independent/dashboard/appointments/upcoming-bookings" element={<IndependentUpcomingbookings />} />
-          <Route path="/independent/dashboard/appointments/past-bookings" element={<IndependentPastbookings />} />
-          <Route path="/independent/dashboard/appointments/claim/dispute-bookings" element={<IndependentClaimDispute />} />
-          <Route path="/independent/dashboard/post-project" element={<IndependentPostProject />} />
-          <Route path="/independent/dashboard/services" element={<IndependentServicess />} />
-          {/* <Route path="/independent/dashboard/staffs" element={<Staffs />} />
-          <Route path="/independent/dashboard/manage-time" element={<ManageTime />} /> */}
-          {/* <Route path="/independent/dashboard/manager" element={<Manager />} /> */}
-          {/* <Route path="/independent/dashboard/manager/permissions" element={<Permissions />} /> */}
-          <Route path="/independent/dashboard/discounts" element={<IndependentDiscountPromotion />} />
-          <Route path="/independent/dashboard/discounts/create" element={<IndependentCreateDiscount />} />
-          <Route path="/independent/dashboard/availability-management" element={<IndependentAvailabilityManagement />} />
-          <Route path="/independent/dashboard/availability-management/shop-manage-time" element={<IndependentShopManageTime />} />
-          <Route path="/independent/dashboard/reviews" element={<IndependentReviews />} />
-          <Route path="/independent/dashboard/chat" element={<IndependentChat />} />
-          <Route path="/independent/dashboard/earning" element={<IndependentEarning />} />
-          <Route path="/independent/dashboard/payments" element={<IndependentPayments />} />
-          <Route path="/independent/dashboard/gift-cards" element={<IndependentGiftCards />} />
-          <Route path="/independent/dashboard/family-friends" element={<IndependentFamilyandFriends />} />
-          <Route path="/independent/dashboard/customer-forms" element={<IndependentCustomerForms />} />
-          <Route path="/independent/dashboard/favorite" element={<IndependentFavourites />} />
-          <Route path="/independent/dashboard/know-more/about-us" element={<IndependentAboutUs />} />
-          <Route path="/independent/dashboard/know-more/privacy-policy" element={<IndependentPrivacyPolicy />} />
-          <Route path="/independent/dashboard/know-more/terms-of-service" element={<IndependentTermsOfService />} />
-          <Route path="/independent/dashboard/know-more/contact-us" element={<IndependentContactUs />} />
-          <Route path="/independent/dashboard/know-more/cookies" element={<IndependentCookies />} />
-          <Route path="/independent/dashboard/know-more/faqs" element={<IndependentFAQs />} />
-        </Routes>
-      </Suspense>
-    </Router>
+              {/* Independent Dashboard routes with DashboardLayout */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/independent/dashboard/account-setting" element={<IndependentAccountSettingPage />} />
+                <Route path="/independent/dashboard/basket" element={<IndependentBasket />} />
+                <Route path="/independent/dashboard/appointments/current-bookings" element={<IndependentCurrentbookings />} />
+                <Route path="/independent/dashboard/appointments/upcoming-bookings" element={<IndependentUpcomingbookings />} />
+                <Route path="/independent/dashboard/appointments/past-bookings" element={<IndependentPastbookings />} />
+                <Route path="/independent/dashboard/appointments/claim/dispute-bookings" element={<IndependentClaimDispute />} />
+                <Route path="/independent/dashboard/post-project" element={<IndependentPostProject />} />
+                <Route path="/independent/dashboard/services" element={<IndependentServicess />} />
+                {/* <Route path="/independent/dashboard/staffs" element={<Staffs />} />
+                <Route path="/independent/dashboard/manage-time" element={<ManageTime />} /> */}
+                {/* <Route path="/independent/dashboard/manager" element={<Manager />} /> */}
+                {/* <Route path="/independent/dashboard/manager/permissions" element={<Permissions />} /> */}
+                <Route path="/independent/dashboard/discounts" element={<IndependentDiscountPromotion />} />
+                <Route path="/independent/dashboard/discounts/create" element={<IndependentCreateDiscount />} />
+                <Route path="/independent/dashboard/availability-management" element={<IndependentAvailabilityManagement />} />
+                <Route path="/independent/dashboard/availability-management/shop-manage-time" element={<IndependentShopManageTime />} />
+                <Route path="/independent/dashboard/reviews" element={<IndependentReviews />} />
+                <Route path="/independent/dashboard/chat" element={<IndependentChat />} />
+                <Route path="/independent/dashboard/earning" element={<IndependentEarning />} />
+                <Route path="/independent/dashboard/payments" element={<IndependentPayments />} />
+                <Route path="/independent/dashboard/gift-cards" element={<IndependentGiftCards />} />
+                <Route path="/independent/dashboard/family-friends" element={<IndependentFamilyandFriends />} />
+                <Route path="/independent/dashboard/customer-forms" element={<IndependentCustomerForms />} />
+                <Route path="/independent/dashboard/favorite" element={<IndependentFavourites />} />
+                <Route path="/independent/dashboard/know-more/about-us" element={<IndependentAboutUs />} />
+                <Route path="/independent/dashboard/know-more/privacy-policy" element={<IndependentPrivacyPolicy />} />
+                <Route path="/independent/dashboard/know-more/terms-of-service" element={<IndependentTermsOfService />} />
+                <Route path="/independent/dashboard/know-more/contact-us" element={<IndependentContactUs />} />
+                <Route path="/independent/dashboard/know-more/cookies" element={<IndependentCookies />} />
+                <Route path="/independent/dashboard/know-more/faqs" element={<IndependentFAQs />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </Router>
+      </PersistGate>
+    </Provider>
   );
 }

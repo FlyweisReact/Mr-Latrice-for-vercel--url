@@ -4,6 +4,9 @@ import Kit from "../../assets/images/signin/kit.svg";
 import Google from "../../assets/images/dashboard/img114.png";
 import apple from "../../assets/images/dashboard/img115.png";
 import AuthLayout from "../../components/AuthLayout";
+import { useDispatch } from "react-redux";
+import { useLoginMutation } from "../../redux/api/api";
+import { setCredentials } from "../../redux/slices/authSlice";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +17,10 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [apiError, setApiError] = useState(null);
+
+  const dispatch = useDispatch();
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -23,16 +30,31 @@ const SignIn = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const userData = {
-      email: formData.email,
-    };
+    setApiError(null);
 
-    localStorage.setItem("user", JSON.stringify(userData));
-    navigate('/otp');
+    try {
+      const res = await login({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
+      dispatch(setCredentials({ user: res.data, accessToken: res.accessToken }));
+
+      const type = res.data.userType;
+      if (type === "USER") {
+        navigate("/dashboard/account-setting");
+      } else if (type === "BUSINESS_OWNER") {
+        navigate("/business-owner/dashboard/account-setting");
+      } else if (type === "INDEPENDENT") {
+        navigate("/independent/dashboard/account-setting");
+      } else {
+        navigate("/dashboard/account-setting"); // Default to client
+      }
+    } catch (err) {
+      setApiError(err?.data?.message || "Login failed. Please check your credentials.");
+    }
   };
-
 
   return (
     <AuthLayout>
@@ -55,7 +77,7 @@ const SignIn = () => {
             <button className="transition-transform hover:scale-105">
               <img
                 src={apple}
-                alt="Sign in with Facebook"
+                alt="Sign in with Apple"
                 className="h-[50px] w-[50px] sm:h-[72px] sm:w-[72px] object-contain"
               />
             </button>
@@ -163,11 +185,14 @@ const SignIn = () => {
               </Link>
             </div>
 
+            {apiError && <p className="text-red-500 mb-4">{apiError}</p>}
+
             <button
               type="submit"
-              className="w-full bg-[#FFE4E0] text-secondary font-medium py-2 sm:py-3 rounded-[16px] hover:bg-[#FFD6D0] transition duration-300 shadow-[0px_2px_4px_0px_#00000030] text-sm sm:text-base"
+              disabled={isLoading}
+              className="w-full bg-[#FFE4E0] text-secondary font-medium py-2 sm:py-3 rounded-[16px] hover:bg-[#FFD6D0] transition duration-300 shadow-[0px_2px_4px_0px_#00000030] text-sm sm:text-base disabled:opacity-50"
             >
-              Sign In
+              {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
