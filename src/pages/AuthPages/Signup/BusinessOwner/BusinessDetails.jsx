@@ -1,38 +1,47 @@
+// src/pages/AuthPages/Signup/BusinessOwner/BusinessDetails.js (similar for Independent)
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../../../components/AuthLayout";
 import img22 from '../../../../assets/images/dashboard/img74.png'
-
 import { IoMdInformationCircle } from "react-icons/io";
-
 import { FaShuttleVan } from "react-icons/fa";
 import { LiaUserClockSolid } from "react-icons/lia";
-
+import { useProfessionalPlaceOfBusinessMutation } from "../../../../redux/api/Professional/professionalApi";
 
 const BusinessDetails = () => {
   const navigate = useNavigate();
+  const [professionalPlaceOfBusiness, { isLoading }] = useProfessionalPlaceOfBusinessMutation();
   const [radius, setRadius] = useState(17);
+  const [error, setError] = useState(null);
 
   const [sliderStates, setSliderStates] = useState({
     undoHair: false,
-    washHair: false,
     blowDryHair: false,
-    Overnightbooking: true,
   });
 
   const [selectedOptions, setSelectedOptions] = useState({
-    undoHair: "No",
     washHair: "No",
-    blowDryHair: "No",
   });
 
+  const [formData, setFormData] = useState({
+    businessName: "",
+    address: "",
+    city: "",
+    state: "",
+    pinCode: "",
+    country: "",
+    mapLink: "",
+    lat: 0,
+    lng: 0,
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Navigate to next step (Services)
-    navigate("/business-owner/amenities");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-
 
   const handleRadiusChange = (e) => {
     const value = e.target.value;
@@ -40,6 +49,33 @@ const BusinessDetails = () => {
     e.target.style.setProperty('--fill-percent', `${value}%`);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    const body = {
+      coordinates: [formData.lat, formData.lng],
+      address: formData.address,
+      city: formData.city,
+      state: formData.state,
+      pinCode: formData.pinCode,
+      country: formData.country,
+      businessName: formData.businessName,
+      mapLink: formData.mapLink,
+      serviceRadius: radius,
+      doYouAcceptCustomStyleRequests: sliderStates.blowDryHair ? "Yes" : "No",
+      isMobileService: selectedOptions.washHair,
+    };
+
+    try {
+      await professionalPlaceOfBusiness(body).unwrap();
+      navigate("/business-owner/amenities");
+    } catch (err) {
+      setError(err?.data?.message || "Failed to save business details. Please try again.");
+    }
+  };
+
+  // renderSlider and renderOption functions keep as is
 
   const renderSlider = (label, key, Icon) => (
     <label className="flex items-center justify-between" key={key}>
@@ -104,6 +140,7 @@ const BusinessDetails = () => {
     <AuthLayout>
       <div className="relative flex bg-white w-full h-full px-3 sm:px-4 py-3">
         <div className="w-full max-w-3xl mx-auto">
+          {/* Header and Progress UI keep as is */}
           {/* Step by Step header */}
           <div className="mb-3">
             <div className="flex justify-between w-full">
@@ -187,9 +224,9 @@ const BusinessDetails = () => {
               </div>
             </div>
           </div>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
 
-          {/* Business Details Form */}
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-5">
               <h2 className="text-[26px] sm:text-[28px] font-rasa text-[#2F2F2F] font-semibold mb-4">
                 Enter your business details
@@ -199,7 +236,11 @@ const BusinessDetails = () => {
                 <label className="block font-[700] font-sansation sm:text-[18px] text-[15px] text-charcoal mb-2">Name of your business*</label>
                 <input
                   type="text"
+                  name="businessName"
+                  value={formData.businessName}
+                  onChange={handleChange}
                   className="w-full border border-[#2F2F2F] rounded-[6px] px-4 py-2 pr-10 outline-none"
+                  required
                 />
               </div>
 
@@ -214,8 +255,97 @@ const BusinessDetails = () => {
 
                   <input
                     type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
                     className="absolute top-2 left-2 right-2 bg-[#FAF9F6] border border-[#2F2F2F] rounded-[10px] px-4 py-2 outline-none placeholder:text-sm text-[#2F2F2F] font-sansation font-[400]"
                     placeholder="Enter the location where you operate your business..."
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Additional Location Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block font-[700] font-sansation text-[15px] text-charcoal mb-2">City*</label>
+                  <input
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    className="w-full border border-[#2F2F2F] rounded-[6px] px-4 py-2 outline-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-[700] font-sansation text-[15px] text-charcoal mb-2">State*</label>
+                  <input
+                    type="text"
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    className="w-full border border-[#2F2F2F] rounded-[6px] px-4 py-2 outline-none"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block font-[700] font-sansation text-[15px] text-charcoal mb-2">Pin Code*</label>
+                  <input
+                    type="text"
+                    name="pinCode"
+                    value={formData.pinCode}
+                    onChange={handleChange}
+                    className="w-full border border-[#2F2F2F] rounded-[6px] px-4 py-2 outline-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-[700] font-sansation text-[15px] text-charcoal mb-2">Country*</label>
+                  <input
+                    type="text"
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    className="w-full border border-[#2F2F2F] rounded-[6px] px-4 py-2 outline-none"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block font-[700] font-sansation text-[15px] text-charcoal mb-2">Map Link</label>
+                <input
+                  type="text"
+                  name="mapLink"
+                  value={formData.mapLink}
+                  onChange={handleChange}
+                  className="w-full border border-[#2F2F2F] rounded-[6px] px-4 py-2 outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block font-[700] font-sansation text-[15px] text-charcoal mb-2">Latitude</label>
+                  <input
+                    type="number"
+                    name="lat"
+                    value={formData.lat}
+                    onChange={handleChange}
+                    className="w-full border border-[#2F2F2F] rounded-[6px] px-4 py-2 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block font-[700] font-sansation text-[15px] text-charcoal mb-2">Longitude</label>
+                  <input
+                    type="number"
+                    name="lng"
+                    value={formData.lng}
+                    onChange={handleChange}
+                    className="w-full border border-[#2F2F2F] rounded-[6px] px-4 py-2 outline-none"
                   />
                 </div>
               </div>
@@ -242,7 +372,7 @@ const BusinessDetails = () => {
                 </div>
               </div>
 
-              {/* Mobile Service Toggle */}
+              {/* Toggles */}
               <div className="mb-2">
                 <div className="flex flex-col space-y-3">
                   {renderSlider('Do you allow clients to come to your place of business?', 'undoHair', FaShuttleVan)}
@@ -252,13 +382,12 @@ const BusinessDetails = () => {
               </div>
             </div>
 
-            {/* Submit button */}
             <button
               type="submit"
-              onClick={handleSubmit}
-              className="w-full bg-[#FFE6D8] text-secondary font-medium py-2.5 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-base shadow-[0_1px_3px_rgba(0,0,0,0.1)]"
+              disabled={isLoading}
+              className="w-full bg-[#FFE6D8] text-secondary font-medium py-2.5 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-base shadow-[0_1px_3px_rgba(0,0,0,0.1)] disabled:opacity-50"
             >
-              Next step
+              {isLoading ? 'Saving...' : 'Next step'}
             </button>
           </form>
         </div>

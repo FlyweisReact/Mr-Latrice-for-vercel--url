@@ -28,6 +28,8 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { ServiceFilter, ExtraFilter } from "../../Service Filter/ServiceFilter";
 import NotificationOffcanvas from "../../Notification Offcanvas/NotificationOffcanvas";
 import img1 from '../../../assets/images/dashboard/img111.png'
+import { logout } from "../../../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 /**
  * Dashboard Layout Component
@@ -47,7 +49,7 @@ const ClientDashboardLayout = ({ children, title = "", headerAction = null, titl
 
   const location = useLocation();
   const navigate = useNavigate()
-
+  const dispatch = useDispatch();
   // Navigation items configuration
   const navItems = [
     { name: "Appointments", icon: AppointmentsIcon, path: "/dashboard/appointments/current-bookings" },
@@ -101,7 +103,8 @@ const ClientDashboardLayout = ({ children, title = "", headerAction = null, titl
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    dispatch(logout());
+    // localStorage.removeItem("user");
     navigate('/')
   };
 

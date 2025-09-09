@@ -1,24 +1,47 @@
+// src/pages/AuthPages/Signup/BusinessOwner/AccountInfo.js (or Independent/AccountInfo.js similarly)
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../../../components/AuthLayout";
 import UploadBar from "../../../../assets/images/signup/upload.png";
+import { useDispatch } from "react-redux";
+import { useProfessionalLoginMutation, useProfessionalSignupMutation } from "../../../../redux/api/Professional/professionalApi";
+import { setProfessionalCredentials } from "../../../../redux/slices/authSlice";
 
 const AccountInfo = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [professionalSignup, { isLoading: isSignupLoading }] = useProfessionalSignupMutation();
+  const [professionalLogin, { isLoading: isLoginLoading }] = useProfessionalLoginMutation();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    countryCode: "1",
     phoneNumber: "",
     email: "",
     password: "",
     confirmPassword: "",
-    profilePhoto: null,
     agreeTerms: false,
   });
+  const [error, setError] = useState(null);
+  const [selectedType, setSelectedType] = useState(""); // "business" or "independent"
+
+  const countries = [
+    { name: "United States", flag: "🇺🇸", code: "US", dial_code: "+1" },
+    { name: "India", flag: "🇮🇳", code: "IN", dial_code: "+91" },
+    { name: "United Kingdom", flag: "🇬🇧", code: "GB", dial_code: "+44" },
+    { name: "Canada", flag: "🇨🇦", code: "CA", dial_code: "+1" },
+    { name: "Australia", flag: "🇦🇺", code: "AU", dial_code: "+61" },
+    { name: "France", flag: "🇫🇷", code: "FR", dial_code: "+33" },
+    { name: "Germany", flag: "🇩🇪", code: "DE", dial_code: "+49" },
+    { name: "China", flag: "🇨🇳", code: "CN", dial_code: "+86" },
+    { name: "Japan", flag: "🇯🇵", code: "JP", dial_code: "+81" },
+    { name: "Brazil", flag: "🇧🇷", code: "BR", dial_code: "+55" },
+  ];
+
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [selectedType, setSelectedType] = useState(""); // "business" or "independent"
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -28,28 +51,55 @@ const AccountInfo = () => {
     }));
   };
 
-  const handlePhotoUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        profilePhoto: file,
-      }));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Navigate to next step (OTP verification) based on selected type
-    if (selectedType === "business") {
-      navigate("/business-owner/verification");
-    } else if (selectedType === "independent") {
-      navigate("/independent/verification");
-    }
+  const handleCountryChange = (e) => {
+    const selected = countries.find(c => c.dial_code === e.target.value);
+    setSelectedCountry(selected);
+    setFormData((prev) => ({
+      ...prev,
+      countryCode: selected.dial_code.replace('+', ''),
+    }));
   };
 
   const handleTypeSelection = (type) => {
     setSelectedType(type);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    if (!formData.agreeTerms) {
+      return setError("Please agree to the terms and conditions.");
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      return setError("Passwords do not match.");
+    }
+
+    const body = {
+      fullName: `${formData.firstName} ${formData.lastName}`,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      countryCode: formData.countryCode,
+      mobileNumber: formData.phoneNumber,
+      email: formData.email,
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+      professionalType: selectedType === "business" ? "Business" : "Independent",
+    };
+
+    try {
+      await professionalSignup(body).unwrap();
+      // Immediately login after signup
+      const loginResponse = await professionalLogin({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
+      dispatch(setProfessionalCredentials({ user: loginResponse.data, accessToken: loginResponse.accessToken }));
+      navigate(`/business-owner/profile-image`);
+    } catch (err) {
+      setError(err?.data?.message || "Registration or login failed. Please try again.");
+    }
   };
 
   return (
@@ -75,9 +125,7 @@ const AccountInfo = () => {
           </div>
 
           {/* Progress stepper */}
-        {
-          false&&(
-            <div className="mb-6 relative">
+          <div className="mb-6 relative">
             {/* Progress bar background */}
             <div className="h-1.5 bg-gray-200 rounded-full w-full absolute top-4"></div>
 
@@ -146,8 +194,6 @@ const AccountInfo = () => {
               </div>
             </div>
           </div>
-          )
-        }
 
           {/* Business Type Selection */}
           <div className="mb-8">
@@ -176,7 +222,6 @@ const AccountInfo = () => {
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                 </svg>
               </button>
-             
               <button
                 type="button"
                 onClick={() => handleTypeSelection("independent")}
@@ -203,7 +248,7 @@ const AccountInfo = () => {
               </button>
             </div>
           </div>
-          {/* Form is only shown when a type is selected */}
+          {error && <p className="text-red-500 mb-4">{error}</p>}
           {selectedType && (
             <form onSubmit={handleSubmit}>
               {/* Name fields */}
@@ -274,14 +319,17 @@ const AccountInfo = () => {
                     Enter your phone number
                   </label>
                   <div className="flex">
-                    <div className="flex items-center border border-[#2F2F2F] rounded-l-md px-3 bg-white">
-                      <img
-                        src="https://flagcdn.com/w20/us.png"
-                        alt="US flag"
-                        className="h-4 mr-1"
-                      />
-                      <span className="text-gray-600 text-sm">+1</span>
-                    </div>
+                    <select
+                      value={selectedCountry.dial_code}
+                      onChange={handleCountryChange}
+                      className="flex items-center border border-[#2F2F2F] rounded-l-md px-2 bg-white text-sm"
+                    >
+                      {countries.map((country) => (
+                        <option key={country.code} value={country.dial_code}>
+                          {country.flag} {country.dial_code}
+                        </option>
+                      ))}
+                    </select>
                     <input
                       type="tel"
                       id="phoneNumber"
@@ -450,14 +498,13 @@ const AccountInfo = () => {
               {/* Submit button */}
               <button
                 type="submit"
-                className="w-full bg-[#FFE6D8] text-secondary font-medium py-3 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
+                disabled={isSignupLoading || isLoginLoading}
+                className="w-full bg-[#FFE6D8] text-secondary font-medium py-3 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)] disabled:opacity-50"
               >
-                Next step
+                {isSignupLoading || isLoginLoading ? 'Processing...' : 'Next step'}
               </button>
             </form>
           )}
-
-          {/* Submit button is shown only when no type is selected */}
           {!selectedType && (
             <button
               onClick={() => alert("Please select an account type first")}

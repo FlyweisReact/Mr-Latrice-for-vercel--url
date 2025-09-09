@@ -1,47 +1,52 @@
+// src/pages/AuthPages/Signup/BusinessOwner/Amenities.js (similar for Independent)
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../../../components/AuthLayout";
-
 import { MdOutlineDirectionsCarFilled } from "react-icons/md";
 import { FaWifi } from "react-icons/fa";
 import { IoCardOutline } from "react-icons/io5";
 import { PiPuzzlePieceBold } from "react-icons/pi";
 import { PiWheelchairDuotone } from "react-icons/pi";
+import { useProfessionalAddAmenitiesMutation } from "../../../../redux/api/Professional/professionalApi";
 
 const Amenities = () => {
   const navigate = useNavigate();
+  const [professionalAddAmenities, { isLoading }] = useProfessionalAddAmenitiesMutation();
   const [amenities, setAmenities] = useState({
     parkingSpace: false,
     wifi: false,
-    creditCards: false,
-    accessible: false,
+    creditCardAccepted: false,
+    accessibleForPeopleWithDisabilities: false,
     childFriendly: false
   });
-
-
-  const [services, setServices] = useState({
-    parkingSpace: false,
-    wifi: false,
-    creditCards: false,
-    accessible: false,
-    childFriendly: false
-  });
+  const [error, setError] = useState(null);
 
   const handleChange = (key) => {
-    setServices((prev) => ({
+    setAmenities((prev) => ({
       ...prev,
       [key]: !prev[key],
     }));
   };
 
-
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Navigate to next step (Services)
-    navigate("/business-owner/services");
-  };
+    setError(null);
 
+    const body = {
+      parkingSpace: amenities.parkingSpace,
+      wifi: amenities.wifi,
+      creditCardAccepted: amenities.creditCardAccepted,
+      accessibleForPeopleWithDisabilities: amenities.accessibleForPeopleWithDisabilities,
+      childFriendly: amenities.childFriendly,
+    };
+
+    try {
+      await professionalAddAmenities(body).unwrap();
+      navigate("/business-owner/services");
+    } catch (err) {
+      setError(err?.data?.message || "Failed to add amenities. Please try again.");
+    }
+  };
 
   const renderCheckbox = (label, key, Icon) => (
     <label className="flex items-center justify-between" key={key}>
@@ -55,14 +60,14 @@ const Amenities = () => {
       <input
         type="checkbox"
         className="peer hidden"
-        checked={services[key]}
+        checked={amenities[key]}
         onChange={() => handleChange(key)}
       />
       <div
         className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-colors duration-300
-              ${services[key] ? 'bg-[#FF827F]' : 'bg-[#D9D9D9] border border-[#2F2F2F]'}`}
+              ${amenities[key] ? 'bg-[#FF827F]' : 'bg-[#D9D9D9] border border-[#2F2F2F]'}`}
       >
-        {services[key] && (
+        {amenities[key] && (
           <svg
             className="w-4 h-4 text-black"
             fill="none"
@@ -81,8 +86,9 @@ const Amenities = () => {
     <AuthLayout>
       <div className="relative flex bg-white w-full h-full px-4 sm:px-6 py-4">
         <div className="w-full max-w-4xl mx-auto">
-          {/* Step by Step header */}
-          <div className="mb-4">
+          {/* Header and Progress UI keep as is */}
+
+           <div className="mb-4">
             <div className="flex justify-between w-full">
               <h1 className="font-rasa text-[28px] sm:text-[32px] text-[#2F2F2F] font-semibold">
                 Step By Step
@@ -167,25 +173,25 @@ const Amenities = () => {
             </div>
           </div>
 
+          {error && <p className="text-red-500 mb-4">{error}</p>}
 
-          {/* Amenities Form */}
           <form onSubmit={handleSubmit}>
             <h6 className="font-[700] font-sansation sm:text-[25px] text-[20px] text-charcoal leading-tight mb-5">Add Amenities</h6>
             <div className="mb-8">
               <div className="flex flex-col gap-5">
                 {renderCheckbox('Parking Space', 'parkingSpace', MdOutlineDirectionsCarFilled)}
                 {renderCheckbox('Wi-Fi', 'wifi', FaWifi)}
-                {renderCheckbox('Credit Cards Accepted', 'creditCards', IoCardOutline)}
-                {renderCheckbox('Accessible For People With Disabilities', 'accessible', PiWheelchairDuotone)}
+                {renderCheckbox('Credit Cards Accepted', 'creditCardAccepted', IoCardOutline)}
+                {renderCheckbox('Accessible For People With Disabilities', 'accessibleForPeopleWithDisabilities', PiWheelchairDuotone)}
                 {renderCheckbox('Child-Friendly', 'childFriendly', PiPuzzlePieceBold)}
               </div>
             </div>
-            {/* Submit button */}
             <button
               type="submit"
-              className="w-full bg-[#FFE6D8] text-secondary font-medium py-3 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
+              disabled={isLoading}
+              className="w-full bg-[#FFE6D8] text-secondary font-medium py-3 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)] disabled:opacity-50"
             >
-              Next step
+              {isLoading ? 'Saving...' : 'Next step'}
             </button>
           </form>
         </div>

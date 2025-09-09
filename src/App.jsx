@@ -1,6 +1,9 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { logout } from './redux/slices/authSlice';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
 import { ScrollToTop } from './utils/utils';
@@ -9,7 +12,6 @@ import { ScrollToTop } from './utils/utils';
 const ClientDashboardLayout = lazy(() => import('./components/DashbaordLayout/Client Dashbaord'));
 
 // Implement lazy loading for all components
-// HomePage is loaded eagerly as it's the main entry point
 const HomePage = lazy(() => import('./pages/HomePage'));
 const SalonServicesDetails = lazy(() => import('./pages/Salon Services Details'));
 const CitybySalonsList = lazy(() => import('./pages/Salons Citys'));
@@ -85,8 +87,6 @@ const BusinessContactUs = lazy(() => import('./pages/Business owner Dashboard/Kn
 const BusinessCookies = lazy(() => import('./pages/Business owner Dashboard/Know More/Cookies'));
 const BusinessFAQs = lazy(() => import('./pages/Business owner Dashboard/Know More/FAQs'));
 
-
-
 // Independent Dashboard pages 
 const IndependentAccountSettingPage = lazy(() => import('./pages/Independent Dashboard/Account Settings'));
 const IndependentBasket = lazy(() => import('./pages/Independent Dashboard/Basket'));
@@ -96,9 +96,6 @@ const IndependentPastbookings = lazy(() => import('./pages/Independent Dashboard
 const IndependentClaimDispute = lazy(() => import('./pages/Independent Dashboard/Appointment/ClaimDispute'));
 const IndependentPostProject = lazy(() => import('./pages/Independent Dashboard/Post A Project'));
 const IndependentServicess = lazy(() => import('./pages/Independent Dashboard/Services'));
-// const ManageTime = lazy(() => import('./pages/Independent Dashboard/Manage Time'));
-// const Manager = lazy(() => import('./pages/Independent Dashboard/Manager'));
-// const Permissions = lazy(() => import('./pages/Independent Dashboard/Manager/Permissions'));
 const IndependentDiscountPromotion = lazy(() => import('./pages/Independent Dashboard/Discount & Promotion'));
 const IndependentCreateDiscount = lazy(() => import('./pages/Independent Dashboard/Discount & Promotion/CreateDiscount'));
 const IndependentAvailabilityManagement = lazy(() => import('./pages/Independent Dashboard/Availability Management'));
@@ -141,7 +138,24 @@ const IndependentBusinessDetails = lazy(() => import('./pages/AuthPages/Signup/I
 const IndependentServices = lazy(() => import('./pages/AuthPages/Signup/Independent/Services'));
 const IndependentSuccess = lazy(() => import('./pages/AuthPages/Signup/Independent/Success'));
 
-// Loading component to show while lazy-loaded components are being loaded
+const ProtectedRoute = ({ allowedUserType }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isAuthenticated, userType } = useSelector((state) => state.auth);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" state={{ from: location }} replace />;
+  }
+
+  // If user is authenticated but tries to access a route meant for a different user type
+  if (allowedUserType && !allowedUserType.includes(userType)) {
+    return <Navigate to="/signin" state={{ from: location, error: 'Please log in with the correct account type' }} replace />;
+  }
+
+  return <Outlet />;
+};
+
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen bg-primary">
     <div className="text-center">
@@ -151,17 +165,7 @@ const LoadingFallback = () => (
   </div>
 );
 
-const ProtectedRoute = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  return isAuthenticated ? <Outlet /> : <Navigate to="/signin" replace />;
-};
-
-/**
- * The main application component with optimized routing and lazy loading.
- * 
- * This component sets up the routing for the application using React's lazy loading
- * to improve initial load performance by splitting code into smaller chunks.
- */
+// Update the Routes section in App component
 export default function App() {
   return (
     <Provider store={store}>
@@ -170,7 +174,7 @@ export default function App() {
           <Suspense fallback={<LoadingFallback />}>
             <ScrollToTop />
             <Routes>
-              {/* Main route */}
+              {/* Main routes */}
               <Route path="/" element={<HomePage />} />
               <Route path="/services-details" element={<SalonServicesDetails />} />
               <Route path="/salons/:city" element={<CitybySalonsList />} />
@@ -213,8 +217,8 @@ export default function App() {
               <Route path="/independent/services" element={<IndependentServices />} />
               <Route path="/independent/success" element={<IndependentSuccess />} />
 
-              {/* user Dashboard routes with DashboardLayout */}
-              <Route element={<ProtectedRoute />}>
+              {/* User Dashboard routes */}
+              <Route element={<ProtectedRoute allowedUserType={["USER"]} />}>
                 <Route path="/dashboard/basket" element={<Basket />} />
                 <Route path="/dashboard/account-setting" element={<UserAccountSettingPage />} />
                 <Route path="/dashboard/appointments/current-bookings" element={<Currentbookings />} />
@@ -239,9 +243,8 @@ export default function App() {
                 <Route path="/dashboard/know-more/faqs" element={<FAQs />} />
               </Route>
 
-
-              {/* Business Owner Dashboard routes with DashboardLayout */}
-              <Route element={<ProtectedRoute />}>
+              {/* Business Owner Dashboard routes */}
+              <Route element={<ProtectedRoute allowedUserType={["SALOON"]} />}>
                 <Route path="/business-owner/dashboard/account-setting" element={<BusinessOwnerAccountSettingPage />} />
                 <Route path="/business-owner/dashboard/basket" element={<BusinessOwnerBasket />} />
                 <Route path="/business-owner/dashboard/appointments/current-bookings" element={<BusinessCurrentbookings />} />
@@ -274,8 +277,8 @@ export default function App() {
                 <Route path="/business-owner/dashboard/know-more/faqs" element={<BusinessFAQs />} />
               </Route>
 
-              {/* Independent Dashboard routes with DashboardLayout */}
-              <Route element={<ProtectedRoute />}>
+              {/* Independent Professional Dashboard routes */}
+              <Route element={<ProtectedRoute allowedUserType={["INDEPENDENT"]} />}>
                 <Route path="/independent/dashboard/account-setting" element={<IndependentAccountSettingPage />} />
                 <Route path="/independent/dashboard/basket" element={<IndependentBasket />} />
                 <Route path="/independent/dashboard/appointments/current-bookings" element={<IndependentCurrentbookings />} />
@@ -284,10 +287,6 @@ export default function App() {
                 <Route path="/independent/dashboard/appointments/claim/dispute-bookings" element={<IndependentClaimDispute />} />
                 <Route path="/independent/dashboard/post-project" element={<IndependentPostProject />} />
                 <Route path="/independent/dashboard/services" element={<IndependentServicess />} />
-                {/* <Route path="/independent/dashboard/staffs" element={<Staffs />} />
-                <Route path="/independent/dashboard/manage-time" element={<ManageTime />} /> */}
-                {/* <Route path="/independent/dashboard/manager" element={<Manager />} /> */}
-                {/* <Route path="/independent/dashboard/manager/permissions" element={<Permissions />} /> */}
                 <Route path="/independent/dashboard/discounts" element={<IndependentDiscountPromotion />} />
                 <Route path="/independent/dashboard/discounts/create" element={<IndependentCreateDiscount />} />
                 <Route path="/independent/dashboard/availability-management" element={<IndependentAvailabilityManagement />} />

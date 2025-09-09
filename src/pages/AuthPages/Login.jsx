@@ -6,7 +6,8 @@ import apple from "../../assets/images/dashboard/img115.png";
 import AuthLayout from "../../components/AuthLayout";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../../redux/api/api";
-import { setCredentials } from "../../redux/slices/authSlice";
+import { useProfessionalLoginMutation } from "../../redux/api/Professional/professionalApi";
+import { setCredentials, setProfessionalCredentials } from "../../redux/slices/authSlice";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -14,13 +15,14 @@ const SignIn = () => {
     password: "",
     rememberMe: false,
   });
+  const [loginType, setLoginType] = useState("USER"); // Default to user login
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState(null);
 
   const dispatch = useDispatch();
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading: isUserLoading }] = useLoginMutation();
+  const [professionalLogin, { isLoading: isProfessionalLoading }] = useProfessionalLoginMutation();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -30,26 +32,37 @@ const SignIn = () => {
     }));
   };
 
+  const handleLoginTypeChange = (type) => {
+    setLoginType(type);
+    setApiError(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiError(null);
 
     try {
-      const res = await login({
+      const loginMutation = loginType === "USER" ? login : professionalLogin;
+      const res = await loginMutation({
         email: formData.email,
         password: formData.password,
       }).unwrap();
-      dispatch(setCredentials({ user: res.data, accessToken: res.accessToken }));
+      dispatch(
+        loginType === "USER"
+          ? setCredentials({ user: res.data, accessToken: res.accessToken })
+          : setProfessionalCredentials({ user: res.data, accessToken: res.accessToken })
+      );
 
       const type = res.data.userType;
+      console.log(type, "fromlogin");
       if (type === "USER") {
         navigate("/dashboard/account-setting");
-      } else if (type === "BUSINESS_OWNER") {
+      } else if (type === "SALOON") {
         navigate("/business-owner/dashboard/account-setting");
       } else if (type === "INDEPENDENT") {
         navigate("/independent/dashboard/account-setting");
       } else {
-        navigate("/dashboard/account-setting"); // Default to client
+        navigate("/dashboard/account-setting"); // Default to user dashboard
       }
     } catch (err) {
       setApiError(err?.data?.message || "Login failed. Please check your credentials.");
@@ -59,7 +72,7 @@ const SignIn = () => {
   return (
     <AuthLayout>
       <div className="relative flex flex-col bg-white w-full h-auto min-h-[80%] pb-16 sm:pb-20 overflow-hidden">
-        <div className=" w-full h-full flex flex-col  justify-center">
+        <div className="w-full h-full flex flex-col justify-center">
           <div className="w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 mb-4 sm:mb-6">
             <h2 className="font-rasa text-[28px] sm:text-[32px] text-[#2F2F2F] font-semibold mb-2 md:mb-0">
               Sign in to Latrice
@@ -69,6 +82,30 @@ const SignIn = () => {
               <Link to="/account-type" className="text-secondary text-sm sm:text-base font-[600]">
                 Create an account
               </Link>
+            </div>
+          </div>
+
+          {/* Login Type Selection */}
+          <div className="w-full md:w-[60%] mb-6">
+            <div className="flex gap-4">
+              <button
+                type="button"
+                onClick={() => handleLoginTypeChange("USER")}
+                className={`flex-1 py-2 rounded-md font-medium text-sm sm:text-base transition-colors ${
+                  loginType === "USER" ? "bg-[#FFE4E0] text-secondary" : "bg-gray-200 text-[#2F2F2F]"
+                }`}
+              >
+                User Login
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLoginTypeChange("PROFESSIONAL")}
+                className={`flex-1 py-2 rounded-md font-medium text-sm sm:text-base transition-colors ${
+                  loginType === "PROFESSIONAL" ? "bg-[#FFE4E0] text-secondary" : "bg-gray-200 text-[#2F2F2F]"
+                }`}
+              >
+                Professional Login
+              </button>
             </div>
           </div>
 
@@ -189,10 +226,10 @@ const SignIn = () => {
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isUserLoading || isProfessionalLoading}
               className="w-full bg-[#FFE4E0] text-secondary font-medium py-2 sm:py-3 rounded-[16px] hover:bg-[#FFD6D0] transition duration-300 shadow-[0px_2px_4px_0px_#00000030] text-sm sm:text-base disabled:opacity-50"
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isUserLoading || isProfessionalLoading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
@@ -209,8 +246,6 @@ const SignIn = () => {
             </p>
           </div>
         </div>
-
-
 
         {/* Beauty Kit image */}
         <div className="absolute bottom-0 right-0 z-0">

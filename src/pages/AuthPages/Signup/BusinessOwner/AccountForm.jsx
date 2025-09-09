@@ -1,13 +1,20 @@
+// src/pages/AuthPages/Signup/BusinessOwner/AccountForm.js (if used, but seems redundant, integrate similarly if needed)
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../../../components/AuthLayout";
 import UploadBar from "../../../../assets/images/signup/upload.png";
+import { useDispatch } from "react-redux";
+import { useProfessionalSignupMutation } from "../../../../redux/api/Professional/professionalApi";
+import { setProfessionalCredentials } from "../../../../redux/slices/authSlice";
 
 const AccountForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [professionalSignup, { isLoading }] = useProfessionalSignupMutation();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    countryCode: "1",
     phoneNumber: "",
     email: "",
     password: "",
@@ -15,6 +22,13 @@ const AccountForm = () => {
     profilePhoto: null,
     agreeTerms: false,
   });
+  const [error, setError] = useState(null);
+
+  const countries = [
+    // same as above
+  ];
+
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -37,23 +51,58 @@ const AccountForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleCountryChange = (e) => {
+    const selected = countries.find(c => c.dial_code === e.target.value);
+    setSelectedCountry(selected);
+    setFormData((prev) => ({
+      ...prev,
+      countryCode: selected.dial_code.replace('+', ''),
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Navigate to next step (OTP verification)
-    navigate("/business-owner/verification");
+    setError(null);
+
+    if (!formData.agreeTerms) {
+      return setError("Please agree to the terms and conditions.");
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      return setError("Passwords do not match.");
+    }
+
+    const body = {
+      fullName: `${formData.firstName} ${formData.lastName}`,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      countryCode: formData.countryCode,
+      mobileNumber: formData.phoneNumber,
+      email: formData.email,
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+      professionalType: "Business",
+    };
+
+    try {
+      const response = await professionalSignup(body).unwrap();
+      dispatch(setProfessionalCredentials({ user: response.data, accessToken: response.accessToken }));
+      navigate("/business-owner/profile-image");
+    } catch (err) {
+      setError(err?.data?.message || "Registration failed. Please try again.");
+    }
   };
 
   return (
     <AuthLayout>
       <div className="relative flex bg-white w-full h-full px-4 sm:px-6 py-4">
         <div className="w-full max-w-4xl mx-auto">
-          {/* Step by Step header */}
+          {/* Header */}
           <div className="mb-4">
             <div className="flex justify-between w-full">
               <h1 className="font-rasa text-[28px] sm:text-[32px] text-[#2F2F2F] font-semibold">
                 Step By Step
               </h1>
-              {/* Already have an account link */}
               <div className="text-right">
                 <Link to="/signin" className="text-secondary hover:underline">
                   Already have an account?
@@ -65,71 +114,10 @@ const AccountForm = () => {
             </p>
           </div>
 
-          {/* Progress stepper */}
-          <div className="mb-6 relative">
-            {/* Progress bar background */}
-            <div className="h-1.5 bg-gray-200 rounded-full w-full absolute top-4"></div>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
 
-            {/* Active progress */}
-            <div className="h-1.5 bg-secondary rounded-full w-1/6 absolute top-4"></div>
-
-            {/* Step indicators */}
-            <div className="flex justify-between relative">
-              {/* Step 1 - Account (Active) */}
-              <div className="text-center">
-                <div className="w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center mx-auto font-medium">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <p className="mt-2 text-secondary font-medium">Account</p>
-              </div>
-
-              {/* Step 2 - Validation */}
-              <div className="text-center">
-                <div className="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mx-auto font-medium">
-                  2
-                </div>
-                <p className="mt-2 text-gray-600">Validation</p>
-              </div>
-
-              {/* Step 3 - Profile Image */}
-              <div className="text-center">
-                <div className="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mx-auto font-medium">
-                  3
-                </div>
-                <p className="mt-2 text-gray-600">Profile image</p>
-              </div>
-
-              {/* Step 4 - Place of Business */}
-              <div className="text-center">
-                <div className="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mx-auto font-medium">
-                  4
-                </div>
-                <p className="mt-2 text-gray-600">Place of Business</p>
-              </div>
-
-              {/* Step 5 - Add Amenities */}
-              <div className="text-center">
-                <div className="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mx-auto font-medium">
-                  5
-                </div>
-                <p className="mt-2 text-gray-600">Add Amenities</p>
-              </div>
-
-              {/* Step 6 - Service */}
-              <div className="text-center">
-                <div className="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mx-auto font-medium">
-                  6
-                </div>
-                <p className="mt-2 text-gray-600">Service</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Form */}
           <form onSubmit={handleSubmit}>
-            {/* Profile Photo Upload */}
+            {/* Profile Photo */}
             <div className="mb-4 flex items-center gap-2">
               <label className="block text-[#2F2F2F] text-nowrap text-xl font-medium mb-2">
                 Profile Photo
@@ -140,13 +128,12 @@ const AccountForm = () => {
               >
                 <div className="flex gap-1 items-center justify-center mb-1">
                   <div className="rounded-md p-1">
-                   <img src={UploadBar} className="object-contain w-full" alt="upload" />
+                    <img src={UploadBar} className="object-contain w-full" alt="upload" />
                   </div>
                   <p className="text-secondary text-sm sm:text-base">
-                  Click here or drag & drop your new photo
-                </p>
+                    Click here or drag & drop your new photo
+                  </p>
                 </div>
-               
                 <input
                   type="file"
                   id="photo-upload"
@@ -160,10 +147,7 @@ const AccountForm = () => {
             {/* Name fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label
-                  htmlFor="firstName"
-                  className="block text-[#2F2F2F] font-medium mb-2"
-                >
+                <label htmlFor="firstName" className="block text-[#2F2F2F] font-medium mb-2">
                   First name*
                 </label>
                 <input
@@ -178,10 +162,7 @@ const AccountForm = () => {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="lastName"
-                  className="block text-[#2F2F2F] font-medium mb-2"
-                >
+                <label htmlFor="lastName" className="block text-[#2F2F2F] font-medium mb-2">
                   Last Name*
                 </label>
                 <input
@@ -197,24 +178,24 @@ const AccountForm = () => {
               </div>
             </div>
 
-            {/* Phone and Email fields */}
+            {/* Phone and Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label
-                  htmlFor="phoneNumber"
-                  className="block text-[#2F2F2F] font-medium mb-2"
-                >
+                <label htmlFor="phoneNumber" className="block text-[#2F2F2F] font-medium mb-2">
                   Enter your phone number
                 </label>
                 <div className="flex">
-                  <div className="flex items-center border border-gray-300 rounded-l-md px-3 bg-white">
-                    <img
-                      src="https://flagcdn.com/w20/us.png"
-                      alt="US flag"
-                      className="h-4 mr-1"
-                    />
-                    <span className="text-gray-600 text-sm">+1</span>
-                  </div>
+                  <select
+                    value={selectedCountry.dial_code}
+                    onChange={handleCountryChange}
+                    className="flex items-center border border-gray-300 rounded-l-md px-2 bg-white text-sm"
+                  >
+                    {countries.map((country) => (
+                      <option key={country.code} value={country.dial_code}>
+                        {country.flag} {country.dial_code}
+                      </option>
+                    ))}
+                  </select>
                   <input
                     type="tel"
                     id="phoneNumber"
@@ -227,10 +208,7 @@ const AccountForm = () => {
                 </div>
               </div>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-[#2F2F2F] font-medium mb-2"
-                >
+                <label htmlFor="email" className="block text-[#2F2F2F] font-medium mb-2">
                   Email*
                 </label>
                 <input
@@ -249,10 +227,7 @@ const AccountForm = () => {
             {/* Password fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-[#2F2F2F] font-medium mb-2"
-                >
+                <label htmlFor="password" className="block text-[#2F2F2F] font-medium mb-2">
                   Password*
                 </label>
                 <div className="relative">
@@ -271,6 +246,7 @@ const AccountForm = () => {
                     className="absolute right-3 top-1/2 transform -translate-y-1/2"
                     onClick={() => setShowPassword(!showPassword)}
                   >
+                    {/* Eye icon */}
                     {showPassword ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -306,10 +282,7 @@ const AccountForm = () => {
                 </div>
               </div>
               <div>
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-[#2F2F2F] font-medium mb-2"
-                >
+                <label htmlFor="confirmPassword" className="block text-[#2F2F2F] font-medium mb-2">
                   Confirm Password*
                 </label>
                 <div className="relative">
@@ -328,6 +301,7 @@ const AccountForm = () => {
                     className="absolute right-3 top-1/2 transform -translate-y-1/2"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
+                    {/* Eye icon */}
                     {showConfirmPassword ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -364,7 +338,7 @@ const AccountForm = () => {
               </div>
             </div>
 
-            {/* Terms and conditions checkbox */}
+            {/* Terms */}
             <div className="mb-5 flex items-start">
               <input
                 type="checkbox"
@@ -375,35 +349,18 @@ const AccountForm = () => {
                 className="mt-1 h-5 w-5 text-[#123E41] border-gray-300 rounded"
                 required
               />
-              <label
-                htmlFor="agreeTerms"
-                className="ml-3 text-[#2F2F2F] text-sm"
-              >
-                By clicking create an account, I agree I have read and accepted
-                the{" "}
-                <Link
-                  to="/terms"
-                  className="text-[#2F2F2F] font-medium hover:underline"
-                >
-                  Terms of Use
-                </Link>{" "}
-                and{" "}
-                <Link
-                  to="/privacy"
-                  className="text-[#2F2F2F] font-medium hover:underline"
-                >
-                  Privacy policy
-                </Link>
-                .
+              <label htmlFor="agreeTerms" className="ml-3 text-[#2F2F2F] text-sm">
+                By clicking create an account, I agree I have read and accepted the
+                <Link to="/terms" className="text-[#2F2F2F] font-medium hover:underline"> Terms of Use</Link> and <Link to="/privacy" className="text-[#2F2F2F] font-medium hover:underline">Privacy policy</Link>.
               </label>
             </div>
 
-            {/* Submit button */}
             <button
               type="submit"
-              className="w-full bg-[#FFE6D8] text-secondary font-medium py-3 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
+              disabled={isLoading}
+              className="w-full bg-[#FFE6D8] text-secondary font-medium py-3 rounded-[12px] hover:bg-[#FFD6D0] transition duration-300 text-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)] disabled:opacity-50"
             >
-              Next step
+              {isLoading ? 'Registering...' : 'Next step'}
             </button>
           </form>
         </div>

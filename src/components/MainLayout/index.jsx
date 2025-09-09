@@ -22,6 +22,7 @@ import Footer from "../Footer";
 
 import img from '../../assets/images/dashboard/img111.png'
 import img1 from '../../assets/images/dashboard/profileimg.jpg'
+import { useSelector } from "react-redux";
 
 export default function MainLayout({ children, showfooter = true, showfilters = false }) {
     const navigate = useNavigate();
@@ -29,13 +30,15 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
     const [showFilter, setShowFilter] = useState(false);
     const [showFilter1, setShowFilter1] = useState(false);
     const [showFilter2, setShowFilter2] = useState(false);
-    const [user, setUser] = useState(null);
-    useEffect(() => {
-        const localUser = localStorage.getItem("user");
-        if (localUser) {
-            setUser(JSON.parse(localUser));
-        }
-    }, []);
+    // const [user, setUser] = useState(null);
+      const { isAuthenticated, userType } = useSelector((state) => state.auth);
+
+    // useEffect(() => {
+    //     const localUser = localStorage.getItem("user");
+    //     if (localUser) {
+    //         setUser(JSON.parse(localUser));
+    //     }
+    // }, []);
 
     return (
         <>
@@ -68,7 +71,7 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
             <div className="bg-primary h-full">
                 <div className="container mx-auto px-4">
                     {/* Header */}
-                    {user ? (
+                    {isAuthenticated ? (
                         <header className="py-4">
                             <div className="flex flex-wrap justify-between items-center">
                                 {/* Logo */}

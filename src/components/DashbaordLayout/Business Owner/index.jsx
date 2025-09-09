@@ -31,6 +31,8 @@ import { ServiceFilter, ExtraFilter, SalonsList } from "../../Service Filter/Ser
 import NotificationOffcanvas from "../../Notification Offcanvas/NotificationOffcanvas";
 
 import img1 from '../../../assets/images/dashboard/img111.png'
+import { logout } from "../../../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 /**
  * Dashboard Layout Component
@@ -51,6 +53,7 @@ const BusinessOwnerDashboardLayout = ({ children, title = "", headerAction = nul
 
   const location = useLocation();
   const navigate = useNavigate()
+  const dispatch = useDispatch();
 
   // Navigation items configuration
   const navItems = [
@@ -107,6 +110,13 @@ const BusinessOwnerDashboardLayout = ({ children, title = "", headerAction = nul
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/');
+    if (windowWidth < 768) {
+      setIsMobileMenuOpen(false);
+    }
   };
 
   return (
@@ -181,10 +191,10 @@ const BusinessOwnerDashboardLayout = ({ children, title = "", headerAction = nul
         </nav>
 
         <div className="w-full px-4 pb-12 mt-2">
-          <Link
-            to="/"
+          <button
+
             className="flex items-center px-4 py-3 text-sm group hover:bg-[#FFE6D8] hover:rounded-[15px] hover:shadow-md transition-colors duration-200"
-            onClick={() => windowWidth < 768 && setIsMobileMenuOpen(false)}
+            onClick={handleLogout}
           >
             <div className="w-[33px] h-[30px] rounded-[12px] flex justify-center items-center bg-[#FF827F] mr-3 group-hover:bg-white group-hover:shadow-xl transition-all">
               <img src={Logout} alt="Logout" className="group-hover:brightness-0" />
@@ -192,7 +202,7 @@ const BusinessOwnerDashboardLayout = ({ children, title = "", headerAction = nul
             <span className="font-rasa text-[16px] text-[#FF827F] group-hover:text-[#2F2F2F]">
               Log Out
             </span>
-          </Link>
+          </button>
         </div>
       </aside>
 
