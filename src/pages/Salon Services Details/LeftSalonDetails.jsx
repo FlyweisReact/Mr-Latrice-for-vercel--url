@@ -152,6 +152,25 @@ const LeftSalonDetails = () => {
     </div>
   );
 
+  const selectedPolicies = [
+    {
+      label: "No-Show / Late Cancellation Policy",
+      icon: MdOutlineDirectionsCarFilled,
+    },
+    {
+      label: "Refund Policy",
+      icon: FaWifi,
+    },
+    {
+      label: "Rescheduling Policy",
+      icon: IoCardOutline,
+    },
+    {
+      label: "Service Guarantee Policy",
+      icon: PiPuzzlePieceBold,
+    },
+  ];
+
   return (
     <>
       <SalonDetailsSelectServiceModal
@@ -575,6 +594,23 @@ const LeftSalonDetails = () => {
               ) : (
                 <YourReviews />
               )}
+            </div>
+          </div>
+        </div>
+        <div className="space-y-1 mb-5">
+          <h2 className="font-rasa font-[600] text-[30px] text-charcoal">
+            Selected Policies
+          </h2>
+          <div className="bg-[#FAF9F6] shadow-[0px_0px_4px_0px_#00000040] rounded-[10px] px-3 py-2">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-2 bg-[#FFFFFF] rounded-[10px] border border-[#2F2F2F33] px-3 py-2">
+              {selectedPolicies.map((policy, index) => (
+                <div key={index} className="flex items-center gap-2 bg-[#123E41] rounded-[10px] p-[10px]">
+                  {policy.icon && <policy.icon size={20} color="#FAF9F6" />}
+                  <span className="font-[600] font-sansation sm:text-[15px] text-[15px] text-[#FAF9F6]">
+                    {policy.label}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

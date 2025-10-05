@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import img from "../../../assets/images/dashboard/img26.png";
 import ClientDashboardLayout from "../../../components/DashbaordLayout/Client Dashbaord";
 import { IoMdInformationCircle } from "react-icons/io";
@@ -17,6 +16,18 @@ const data = {
       date: "April 4, 2025",
       status: "Response Sent",
       img: "img36.jpg",
+      appointmentFormAnswers: {
+        goal: "Relieve muscle tension",
+        allergies: "No",
+        sensitive: "No",
+        washed: "Yes",
+        pregnant: "No",
+        upload: "inspiration_photo.jpg",
+      },
+      waiverFormAnswers: {
+        consent: "Agreed",
+        signature: "Theophile Fomo",
+      },
     },
     {
       id: 2,
@@ -25,6 +36,8 @@ const data = {
       date: "July 9, 2025",
       status: "Awaiting Your Response",
       img: "img37.jpg",
+      appointmentFormAnswers: {},
+      waiverFormAnswers: {},
     },
   ],
 };
@@ -34,6 +47,7 @@ const CustomerForms = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpen1, setModalOpen1] = useState(false);
   const [waiverOpen, setWaiverOpen] = useState(false);
+  const [selectedForm, setSelectedForm] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -44,14 +58,22 @@ const CustomerForms = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleOpenAppointmentform = () => {
-    setModalOpen(false);
-    setModalOpen1(true);
+  const handleOpenAppointmentform = (form) => {
+    setSelectedForm(form);
+    if (form.status === "Response Sent") {
+      setModalOpen(true); // Open read-only view
+    } else {
+      setModalOpen1(true); // Open editable appointment form
+    }
   };
 
-  const handleOpenWaiverForm = () => {
-    setModalOpen(false);
-    setWaiverOpen(true);
+  const handleOpenWaiverForm = (form) => {
+    setSelectedForm(form);
+    if (form.status === "Response Sent") {
+      setModalOpen(true); // Open read-only view
+    } else {
+      setWaiverOpen(true); // Open editable waiver form
+    }
   };
 
   return (
@@ -66,19 +88,32 @@ const CustomerForms = () => {
     >
       <ViewDetailsPersonalViewModal
         isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        handleOpenAppointmentform={handleOpenAppointmentform}
-        handleOpenWaiverForm={handleOpenWaiverForm}
+        onClose={() => {
+          setModalOpen(false);
+          setSelectedForm(null);
+        }}
+        handleOpenAppointmentform={() => handleOpenAppointmentform(selectedForm)}
+        handleOpenWaiverForm={() => handleOpenWaiverForm(selectedForm)}
+        formData={selectedForm}
+        readOnly={selectedForm?.status === "Response Sent"}
       />
 
       <AppointmentFormModal
         isOpen={isModalOpen1}
-        onClose={() => setModalOpen1(false)}
+        onClose={() => {
+          setModalOpen1(false);
+          setSelectedForm(null);
+        }}
+        formData={selectedForm}
       />
 
       <WaiverFormModal
         isOpen={waiverOpen}
-        onClose={() => setWaiverOpen(false)}
+        onClose={() => {
+          setWaiverOpen(false);
+          setSelectedForm(null);
+        }}
+        formData={selectedForm}
       />
 
       {/* <BookingCalendarModal
@@ -115,8 +150,13 @@ const CustomerForms = () => {
             <FormsCards
               key={form.id}
               data={form}
-              isPending
-              showmodal={() => setModalOpen(true)}
+              isPending={form.status === "Awaiting Your Response"}
+              showmodal={() => {
+                setSelectedForm(form);
+                setModalOpen(true);
+              }}
+              handleOpenAppointmentform={() => handleOpenAppointmentform(form)}
+              handleOpenWaiverForm={() => handleOpenWaiverForm(form)}
             />
           ))}
         </div>

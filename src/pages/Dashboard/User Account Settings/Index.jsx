@@ -7,6 +7,10 @@ import { useState } from "react";
 import { IoIosCopy } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
 import { AiFillInfoCircle } from "react-icons/ai";
+import { MdOutlineDirectionsCarFilled } from "react-icons/md";
+import { FaWifi } from "react-icons/fa";
+import { IoCardOutline } from "react-icons/io5";
+import { PiPuzzlePieceBold } from "react-icons/pi";
 
 import {
   ChangePasswordModal,
@@ -20,17 +24,64 @@ export default function UserAccountSettingPage() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isSOSVisible, setIsSOSVisible] = useState(true);
   const [isOn, setIsOn] = useState(true);
-  const options = ["Women", "Men", "Everyone"];
+  const [options] = useState(["Women", "Men", "Everyone"]);
   const [selected, setSelected] = useState("Men");
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpen1, setModalOpen1] = useState(false);
   const [isModalOpen2, setModalOpen2] = useState(false);
   const [isModalOpen3, setModalOpen3] = useState(false);
+  const [selectedPolicies, setSelectedPolicies] = useState([]);
+
+  const policies = [
+    {
+      label: "No-Show / Late Cancellation Policy",
+      key: "noShow",
+      icon: MdOutlineDirectionsCarFilled,
+    },
+    {
+      label: "Refund Policy",
+      key: "refund",
+      icon: FaWifi,
+    },
+    {
+      label: "Rescheduling Policy",
+      key: "rescheduling",
+      icon: IoCardOutline,
+    },
+    {
+      label: "Service Guarantee Policy",
+      key: "serviceGuarantee",
+      icon: PiPuzzlePieceBold,
+    },
+  ];
 
   const handleopendeletesuccesmodal = () => {
     setModalOpen2(false);
     setModalOpen3(true);
   };
+
+  const handlePolicyChange = (key) => {
+    setSelectedPolicies((prev) =>
+      prev.includes(key)
+        ? prev.filter((p) => p !== key)
+        : [...prev, key]
+    );
+  };
+
+  const renderPolicyCheckbox = (label, key, Icon) => (
+    <div className="flex items-center gap-2 bg-[#123E41] rounded-[10px] p-[10px]">
+      {Icon && <Icon size={20} color="#FAF9F6" />}
+      <span className="font-[600] font-sansation sm:text-[15px] text-[15px] text-[#FAF9F6]">
+        {label}
+      </span>
+      <input
+        type="checkbox"
+        checked={selectedPolicies.includes(key)}
+        onChange={() => handlePolicyChange(key)}
+        className="ml-2 accent-[#123E41]"
+      />
+    </div>
+  );
 
   return (
     <ClientDashboardLayout
@@ -62,7 +113,7 @@ export default function UserAccountSettingPage() {
         onClose={() => setModalOpen3(false)}
       />
       <div className="accountsetting-container">
-        <h6 className="sm:text-[30px] text-[20px] font-[500] text-charcoal  font-rasa mb-2">
+        <h6 className="sm:text-[30px] text-[20px] font-[500] text-charcoal font-rasa mb-2">
           Account Details
         </h6>
         <div className="mb-2">
@@ -233,16 +284,13 @@ export default function UserAccountSettingPage() {
                   {isOn ? "On" : "Off"}
                 </span>
                 <label className="inline-flex items-center cursor-pointer">
-                  <input type="checkbox" className="sr-only peer" />
-                  <label className="inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      value={isOn}
-                      onChange={(e) => setIsOn(e.target.checked)}
-                    />
-                    <div className="w-11 h-6 bg-[#D9D9D9] peer-checked:bg-[#123E41] rounded-full relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-                  </label>
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={isOn}
+                    onChange={(e) => setIsOn(e.target.checked)}
+                  />
+                  <div className="w-11 h-6 bg-[#D9D9D9] peer-checked:bg-[#123E41] rounded-full relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
                 </label>
               </div>
             </div>
@@ -253,7 +301,6 @@ export default function UserAccountSettingPage() {
           <label className="block text-[20px] font-bold font-sansation mb-1 text-charcoal">
             Show Me Services For:
           </label>
-
           <div className="flex flex-wrap gap-0.5">
             {options.map((label) => (
               <div
@@ -316,39 +363,31 @@ export default function UserAccountSettingPage() {
               <span className="text-[20px] font-bold font-sansation text-charcoal">
                 Email
               </span>
-
               <label className="inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" />
-                <label className="inline-flex items-center cursor-pointer">
-                  <input type="checkbox" className="sr-only peer" />
-                  <div className="w-11 h-6 bg-[#D9D9D9] peer-checked:bg-[#123E41] rounded-full relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-                </label>
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  defaultChecked
+                />
+                <div className="w-11 h-6 bg-[#D9D9D9] peer-checked:bg-[#123E41] rounded-full relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
               </label>
             </div>
-            <div className="flex items-center gap-5 ">
+            <div className="flex items-center gap-5">
               <span className="text-[20px] font-bold font-sansation text-charcoal">
                 Phone Number
               </span>
-
               <label className="inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" />
-                <label className="inline-flex items-center cursor-pointer">
-                  <input type="checkbox" className="sr-only peer" />
-                  <div className="w-11 h-6 bg-[#D9D9D9] peer-checked:bg-[#123E41] rounded-full relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-                </label>
+                <div className="w-11 h-6 bg-[#D9D9D9] peer-checked:bg-[#123E41] rounded-full relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
               </label>
             </div>
-            <div className="flex items-center gap-5 ">
+            <div className="flex items-center gap-5">
               <span className="text-[20px] font-bold font-sansation text-charcoal">
                 SMS
               </span>
-
               <label className="inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" />
-                <label className="inline-flex items-center cursor-pointer">
-                  <input type="checkbox" className="sr-only peer" />
-                  <div className="w-11 h-6 bg-[#D9D9D9] peer-checked:bg-[#123E41] rounded-full relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-                </label>
+                <div className="w-11 h-6 bg-[#D9D9D9] peer-checked:bg-[#123E41] rounded-full relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
               </label>
             </div>
           </div>
@@ -371,10 +410,26 @@ export default function UserAccountSettingPage() {
               dummy_link
             </span>
             <div className="flex items-center gap-0.5 cursor-pointer border border-[#2F2F2F] bg-white rounded-[10px] p-2">
-              <span className="text-sm  font-sansation text-[#757575]">
+              <span className="text-sm font-sansation text-[#757575]">
                 Copy link
               </span>
               <IoIosCopy color="#2F2F2F" />
+            </div>
+          </div>
+        </div>
+        {/* Business Policies */}
+        <div className="mb-5">
+          <h6 className="sm:text-[30px] text-[20px] font-[500] text-charcoal font-rasa flex items-center gap-2">
+            Business Policies
+          </h6>
+          <label className="block sm:text-[20px] text-[15px] font-bold font-sansation text-charcoal mb-2">
+            SELECT POLICIES THAT APPLY TO YOUR BUSINESS
+          </label>
+          <div className="bg-[#FAF9F6] shadow-[0px_0px_4px_0px_#00000040] rounded-[10px] px-3 py-2">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-2 bg-[#FFFFFF] rounded-[10px] border border-[#2F2F2F33] px-3 py-2">
+              {policies.map((policy) =>
+                renderPolicyCheckbox(policy.label, policy.key, policy.icon)
+              )}
             </div>
           </div>
         </div>

@@ -42,41 +42,56 @@ const times = [
 ];
 
 const dates = [
-  moment("2025-02-25"),
-  moment("2025-02-26"),
-  moment("2025-02-27"),
-  moment("2025-02-28"),
+  moment("2025-10-07"),
+  moment("2025-10-08"),
+  moment("2025-10-09"),
+  moment("2025-10-10"),
 ];
 
 const appointments = [
   {
-    date: "2025-02-26",
+    date: "2025-10-08",
     time: "10:30 AM",
-    title: "Hair Cut",
+    title: "Braids",
     location: "At Omar Vaccaro Salon",
     price: "$46.00",
     endTime: "11:00 AM",
     modalstatus: "QR",
+    client: "Jessica",
+    stylist: "Tina",
   },
   {
-    date: "2025-02-27",
+    date: "2025-10-09",
     time: "09:30 AM",
-    title: "Hair Cut",
+    title: "Facial",
     location: "At Omar Vaccaro Salon",
     price: "$46.00",
     endTime: "10:00 AM",
     status: "Provider rescheduled their appointment",
     modalstatus: "rescheduled",
+    client: "Maria",
+    stylist: "Sophia",
   },
   {
-    date: "2025-02-28",
+    date: "2025-10-10",
     time: "10:30 AM",
-    title: "Hair Cut",
+    title: "Kids Cut",
     location: "At Omar Vaccaro Salon",
     price: "$46.00",
     endTime: "11:00 AM",
     status: "Pending...",
     modalstatus: "pending",
+    client: "James",
+    stylist: "Omar",
+  },
+];
+
+const importedAppointments = [
+  {
+    date: "2025-10-08",
+    time: "12:00 PM",
+    title: "Imported Meeting",
+    endTime: "12:30 PM",
   },
 ];
 
@@ -110,6 +125,8 @@ export default function Currentbookings() {
   const [isModalOpen18, setModalOpen18] = useState(false);
 
   const [bookingStatus, setBookingStatus] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
 
   const handlopensecond = () => {
     setModalOpen(false);
@@ -238,6 +255,12 @@ export default function Currentbookings() {
     setModalOpen17(false);
   };
 
+  const handleOpenNewBooking = (date, time) => {
+    setSelectedDate(date);
+    setSelectedTime(time);
+    setModalOpen9(true); // Opens AddServiceDetailsModal for new booking flow
+  };
+
   return (
     <ClientDashboardLayout title="Appointment Scheduling">
       <BookingDetailsModal
@@ -296,12 +319,16 @@ export default function Currentbookings() {
         onClose={() => setModalOpen9(false)}
         handleBackStapsecond={handleBackStapsecond}
         handleStapThird={handleStapThird}
+        selectedDate={selectedDate}
+        selectedTime={selectedTime}
       />
       <AddDateTimeModal
         isOpen={isModalOpen10}
         onClose={() => setModalOpen10(false)}
         handleBackStapThird={handleBackStapThird}
         handleStapForth={handleStapForth}
+        selectedDate={selectedDate}
+        selectedTime={selectedTime}
       />
       <AddSelectTargetModal
         isOpen={isModalOpen11}
@@ -403,6 +430,11 @@ export default function Currentbookings() {
                           appt.date === date.format("YYYY-MM-DD") &&
                           appt.time === time
                       );
+                      const imported = importedAppointments.find(
+                        (appt) =>
+                          appt.date === date.format("YYYY-MM-DD") &&
+                          appt.time === time
+                      );
                       const borderColors = [
                         "#123E41",
                         "#FF827F",
@@ -443,10 +475,23 @@ export default function Currentbookings() {
                                 )}
                               </div>
                             </div>
+                          ) : imported ? (
+                            <div
+                              className="p-2 h-full bg-gray-300 text-gray-600 font-medium"
+                              style={{ borderLeft: `4px solid ${borderColor}` }}
+                            >
+                              Blocked (Imported)
+                            </div>
                           ) : (
                             <div
-                              className="w-full h-full"
+                              className="w-full h-full cursor-pointer"
                               style={{ borderLeft: `4px solid ${borderColor}` }}
+                              onClick={() =>
+                                handleOpenNewBooking(
+                                  date.format("YYYY-MM-DD"),
+                                  time
+                                )
+                              }
                             ></div>
                           )}
                         </td>
@@ -459,7 +504,10 @@ export default function Currentbookings() {
           </div>
         </div>
         <div className="lg:w-fit w-full sm:max-w-1/3">
-          <RightDivAppointment />
+          <RightDivAppointment
+            appointments={appointments}
+            importedAppointments={importedAppointments}
+          />
         </div>
       </div>
     </ClientDashboardLayout>

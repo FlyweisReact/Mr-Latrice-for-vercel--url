@@ -83,9 +83,11 @@ const availableQuestions = [
   },
 ];
 
-export const AppointmentFormModal = ({ isOpen, onClose }) => {
+export const AppointmentFormModal = ({ isOpen, onClose, formData }) => {
   const [formQuestions, setFormQuestions] = useState(initialFormQuestions);
-  const [yesNoAnswers, setYesNoAnswers] = useState({});
+  const [yesNoAnswers, setYesNoAnswers] = useState(formData?.appointmentFormAnswers || {});
+  const [selectAnswers, setSelectAnswers] = useState(formData?.appointmentFormAnswers?.goal || "");
+  const [uploadFileName, setUploadFileName] = useState(formData?.appointmentFormAnswers?.upload || "");
 
   if (!isOpen) return null;
 
@@ -93,8 +95,31 @@ export const AppointmentFormModal = ({ isOpen, onClose }) => {
     setYesNoAnswers({ ...yesNoAnswers, [id]: value });
   };
 
+  const handleSelectChange = (id, value) => {
+    setSelectAnswers(value);
+  };
+
+  const handleFileUpload = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setUploadFileName(e.target.files[0].name);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Combine all answers
+    const answers = {
+      ...yesNoAnswers,
+      goal: selectAnswers,
+      upload: uploadFileName,
+    };
+    console.log("Submitted Appointment Form:", answers);
+    // TODO: Send answers to backend API
+    onClose();
+  };
+
   return (
-    <div className="fixed inset-0  bg-opacity-40 z-30 flex items-center justify-center">
+    <div className="fixed inset-0 bg-opacity-40 z-30 flex items-center justify-center">
       <div className="bg-white rounded-[10px] w-full max-w-sm sm:max-w-lg p-3 shadow-xl overflow-y-auto h-[80vh] relative">
         {/* Header */}
         <div className="flex items-center gap-2 mb-2">
@@ -107,88 +132,97 @@ export const AppointmentFormModal = ({ isOpen, onClose }) => {
           </h2>
         </div>
         <p className="mb-2 sm:text-[20px] text-[15px] font-[400] text-charcoal font-sansation">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
+          {formData?.service} with {formData?.providerName} on {formData?.date}
         </p>
 
         {/* Content */}
-        <div className="mb-5">
-          <div className="border border-[#2F2F2F] rounded-[10px] p-4">
-            {formQuestions.map((q, index) => (
-              <div key={q.id} className="mb-5 flex items-start gap-1">
-                <h6 className="sm:text-[17px] text-[15px] font-[700] leading-[20px] text-charcoal font-sansation">
-                  {index + 1}.
-                </h6>
-                <div>
-                  <p className="sm:text-[17px] text-[15px] font-[700] leading-[20px] text-charcoal font-sansation">
-                    {q.text}{" "}
-                    {q.required && (
-                      <span className="font-[400]">(Required)</span>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-5">
+            <div className="border border-[#2F2F2F] rounded-[10px] p-4">
+              {formQuestions.map((q, index) => (
+                <div key={q.id} className="mb-5 flex items-start gap-1">
+                  <h6 className="sm:text-[17px] text-[15px] font-[700] leading-[20px] text-charcoal font-sansation">
+                    {index + 1}.
+                  </h6>
+                  <div>
+                    <p className="sm:text-[17px] text-[15px] font-[700] leading-[20px] text-charcoal font-sansation">
+                      {q.text}{" "}
+                      {q.required && (
+                        <span className="font-[400]">(Required)</span>
+                      )}
+                      {q.optional && (
+                        <span className="font-[400]">(Optional)</span>
+                      )}
+                    </p>
+
+                    {q.answerType === "select" && (
+                      <select
+                        className="mt-2 border border-[#2F2F2F] p-2 rounded-[6px] w-full"
+                        value={selectAnswers}
+                        onChange={(e) => handleSelectChange(q.id, e.target.value)}
+                        required={q.required}
+                      >
+                        <option value="">Select...</option>
+                        <option value="Option 1">Option 1</option>
+                        <option value="Option 2">Option 2</option>
+                      </select>
                     )}
-                    {q.optional && (
-                      <span className="font-[400]">(Optional)</span>
-                    )}
-                  </p>
 
-                  {q.answerType === "select" && (
-                    <select className="mt-2 border border-[#2F2F2F] p-2 rounded-[6px] w-full">
-                      <option>Select...</option>
-                      <option>Option 1</option>
-                      <option>Option 2</option>
-                    </select>
-                  )}
-
-                  {q.answerType === "yesno" && (
-                    <div className="flex space-x-6 mt-2">
-                      {["Yes", "No"].map((opt) => (
-                        <label
-                          key={opt}
-                          className="flex items-center gap-1 font-[500] font-inter sm:text-[16px] text-[14px] text-[#2F2F2F] cursor-pointer"
-                        >
-                          <input
-                            type="radio"
-                            name={q.id}
-                            value={opt}
-                            checked={yesNoAnswers[q.id] === opt}
-                            onChange={() => handleYesNoChange(q.id, opt)}
-                            className="accent-teal-800 "
-                          />
-                          {opt}
-                        </label>
-                      ))}
-                    </div>
-                  )}
-
-                  {q.answerType === "upload" && (
-                    <div className="mt-2">
-                      <div className="flex itmes-center justify-center gap-2 cursor-pointer border border-[#2F2F2F] bg-[#FFFFFF] px-3 py-1 rounded-[6px] sm:text-[16px] text-[12px] font-[700] leading-[20px] text-charcoal font-sansation">
-                        <FaRegImage />
-                        Upload
+                    {q.answerType === "yesno" && (
+                      <div className="flex space-x-6 mt-2">
+                        {["Yes", "No"].map((opt) => (
+                          <label
+                            key={opt}
+                            className="flex items-center gap-1 font-[500] font-inter sm:text-[16px] text-[14px] text-[#2F2F2F] cursor-pointer"
+                          >
+                            <input
+                              type="radio"
+                              name={q.id}
+                              value={opt}
+                              checked={yesNoAnswers[q.id] === opt}
+                              onChange={() => handleYesNoChange(q.id, opt)}
+                              className="accent-teal-800"
+                              required={q.required}
+                            />
+                            {opt}
+                          </label>
+                        ))}
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {q.answerType === "text" && (
-                    <input
-                      type="text"
-                      placeholder="Answer here..."
-                      className="mt-2 border p-2 rounded w-full"
-                    />
-                  )}
+                    {q.answerType === "upload" && (
+                      <div className="mt-2">
+                        <label
+                          htmlFor={`upload-${q.id}`}
+                          className="flex items-center justify-center gap-2 cursor-pointer border border-[#2F2F2F] bg-[#FFFFFF] px-3 py-1 rounded-[6px] sm:text-[16px] text-[12px] font-[700] leading-[20px] text-charcoal font-sansation"
+                        >
+                          <FaRegImage />
+                          {uploadFileName || "Upload"}
+                          <input
+                            id={`upload-${q.id}`}
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleFileUpload}
+                          />
+                        </label>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="flex flex-col items-center justify-center gap-3 ">
-          <button
-            className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
-            onClick={onClose}
-          >
-            Submit
-          </button>
-        </div>
+          <div className="flex flex-col items-center justify-center gap-3">
+            <button
+              type="submit"
+              className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

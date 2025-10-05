@@ -1,14 +1,15 @@
-import img36 from "../../assets/images/dashboard/img118.jpg";
-
 import { PiWarningCircleFill } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import img36 from "../../assets/images/dashboard/img118.jpg";
 
 export const ViewDetailsPersonalViewModal = ({
   isOpen,
   onClose,
   handleOpenAppointmentform,
   handleOpenWaiverForm,
+  formData,
+  readOnly,
 }) => {
   if (!isOpen) return null;
 
@@ -36,44 +37,78 @@ export const ViewDetailsPersonalViewModal = ({
               />
               <div className="pt-4">
                 <p className="sm:text-[25px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa mb-3">
-                  Provider Name: Burt Nilson
+                  Provider Name: {formData?.providerName || "N/A"}
                 </p>
                 <p className="sm:text-[22px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa mb-1">
-                  Deep Massage
+                  {formData?.service || "N/A"}
                 </p>
                 <p className="sm:text-[22px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa mb-1">
-                  April 4, 2025
+                  {formData?.date || "N/A"}
                 </p>
                 <p className="sm:text-[22px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa mb-1">
-                  Duration : 2hrs 30 mins
+                  Duration: {formData?.duration || "N/A"}
                 </p>
               </div>
             </div>
-            <h6 className="sm:text-[25px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa text-center mb-6">
-              Once you submit your response, you won’t be able to change it.
-            </h6>
 
-            <div className="flex flex-col items-center justify-center gap-3 mb-8">
-              <button
-                className="w-full bg-[#97E7EC] text-[#123E41] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040] flex items-center justify-center gap-2"
-                onClick={handleOpenAppointmentform}
-              >
-                See Appointment Form
-                <PiWarningCircleFill size={23} />
-              </button>
-              <button
-                className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040] flex items-center justify-center gap-2"
-                onClick={handleOpenWaiverForm}
-              >
-                See Waiver Form
-                <PiWarningCircleFill size={23} />
-              </button>
-            </div>
+            {readOnly && formData?.appointmentFormAnswers && (
+              <div className="mb-5">
+                <h6 className="sm:text-[20px] text-[15px] font-[600] text-charcoal font-rasa mb-2">
+                  Appointment Form Answers
+                </h6>
+                <div className="border border-[#2F2F2F] rounded-[10px] p-4">
+                  {Object.entries(formData.appointmentFormAnswers).map(([key, value]) => (
+                    <p key={key} className="sm:text-[16px] text-[14px] font-[400] text-charcoal font-sansation">
+                      {key}: {value}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {readOnly && formData?.waiverFormAnswers && (
+              <div className="mb-5">
+                <h6 className="sm:text-[20px] text-[15px] font-[600] text-charcoal font-rasa mb-2">
+                  Waiver Form Answers
+                </h6>
+                <div className="border border-[#2F2F2F] rounded-[10px] p-4">
+                  {Object.entries(formData.waiverFormAnswers).map(([key, value]) => (
+                    <p key={key} className="sm:text-[16px] text-[14px] font-[400] text-charcoal font-sansation">
+                      {key}: {value}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {!readOnly && (
+              <>
+                <h6 className="sm:text-[25px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa text-center mb-6">
+                  Once you submit your response, you won’t be able to change it.
+                </h6>
+                <div className="flex flex-col items-center justify-center gap-3 mb-8">
+                  <button
+                    className="w-full bg-[#97E7EC] text-[#123E41] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040] flex items-center justify-center gap-2"
+                    onClick={handleOpenAppointmentform}
+                  >
+                    {formData?.status === "Response Sent" ? "See Appointment Form" : "Fill Appointment Form"}
+                    <PiWarningCircleFill size={23} />
+                  </button>
+                  <button
+                    className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040] flex items-center justify-center gap-2"
+                    onClick={handleOpenWaiverForm}
+                  >
+                    {formData?.status === "Response Sent" ? "See Waiver Form" : "Fill Waiver Form"}
+                    <PiWarningCircleFill size={23} />
+                  </button>
+                </div>
+              </>
+            )}
+
             <div className="flex justify-center">
-              {" "}
               <Link
                 to="/dashboard/appointments/current-bookings"
-                className="cursor-pointer sm:text-[25px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa text-center! underline!"
+                className="cursor-pointer sm:text-[25px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa text-center underline"
               >
                 See appointment
               </Link>
