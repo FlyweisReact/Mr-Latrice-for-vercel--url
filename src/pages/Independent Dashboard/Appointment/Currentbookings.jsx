@@ -40,57 +40,80 @@ const appointments = [
     date: "2025-02-25",
     time: "08:30 AM",
     title: "Hair Cut",
-    location: "Customer Name",
+    location: "At Salon",
     price: "$46.00",
     endTime: "09:00 AM",
+    client: "Jessica",
+    stylist: "Tina",
   },
   {
     date: "2025-02-26",
     time: "08:30 AM",
     title: "Hair Cut",
-    location: "Customer Name",
+    location: "At Salon",
     price: "$46.00",
     endTime: "09:00 AM",
+    client: "Maria",
+    stylist: "Sophia",
   },
   {
     date: "2025-02-27",
     time: "08:30 AM",
     title: "Hair Cut",
-    location: "Customer Name",
+    location: "At Salon",
     price: "$46.00",
     endTime: "09:00 AM",
+    client: "James",
+    stylist: "Omar",
   },
   {
     date: "2025-02-28",
     time: "08:30 AM",
     title: "Hair Cut",
-    location: "Customer Name",
+    location: "At Salon",
     price: "$46.00",
     endTime: "09:00 AM",
+    client: "Sarah",
+    stylist: "Emma",
   },
   {
     date: "2025-02-26",
     time: "10:30 AM",
     title: "Hair Cut",
-    location: "Customer Name",
+    location: "At Salon",
     price: "$46.00",
     endTime: "11:00 AM",
+    client: "Laura",
+    stylist: "Tina",
   },
   {
     date: "2025-02-25",
     time: "12:30 PM",
     title: "Hair Cut",
-    location: "Customer Name",
+    location: "At Salon",
     price: "$46.00",
     endTime: "01:00 PM",
+    client: "Emily",
+    stylist: "Sophia",
   },
   {
     date: "2025-02-27",
     time: "11:30 AM",
     title: "Hair Cut",
-    location: "Customer Name",
+    location: "At Salon",
     price: "$46.00",
     endTime: "12:00 PM",
+    client: "Michael",
+    stylist: "Omar",
+  },
+];
+
+const importedAppointments = [
+  {
+    date: "2025-02-26",
+    time: "12:00 PM",
+    title: "Imported Meeting",
+    endTime: "12:30 PM",
   },
 ];
 
@@ -101,15 +124,16 @@ const routeMapping = {
   "Claim/Dispute": "/independent/dashboard/appointments/claim/dispute-bookings",
 };
 
-export default function Independenturrentbookings() {
+export default function IndependentCurrentBookings() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpen1, setModalOpen1] = useState(false);
   const [isModalOpen2, setModalOpen2] = useState(false);
   const [isModalOpen3, setModalOpen3] = useState(false);
   const [isHelpModalOpen, setHelpModalOpen] = useState(false);
-
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("Customer Bookings");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
 
   const locations = ["Customer Bookings", "Personal Bookings"];
 
@@ -121,7 +145,6 @@ export default function Independenturrentbookings() {
     setModalOpen1(false);
     setModalOpen2(true);
   };
-
   const handlopenCancel = () => {
     setModalOpen(false);
     setModalOpen3(true);
@@ -130,10 +153,22 @@ export default function Independenturrentbookings() {
     setModalOpen(true);
     setModalOpen3(false);
   };
-
   const handleOpenNeedHelp = () => {
     setModalOpen(false);
     setHelpModalOpen(true);
+  };
+  const handleBackNeedHelp = () => {
+    setHelpModalOpen(false);
+    setModalOpen(true);
+  };
+  const handleOpenNewBooking = (date, time) => {
+    setSelectedDate(date);
+    setSelectedTime(time);
+    setModalOpen(true); // Open ProfessionalBookingDetailsModal
+    console.log(
+      `New booking initiated: Date: ${date}, Time: ${time}, Client: [To be entered], Service: [To be entered], Amenities: [To be entered]`
+    );
+    console.log("Sending payment link to client for 15-minute payment window");
   };
 
   return (
@@ -142,7 +177,6 @@ export default function Independenturrentbookings() {
       gpnumber="8"
       titleAction={
         <div className="relative inline-block text-center border border-[#2F2F2F] bg-[#FAF9F6] rounded-[10px]">
-          {/* Selected location and icon */}
           <div
             className="flex items-center gap-1 cursor-pointer px-2"
             onClick={() => setIsOpen(!isOpen)}
@@ -152,20 +186,16 @@ export default function Independenturrentbookings() {
             </p>
             <TiArrowSortedDown
               size={20}
-              className={`transition-transform duration-200 ${
-                isOpen ? "rotate-180" : ""
-              }`}
+              className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
               color="#2F2F2F"
             />
           </div>
-
-          {/* Dropdown menu */}
           {isOpen && (
             <div className="absolute mt-2 z-10 w-[240px] bg-[#FAF9F6] border border-[#2F2F2F] rounded-[10px]">
               {locations.map((location, index) => (
                 <div
                   key={index}
-                  className="px-2  font-rasa font-[600] sm:text-[28px] text-[20px] text-[#2F2F2F] cursor-pointer"
+                  className="px-2 font-rasa font-[600] sm:text-[28px] text-[20px] text-[#2F2F2F] cursor-pointer"
                   onClick={() => {
                     setSelectedLocation(location);
                     setIsOpen(false);
@@ -192,14 +222,6 @@ export default function Independenturrentbookings() {
         onClose={() => setModalOpen1(false)}
         handlopenThird={handlopenThird}
       />
-      <ProfessionalNeedHelpBookingDetailsModal
-        isOpen={isHelpModalOpen}
-        onClose={() => setHelpModalOpen(false)}
-        handleBack={() => {
-          setHelpModalOpen(false);
-          setModalOpen(true);
-        }}
-      />
       <BussinessResheduleSuccessModal
         isOpen={isModalOpen2}
         onClose={() => setModalOpen2(false)}
@@ -209,33 +231,33 @@ export default function Independenturrentbookings() {
         onClose={() => setModalOpen3(false)}
         handlopenbackCancel={handlopenbackCancel}
       />
+      <ProfessionalNeedHelpBookingDetailsModal
+        isOpen={isHelpModalOpen}
+        onClose={() => setHelpModalOpen(false)}
+        handleBack={handleBackNeedHelp}
+      />
       <div className="flex flex-col lg:flex-row w-full gap-4 mt-4">
         <div className="flex-1 overflow-auto">
-          {/* Tabs */}
           <div className="flex flex-wrap w-full overflow-hidden justify-center sm:justify-between gap-2 sm:gap-1 mb-3">
-            {[
-              "Current bookings",
-              "Upcoming bookings",
-              "Past bookings",
-              "Claim/Dispute",
-            ].map((item, index) => (
-              <Link key={index} to={routeMapping[item]}>
-                <button
-                  className={`p-2 sm:px-6 text-[16px] sm:text-[20px] font-medium font-rasa rounded-[10px] border transition-all duration-200 ${
-                    item === "Current bookings"
-                      ? "bg-[#123E41] text-[#FAF9F6] border-2 border-[#FAF9F6]"
-                      : "text-[#2F2F2F] border-2 border-[#2F2F2F]"
-                  }`}
-                  style={{
-                    border: "1px solid red",
-                    borderColor:
-                      item === "Current bookings" ? "#FAF9F6" : "#2F2F2F",
-                  }}
-                >
-                  {item}
-                </button>
-              </Link>
-            ))}
+            {["Current bookings", "Upcoming bookings", "Past bookings", "Claim/Dispute"].map(
+              (item, index) => (
+                <Link key={index} to={routeMapping[item]}>
+                  <button
+                    className={`p-2 sm:px-6 text-[16px] sm:text-[20px] font-medium font-rasa rounded-[10px] border transition-all duration-200 ${
+                      item === "Current bookings"
+                        ? "bg-[#123E41] text-[#FAF9F6] border-2 border-[#FAF9F6]"
+                        : "text-[#2F2F2F] border-2 border-[#2F2F2F]"
+                    }`}
+                    style={{
+                      border: "1px solid red",
+                      borderColor: item === "Current bookings" ? "#FAF9F6" : "#2F2F2F",
+                    }}
+                  >
+                    {item}
+                  </button>
+                </Link>
+              )
+            )}
           </div>
           <div className="overflow-x-auto">
             <table className="table-auto w-full border-collapse">
@@ -262,30 +284,23 @@ export default function Independenturrentbookings() {
                     </td>
                     {dates.map((date, colIndex) => {
                       const appointment = appointments.find(
-                        (appt) =>
-                          appt.date === date.format("YYYY-MM-DD") &&
-                          appt.time === time
+                        (appt) => appt.date === date.format("YYYY-MM-DD") && appt.time === time
                       );
-                      const borderColors = [
-                        "#123E41",
-                        "#FF827F",
-                        "#FFCC4E",
-                        "#123E41",
-                      ];
-                      const borderColor =
-                        borderColors[colIndex % borderColors.length];
+                      const imported = importedAppointments.find(
+                        (appt) => appt.date === date.format("YYYY-MM-DD") && appt.time === time
+                      );
+                      const borderColors = ["#123E41", "#FF827F", "#FFCC4E", "#123E41"];
+                      const borderColor = borderColors[colIndex % borderColors.length];
 
                       return (
                         <td
                           key={colIndex}
-                          className="border border-[#A8A8A84D] h-20  relative"
+                          className="border border-[#A8A8A84D] h-20 relative"
                         >
                           {appointment ? (
                             <div
                               className="p-2 h-full cursor-pointer"
-                              style={{
-                                borderLeft: `4px solid ${borderColor}`,
-                              }}
+                              style={{ borderLeft: `4px solid ${borderColor}` }}
                               onClick={() => setModalOpen(true)}
                             >
                               <h6 className="font-[500] font-rasa sm:text-[18px] text-[15px] text-charcoal">
@@ -299,17 +314,20 @@ export default function Independenturrentbookings() {
                               </div>
                               <div className="font-[400] font-rasa sm:text-[12px] text-[10px] text-[#00000080]">
                                 {appointment.time} to {appointment.endTime}
-                                {appointment.status && (
-                                  <span> ({appointment.status})</span>
-                                )}
                               </div>
+                            </div>
+                          ) : imported ? (
+                            <div
+                              className="p-2 h-full bg-gray-300 text-gray-600 font-medium"
+                              style={{ borderLeft: `4px solid ${borderColor}` }}
+                            >
+                              Blocked (Imported)
                             </div>
                           ) : (
                             <div
-                              className="w-full h-full"
-                              style={{
-                                borderLeft: `4px solid ${borderColor}`,
-                              }}
+                              className="w-full h-full cursor-pointer"
+                              style={{ borderLeft: `4px solid ${borderColor}` }}
+                              onClick={() => handleOpenNewBooking(date.format("YYYY-MM-DD"), time)}
                             ></div>
                           )}
                         </td>
@@ -322,7 +340,7 @@ export default function Independenturrentbookings() {
           </div>
         </div>
         <div className="lg:w-fit w-full sm:max-w-1/3">
-          <RightDivAppointment />
+          <RightDivAppointment appointments={appointments} importedAppointments={importedAppointments} />
         </div>
       </div>
     </IndependentDashboardLayout>

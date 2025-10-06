@@ -278,7 +278,9 @@ export default function App() {
               </Route>
 
               {/* Independent Professional Dashboard routes */}
-              <Route element={<ProtectedRoute allowedUserType={["INDEPENDENT"]} />}>
+              <Route
+              //  element={<ProtectedRoute allowedUserType={["INDEPENDENT"]} />}
+               >
                 <Route path="/independent/dashboard/account-setting" element={<IndependentAccountSettingPage />} />
                 <Route path="/independent/dashboard/basket" element={<IndependentBasket />} />
                 <Route path="/independent/dashboard/appointments/current-bookings" element={<IndependentCurrentbookings />} />
