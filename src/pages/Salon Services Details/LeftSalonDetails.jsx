@@ -38,13 +38,15 @@ const LeftSalonDetails = () => {
   const [isModalOpen8, setModalOpen8] = useState(false);
 
   const [user, setUser] = useState(null);
-  useEffect(() => {
-    const localUser = localStorage.getItem("user");
-    if (localUser) {
-      setUser(JSON.parse(localUser));
-    }
-  }, []);
-
+  // useEffect(() => {
+  //   const localUser = localStorage.getItem("user");
+  //   if (localUser) {
+  //     setUser(JSON.parse(localUser));
+  //   }
+  // }, []);
+  useEffect(()=>{
+    setUser(true)
+  },[])
   const services = [
     {
       title: "Gent’s Standard",
@@ -570,11 +572,10 @@ const LeftSalonDetails = () => {
             <div className="">
               <div className="flex items-center gap-2 mb-2">
                 <div
-                  className={`px-8 py-2 sm:text-[20px] text-[15px] font-[600] font-rasa rounded-[10px] flex items-center justify-center  cursor-pointer  ${
-                    activeTab === "Client Reviews"
+                  className={`px-8 py-2 sm:text-[20px] text-[15px] font-[600] font-rasa rounded-[10px] flex items-center justify-center  cursor-pointer  ${activeTab === "Client Reviews"
                       ? "bg-[#123E41] text-[#FAF9F6] border border-[#FAF9F6]"
                       : " text-[#2F2F2F]"
-                  }`}
+                    }`}
                   onClick={() => setActiveTab("Client Reviews")}
                 >
                   Client Reviews
