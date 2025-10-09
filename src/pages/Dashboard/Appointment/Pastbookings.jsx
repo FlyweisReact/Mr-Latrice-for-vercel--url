@@ -26,12 +26,11 @@ const times = [
   "04:00 PM",
 ];
 
-const dates = [
-  moment("2025-01-28"),
-  moment("2025-01-29"),
-  moment("2025-01-30"),
-  moment("2025-01-31"),
-];
+// ✅ 7 days (1 week) dynamically generated
+const startDate = moment("2025-01-28");
+const dates = Array.from({ length: 7 }, (_, i) =>
+  moment(startDate).add(i, "days")
+);
 
 const appointments = [
   {
@@ -57,6 +56,7 @@ export default function Pastbookings() {
   const [isModalOpen1, setModalOpen1] = useState(false);
   const [isModalOpen2, setModalOpen2] = useState(false);
   const [isModalOpen3, setModalOpen3] = useState(false);
+
   const handlopensecond = () => {
     setModalOpen(false);
     setModalOpen1(true);
@@ -73,7 +73,6 @@ export default function Pastbookings() {
     setModalOpen1(true);
     setModalOpen3(false);
   };
-
   const handlopenforth = () => {
     setModalOpen3(false);
     setModalOpen2(true);
@@ -102,17 +101,13 @@ export default function Pastbookings() {
         isOpen={isModalOpen2}
         onClose={() => setModalOpen2(false)}
       />
+
       <div className="flex flex-col lg:flex-row w-full gap-4">
-        <div className="flex-1 overflow-auto">
+        {/* Main Table Section */}
+        <div className="flex-1 overflow-x-auto">
           {/* Tabs */}
           <div className="flex flex-wrap w-full overflow-hidden justify-center sm:justify-between gap-2 sm:gap-1 mb-3">
-            {[
-              "Current bookings",
-              "Upcoming bookings",
-              "Past bookings",
-              "Cancellation",
-              "Claim/Dispute",
-            ].map((item, index) => (
+            {Object.keys(routeMapping).map((item, index) => (
               <Link key={index} to={routeMapping[item]}>
                 <button
                   className={`p-2 sm:px-6 text-[16px] sm:text-[20px] font-medium font-rasa rounded-[10px] border transition-all duration-200 ${
@@ -121,7 +116,6 @@ export default function Pastbookings() {
                       : "text-[#2F2F2F] border-2 border-[#2F2F2F]"
                   }`}
                   style={{
-                    border: "1px solid red",
                     borderColor:
                       item === "Past bookings" ? "#FAF9F6" : "#2F2F2F",
                   }}
@@ -131,27 +125,29 @@ export default function Pastbookings() {
               </Link>
             ))}
           </div>
-          <div className="overflow-x-auto">
-            <table className="table-auto w-full border-collapse">
+
+          {/* Scrollable Table */}
+          <div className="overflow-x-auto border border-gray-200 rounded-lg shadow-sm scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+            <table className="min-w-[900px] xl:min-w-full border-collapse">
               <thead className="bg-[#123E41]">
                 <tr>
-                  <th className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 rounded-tl-2xl">
+                  <th className="font-[700] font-rasa text-[15px] sm:text-[18px] text-[#FAF9F6] p-2 rounded-tl-2xl sticky left-0 bg-[#123E41] z-10">
                     TIME
                   </th>
                   {dates.map((date, i) => (
                     <th
                       key={i}
-                      className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 last:rounded-tr-2xl"
+                      className="font-[700] font-rasa text-[15px] sm:text-[18px] text-[#FAF9F6] p-2 whitespace-nowrap"
                     >
                       {date.format("MMM DD YYYY")}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="bg-white shadow">
+              <tbody className="bg-white">
                 {times.map((time, rowIndex) => (
                   <tr key={rowIndex}>
-                    <td className="border-b-1 border-[#A8A8A84D] font-rasa text-[#464646] font-[400] text-center text-[18px] py-2">
+                    <td className="border border-[#A8A8A84D] text-center text-[16px] py-2 font-rasa font-[400] text-[#464646] sticky left-0 bg-white z-10">
                       {time}
                     </td>
                     {dates.map((date, colIndex) => {
@@ -165,6 +161,9 @@ export default function Pastbookings() {
                         "#FF827F",
                         "#FFCC4E",
                         "#123E41",
+                        "#2F4858",
+                        "#F39C12",
+                        "#27AE60",
                       ];
                       const borderColor =
                         borderColors[colIndex % borderColors.length];
@@ -172,7 +171,7 @@ export default function Pastbookings() {
                       return (
                         <td
                           key={colIndex}
-                          className="border border-[#A8A8A84D] h-20  relative"
+                          className="border border-[#A8A8A84D] h-20 min-w-[180px]"
                         >
                           {appointment ? (
                             <div
@@ -180,20 +179,17 @@ export default function Pastbookings() {
                               style={{ borderLeft: `4px solid ${borderColor}` }}
                               onClick={() => setModalOpen(true)}
                             >
-                              <h6 className="font-[500] font-rasa sm:text-[18px] text-[15px] text-charcoal">
+                              <h6 className="font-[500] font-rasa text-[15px] sm:text-[18px] text-charcoal">
                                 {appointment.title}
                               </h6>
-                              <div className="font-[500] font-rasa sm:text-[18px] text-[15px] text-charcoal">
+                              <div className="font-[500] font-rasa text-[14px] sm:text-[16px] text-charcoal">
                                 {appointment.location}
                               </div>
-                              <div className="font-[400] font-rasa sm:text-[15px] text-[12px] text-charcoal">
+                              <div className="font-[400] font-rasa text-[13px] text-charcoal">
                                 {appointment.price}
                               </div>
-                              <div className="font-[400] font-rasa sm:text-[12px] text-[10px] text-[#00000080]">
+                              <div className="font-[400] font-rasa text-[12px] text-[#00000080]">
                                 {appointment.time} to {appointment.endTime}
-                                {appointment.status && (
-                                  <span> ({appointment.status})</span>
-                                )}
                               </div>
                             </div>
                           ) : (
@@ -211,6 +207,8 @@ export default function Pastbookings() {
             </table>
           </div>
         </div>
+
+        {/* Right Sidebar */}
         <div className="lg:w-fit w-full sm:max-w-1/3">
           <RightDivAppointment />
         </div>

@@ -385,11 +385,10 @@ export default function Currentbookings() {
             ].map((item, index) => (
               <Link key={index} to={routeMapping[item]}>
                 <button
-                  className={`p-2 sm:px-6 text-[16px] sm:text-[20px] font-medium font-rasa rounded-[10px] border transition-all duration-200 ${
-                    item === "Current bookings"
+                  className={`p-2 sm:px-6 text-[16px] sm:text-[20px] font-medium font-rasa rounded-[10px] border transition-all duration-200 ${item === "Current bookings"
                       ? "bg-[#123E41] text-[#FAF9F6] border-2 border-[#FAF9F6]"
                       : "text-[#2F2F2F] border-2 border-[#2F2F2F]"
-                  }`}
+                    }`}
                   style={{
                     border: "1px solid red",
                     borderColor:
@@ -401,17 +400,21 @@ export default function Currentbookings() {
               </Link>
             ))}
           </div>
-          <div className="overflow-x-auto">
-            <table className="table-auto w-full border-collapse">
+          <div className="overflow-x-auto w-full">
+            <table className="min-w-[1200px] table-auto border-collapse">
               <thead className="bg-[#123E41]">
                 <tr>
-                  <th className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 rounded-tl-2xl">
+                  <th className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 rounded-tl-2xl sticky left-0 bg-[#123E41] z-10">
                     TIME
                   </th>
-                  {dates.map((date, i) => (
+                  {[
+                    ...Array(7)
+                      .fill()
+                      .map((_, i) => moment("2025-10-07").add(i, "days")),
+                  ].map((date, i) => (
                     <th
                       key={i}
-                      className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 last:rounded-tr-2xl"
+                      className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 whitespace-nowrap last:rounded-tr-2xl"
                     >
                       {date.format("MMM DD YYYY")}
                     </th>
@@ -421,25 +424,31 @@ export default function Currentbookings() {
               <tbody className="bg-white shadow">
                 {times.map((time, rowIndex) => (
                   <tr key={rowIndex}>
-                    <td className="border-b-1 border-[#A8A8A84D] font-rasa text-[#464646] font-[400] text-center text-[18px] py-2">
+                    <td className="border border-[#A8A8A84D] font-rasa text-[#464646] font-[400] text-center text-[18px] py-2 sticky left-0 bg-white z-10">
                       {time}
                     </td>
-                    {dates.map((date, colIndex) => {
+                    {[
+                      ...Array(7)
+                        .fill()
+                        .map((_, i) => moment("2025-10-07").add(i, "days")),
+                    ].map((date, colIndex) => {
                       const appointment = appointments.find(
                         (appt) =>
-                          appt.date === date.format("YYYY-MM-DD") &&
-                          appt.time === time
+                          appt.date === date.format("YYYY-MM-DD") && appt.time === time
                       );
                       const imported = importedAppointments.find(
                         (appt) =>
-                          appt.date === date.format("YYYY-MM-DD") &&
-                          appt.time === time
+                          appt.date === date.format("YYYY-MM-DD") && appt.time === time
                       );
+
                       const borderColors = [
                         "#123E41",
                         "#FF827F",
                         "#FFCC4E",
-                        "#123E41",
+                        "#2E86AB",
+                        "#D74E09",
+                        "#6A0572",
+                        "#008C72",
                       ];
                       const borderColor =
                         borderColors[colIndex % borderColors.length];
@@ -447,29 +456,27 @@ export default function Currentbookings() {
                       return (
                         <td
                           key={colIndex}
-                          className="border border-[#A8A8A84D] h-20  relative"
+                          className="border border-[#A8A8A84D] h-20 min-w-[170px] relative"
                         >
                           {appointment ? (
                             <div
                               className="p-2 h-full cursor-pointer"
                               style={{ borderLeft: `4px solid ${borderColor}` }}
                               onClick={() =>
-                                handleOpenBookingdetails(
-                                  appointment.modalstatus
-                                )
+                                handleOpenBookingdetails(appointment.modalstatus)
                               }
                             >
                               <h6 className="font-[500] font-rasa sm:text-[18px] text-[15px] text-charcoal">
                                 {appointment.title}
                               </h6>
-                              <div className="font-[500] font-rasa sm:text-[18px] text-[15px] text-charcoal">
+                              <div className="font-[500] font-rasa sm:text-[16px] text-[14px] text-charcoal">
                                 {appointment.location}
                               </div>
                               <div className="font-[400] font-rasa sm:text-[15px] text-[12px] text-charcoal">
                                 {appointment.price}
                               </div>
                               <div className="font-[400] font-rasa sm:text-[12px] text-[10px] text-[#00000080]">
-                                {appointment.time} to {appointment.endTime}
+                                {appointment.time} - {appointment.endTime}
                                 {appointment.status && (
                                   <span> ({appointment.status})</span>
                                 )}
@@ -477,22 +484,19 @@ export default function Currentbookings() {
                             </div>
                           ) : imported ? (
                             <div
-                              className="p-2 h-full bg-gray-300 text-gray-600 font-medium"
+                              className="p-2 h-full bg-gray-200 text-gray-700 font-medium"
                               style={{ borderLeft: `4px solid ${borderColor}` }}
                             >
                               Blocked (Imported)
                             </div>
                           ) : (
                             <div
-                              className="w-full h-full cursor-pointer"
+                              className="w-full h-full cursor-pointer hover:bg-gray-100 transition"
                               style={{ borderLeft: `4px solid ${borderColor}` }}
                               onClick={() =>
-                                handleOpenNewBooking(
-                                  date.format("YYYY-MM-DD"),
-                                  time
-                                )
+                                handleOpenNewBooking(date.format("YYYY-MM-DD"), time)
                               }
-                            ></div>
+                            />
                           )}
                         </td>
                       );
@@ -502,6 +506,7 @@ export default function Currentbookings() {
               </tbody>
             </table>
           </div>
+
         </div>
         <div className="lg:w-fit w-full sm:max-w-1/3">
           <RightDivAppointment
