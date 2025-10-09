@@ -102,11 +102,11 @@ export default function Pastbookings() {
         onClose={() => setModalOpen2(false)}
       />
 
-      <div className="flex flex-col lg:flex-row w-full gap-4">
+      <div className="flex flex-col lg:flex-row w-full gap-4 max-w-full">
         {/* Main Table Section */}
-        <div className="flex-1 overflow-x-auto">
+        <div className="flex-1 overflow-x-auto lg:max-w-[calc(100%-400px)]">
           {/* Tabs */}
-          <div className="flex flex-wrap w-full overflow-hidden justify-center sm:justify-between gap-2 sm:gap-1 mb-3">
+          <div className="flex flex-wrap w-full justify-center sm:justify-between gap-2 sm:gap-1 mb-3">
             {Object.keys(routeMapping).map((item, index) => (
               <Link key={index} to={routeMapping[item]}>
                 <button
@@ -128,16 +128,16 @@ export default function Pastbookings() {
 
           {/* Scrollable Table */}
           <div className="overflow-x-auto border border-gray-200 rounded-lg shadow-sm scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
-            <table className="min-w-[900px] xl:min-w-full border-collapse">
+            <table className="w-full table-auto border-collapse lg:min-w-0">
               <thead className="bg-[#123E41]">
                 <tr>
-                  <th className="font-[700] font-rasa text-[15px] sm:text-[18px] text-[#FAF9F6] p-2 rounded-tl-2xl sticky left-0 bg-[#123E41] z-10">
+                  <th className="font-[700] font-rasa text-[15px] sm:text-[18px] text-[#FAF9F6] p-2 rounded-tl-2xl sticky left-0 bg-[#123E41] z-10 min-w-[80px]">
                     TIME
                   </th>
                   {dates.map((date, i) => (
                     <th
                       key={i}
-                      className="font-[700] font-rasa text-[15px] sm:text-[18px] text-[#FAF9F6] p-2 whitespace-nowrap"
+                      className="font-[700] font-rasa text-[15px] sm:text-[18px] text-[#FAF9F6] p-2 whitespace-nowrap min-w-[100px]"
                     >
                       {date.format("MMM DD YYYY")}
                     </th>
@@ -147,7 +147,7 @@ export default function Pastbookings() {
               <tbody className="bg-white">
                 {times.map((time, rowIndex) => (
                   <tr key={rowIndex}>
-                    <td className="border border-[#A8A8A84D] text-center text-[16px] py-2 font-rasa font-[400] text-[#464646] sticky left-0 bg-white z-10">
+                    <td className="border border-[#A8A8A84D] text-center text-[16px] py-2 font-rasa font-[400] text-[#464646] sticky left-0 bg-white z-10 min-w-[80px]">
                       {time}
                     </td>
                     {dates.map((date, colIndex) => {
@@ -171,7 +171,7 @@ export default function Pastbookings() {
                       return (
                         <td
                           key={colIndex}
-                          className="border border-[#A8A8A84D] h-20 min-w-[180px]"
+                          className="border border-[#A8A8A84D] h-20 min-w-[100px]"
                         >
                           {appointment ? (
                             <div
@@ -209,8 +209,8 @@ export default function Pastbookings() {
         </div>
 
         {/* Right Sidebar */}
-        <div className="lg:w-fit w-full sm:max-w-1/3">
-          <RightDivAppointment />
+        <div className="lg:w-[280px] w-full sm:max-w-[280px] flex-shrink-0">
+          <RightDivAppointment appointments={appointments} />
         </div>
       </div>
     </ClientDashboardLayout>
