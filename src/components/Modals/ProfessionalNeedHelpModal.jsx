@@ -4,7 +4,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const options = [
-  "I’m here, but provider is not",
+  "I’m here, but Provider/client is not responding",
   "I feel unsafe or uncomfortable",
   "I can’t find the location",
   "Provider is not responding",
@@ -28,7 +28,7 @@ export const ProfessionalNeedHelpBookingDetailsModal = ({
 
   return (
     <div className="fixed inset-0  bg-opacity-40 z-30 flex items-center justify-center">
-      <div className="bg-white rounded-[10px] w-full sm:max-w-2xl max-w-md p-3 shadow-xl h-[80vh] overflow-auto">
+      <div className="bg-white rounded-[10px] w-full sm:max-w-2xl max-w-md p-3 shadow-xl h-[70vh] overflow-auto">
         {/* header  */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
