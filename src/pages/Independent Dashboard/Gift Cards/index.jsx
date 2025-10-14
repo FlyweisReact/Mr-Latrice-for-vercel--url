@@ -48,6 +48,10 @@ const IndependentGiftCards = () => {
         setGiftCard(true)
     }
 
+    const handleopenpayment = () => {
+        setModalOpen2(false)
+        setModalOpen4(true)
+    }
 
     return (
         <IndependentDashboardLayout title="Active Gift Cards"
@@ -129,6 +133,8 @@ const IndependentGiftCards = () => {
                 onClose={() => setModalOpen2(false)}
                 handleopengofirst={handleopengofirst}
                 handleopenthird={handleopenthird}
+                handleopenpayment={handleopenpayment}
+
             />
             <ReviewandConfirm
                 isOpen={isModalOpen3}
