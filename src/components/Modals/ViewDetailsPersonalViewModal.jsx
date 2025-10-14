@@ -16,7 +16,7 @@ export const ViewDetailsPersonalViewModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute w-full h-full bg-black/50 z-50"></div>
-      <div className="w-full md:w-[calc(100%-260px)] h-full flex items-center justify-center z-60">
+      <div className="w-full md:w-[calc(100%-260px)] h-full flex items-center justify-center z-60 ">
         <div className="bg-white rounded-[10px] w-full max-w-sm sm:max-w-xl p-3 shadow-xl h-[70vh] overflow-auto relative">
           <div className="flex items-center gap-2">
             <IoClose
@@ -28,7 +28,7 @@ export const ViewDetailsPersonalViewModal = ({
             </h2>
           </div>
 
-          <div className="space-y-4 mt-3">
+          <div className="space-y-4 mt-10">
             <div className="flex items-start mb-5">
               <img
                 src={img36}
@@ -105,10 +105,10 @@ export const ViewDetailsPersonalViewModal = ({
               </>
             )}
 
-            <div className="flex justify-center">
+            <div className="flex justify-center underline">
               <Link
                 to="/dashboard/appointments/current-bookings"
-                className="cursor-pointer sm:text-[25px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa text-center underline"
+                className="cursor-pointer sm:text-[25px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa text-center"
               >
                 See appointment
               </Link>
