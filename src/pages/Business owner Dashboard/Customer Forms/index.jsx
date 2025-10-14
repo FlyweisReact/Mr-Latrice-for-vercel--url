@@ -68,7 +68,7 @@ const BusinessCustomerForms = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setCustimerCard(true);
-    }, 1000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -195,7 +195,7 @@ const BusinessCustomerForms = () => {
               </p>
 
               <div className="w-full cursor-pointer mt-5 border-2 border-[#2F2F2F] px-2.5 py-4 rounded-[16px] sm:text-[20px] text-[15px] font-[600] text-charcoal text-center font-rasa underline">
-                Heed help? Learn how
+                Need help? Learn how
               </div>
             </div>
           )

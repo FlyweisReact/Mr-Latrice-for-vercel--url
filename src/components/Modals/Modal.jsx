@@ -340,11 +340,10 @@ const AddServiceModal = ({
       />
       <div
         className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-colors duration-300
-            ${
-              services[key]
-                ? "bg-[#FF827F]"
-                : "bg-[#D9D9D9] border border-[#2F2F2F]"
-            }`}
+            ${services[key]
+            ? "bg-[#FF827F]"
+            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+          }`}
       >
         {services[key] && (
           <svg
@@ -570,11 +569,10 @@ const AddServiceDetailsModal = ({
       />
       <div
         className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-colors duration-300
-            ${
-              services[key]
-                ? "bg-[#FF827F]"
-                : "bg-[#D9D9D9] border border-[#2F2F2F]"
-            }`}
+            ${services[key]
+            ? "bg-[#FF827F]"
+            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+          }`}
       >
         {services[key] && (
           <svg
@@ -1098,20 +1096,18 @@ const AddSelectTargetModal = ({
               {options.map((option) => (
                 <div
                   key={option.label}
-                  className={`bg-[#FAF9F6] w-full flex flex-col items-center justify-center gap-2 sm:h-[150px] h-fit p-3 sm:p-0 rounded-[10px] cursor-pointer border-4 relative ${
-                    selectedOption === option.label
-                      ? "border-[#FF827F]"
-                      : "border-[#2F2F2F66]"
-                  }`}
+                  className={`bg-[#FAF9F6] w-full flex flex-col items-center justify-center gap-2 sm:h-[150px] h-fit p-3 sm:p-0 rounded-[10px] cursor-pointer border-4 relative ${selectedOption === option.label
+                    ? "border-[#FF827F]"
+                    : "border-[#2F2F2F66]"
+                    }`}
                   onClick={() => setSelectedOption(option.label)}
                 >
                   {option.icon}
                   <h6
-                    className={`font-sansation font-[700] sm:text-[20px] text-[15px] ${
-                      selectedOption === option.label
-                        ? "text-[#F67067]"
-                        : "text-charcoal"
-                    }`}
+                    className={`font-sansation font-[700] sm:text-[20px] text-[15px] ${selectedOption === option.label
+                      ? "text-[#F67067]"
+                      : "text-charcoal"
+                      }`}
                   >
                     {option.label}
                   </h6>
@@ -1143,9 +1139,8 @@ const AddSelectTargetModal = ({
                     onChange={() => setValue(true)}
                   />
                   <span
-                    className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                      value === true ? "border-[#F67067]" : "border-[#2F2F2F]"
-                    } border`}
+                    className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value === true ? "border-[#F67067]" : "border-[#2F2F2F]"
+                      } border`}
                   ></span>
                 </span>
               </label>
@@ -1163,9 +1158,8 @@ const AddSelectTargetModal = ({
                     onChange={() => setValue(false)}
                   />
                   <span
-                    className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                      value === false ? "border-[#F67067]" : "border-[#2F2F2F]"
-                    } border`}
+                    className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value === false ? "border-[#F67067]" : "border-[#2F2F2F]"
+                      } border`}
                   ></span>
                 </span>
               </label>
@@ -1223,11 +1217,10 @@ const AddSelectTargetModal = ({
                         onChange={() => setValue1(true)}
                       />
                       <span
-                        className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                          value1 === true
-                            ? "border-[#F67067]"
-                            : "border-[#2F2F2F]"
-                        } border`}
+                        className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value1 === true
+                          ? "border-[#F67067]"
+                          : "border-[#2F2F2F]"
+                          } border`}
                       ></span>
                     </span>
                   </label>
@@ -1245,11 +1238,10 @@ const AddSelectTargetModal = ({
                         onChange={() => setValue1(false)}
                       />
                       <span
-                        className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                          value1 === false
-                            ? "border-[#F67067]"
-                            : "border-[#2F2F2F]"
-                        } border`}
+                        className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value1 === false
+                          ? "border-[#F67067]"
+                          : "border-[#2F2F2F]"
+                          } border`}
                       ></span>
                     </span>
                   </label>
@@ -1275,9 +1267,8 @@ const AddSelectTargetModal = ({
                     onChange={() => setValue2(true)}
                   />
                   <span
-                    className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                      value2 === true ? "border-[#F67067]" : "border-[#2F2F2F]"
-                    } border`}
+                    className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value2 === true ? "border-[#F67067]" : "border-[#2F2F2F]"
+                      } border`}
                   ></span>
                 </span>
               </label>
@@ -1295,9 +1286,8 @@ const AddSelectTargetModal = ({
                     onChange={() => setValue2(false)}
                   />
                   <span
-                    className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                      value2 === false ? "border-[#F67067]" : "border-[#2F2F2F]"
-                    } border`}
+                    className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value2 === false ? "border-[#F67067]" : "border-[#2F2F2F]"
+                      } border`}
                   ></span>
                 </span>
               </label>
@@ -2159,11 +2149,10 @@ const AddGiftCardDateandTime = ({
                       />
                       <div
                         className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-colors duration-300
-                    ${
-                      services[key]
-                        ? "bg-[#FF827F]"
-                        : "bg-[#D9D9D9] border border-[#2F2F2F]"
-                    }`}
+                    ${services[key]
+                            ? "bg-[#FF827F]"
+                            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+                          }`}
                       >
                         {services[key] && (
                           <svg
@@ -2335,11 +2324,10 @@ const ReviewandConfirm = ({
                   key={persantage}
                   onClick={() => setSelected(persantage)}
                   className={`px-2 py-1 rounded-md text-[#000000] sm:text-[15px] text-[12px] font-[700] font-inter transition-all duration-200
-        ${
-          selected === persantage
-            ? "bg-[#FF827F]"
-            : "border border-[#2F2F2F80] bg-white"
-        }`}
+        ${selected === persantage
+                      ? "bg-[#FF827F]"
+                      : "border border-[#2F2F2F80] bg-white"
+                    }`}
                 >
                   {persantage}
                 </button>
@@ -2463,11 +2451,10 @@ const Makepayment = ({ isOpen, onClose, handleopenfivth, handlebackfouth }) => {
                   >
                     <div
                       className={`w-[28px] h-[28px] rounded-full
-                                        ${
-                                          selected === option
-                                            ? "bg-[#34A853]"
-                                            : "bg-[#D9D9D9]"
-                                        }`}
+                                        ${selected === option
+                          ? "bg-[#34A853]"
+                          : "bg-[#D9D9D9]"
+                        }`}
                     ></div>
                     <p className="sm:text-[17px] text-[15px] text-[#121111] font-[500]">
                       {option}
@@ -3386,11 +3373,10 @@ const ExtraMakepayment = ({
                   >
                     <div
                       className={`w-[28px] h-[28px] rounded-full
-                                        ${
-                                          selected === option
-                                            ? "bg-[#34A853]"
-                                            : "bg-[#D9D9D9]"
-                                        }`}
+                                        ${selected === option
+                          ? "bg-[#34A853]"
+                          : "bg-[#D9D9D9]"
+                        }`}
                     ></div>
                     <p className="sm:text-[17px] text-[15px] text-[#121111] font-[500]">
                       {option}
@@ -6826,11 +6812,10 @@ const AddSoloneAmenitiesModal = ({ isOpen, onClose, handleopenforthmodal }) => {
       />
       <div
         className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-colors duration-300
-            ${
-              services[key]
-                ? "bg-[#FF827F]"
-                : "bg-[#D9D9D9] border border-[#2F2F2F]"
-            }`}
+            ${services[key]
+            ? "bg-[#FF827F]"
+            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+          }`}
       >
         {services[key] && (
           <svg
@@ -7903,11 +7888,10 @@ const SalonDetailsDateandTime = ({
                       />
                       <div
                         className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-colors duration-300
-                    ${
-                      services[key]
-                        ? "bg-[#FF827F]"
-                        : "bg-[#D9D9D9] border border-[#2F2F2F]"
-                    }`}
+                    ${services[key]
+                            ? "bg-[#FF827F]"
+                            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+                          }`}
                       >
                         {services[key] && (
                           <svg
@@ -7976,7 +7960,7 @@ const SalonDetailsDateandTime = ({
   );
 };
 
-const SalonDetailsPaymenSuccessModal = ({ isOpen, handlshowgiftcard }) => {
+const SalonDetailsPaymenSuccessModal = ({ isOpen, handlshowgiftcard, onClose }) => {
   if (!isOpen) return null;
 
   const navigate = useNavigate();
@@ -7984,6 +7968,13 @@ const SalonDetailsPaymenSuccessModal = ({ isOpen, handlshowgiftcard }) => {
   return (
     <div className="fixed inset-0  bg-opacity-40 z-30 flex items-center justify-center">
       <div className="bg-white w-full max-w-sm sm:max-w-xl p-3 shadow-xl ">
+        {/* close button */}
+        <div className="flex justify-end">
+          <IoMdCloseCircleOutline
+            className="cursor-pointer text-xl text-[#000000]"
+            onClick={onClose}
+          />
+        </div>
         <div className="flex items-center flex-col justify-center">
           <img src={img3} alt="" className="w-[200px] h-[200px]" />
           <h6 className="font-rasa font-[600] sm:text-[30px] text-[25px] text-charcoal text-center">
@@ -8201,11 +8192,10 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
                       />
                       <div
                         className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-colors duration-300
-                    ${
-                      services[key]
-                        ? "bg-[#FF827F]"
-                        : "bg-[#D9D9D9] border border-[#2F2F2F]"
-                    }`}
+                    ${services[key]
+                            ? "bg-[#FF827F]"
+                            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+                          }`}
                       >
                         {services[key] && (
                           <svg
@@ -8281,9 +8271,8 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
                       onChange={() => setValue(true)}
                     />
                     <span
-                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                        value === true ? "border-[#F67067]" : "border-[#2F2F2F]"
-                      } border`}
+                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value === true ? "border-[#F67067]" : "border-[#2F2F2F]"
+                        } border`}
                     ></span>
                   </span>
                 </label>
@@ -8301,11 +8290,10 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
                       onChange={() => setValue(false)}
                     />
                     <span
-                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                        value === false
-                          ? "border-[#F67067]"
-                          : "border-[#2F2F2F]"
-                      } border`}
+                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value === false
+                        ? "border-[#F67067]"
+                        : "border-[#2F2F2F]"
+                        } border`}
                     ></span>
                   </span>
                 </label>
@@ -8330,11 +8318,10 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
                       onChange={() => setValue1(true)}
                     />
                     <span
-                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                        value1 === true
-                          ? "border-[#F67067]"
-                          : "border-[#2F2F2F]"
-                      } border`}
+                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value1 === true
+                        ? "border-[#F67067]"
+                        : "border-[#2F2F2F]"
+                        } border`}
                     ></span>
                   </span>
                 </label>
@@ -8352,11 +8339,10 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
                       onChange={() => setValue1(false)}
                     />
                     <span
-                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                        value1 === false
-                          ? "border-[#F67067]"
-                          : "border-[#2F2F2F]"
-                      } border`}
+                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value1 === false
+                        ? "border-[#F67067]"
+                        : "border-[#2F2F2F]"
+                        } border`}
                     ></span>
                   </span>
                 </label>
@@ -8399,11 +8385,10 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
                           onChange={() => setValue2(true)}
                         />
                         <span
-                          className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                            value2 === true
-                              ? "border-[#F67067]"
-                              : "border-[#2F2F2F]"
-                          } border`}
+                          className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value2 === true
+                            ? "border-[#F67067]"
+                            : "border-[#2F2F2F]"
+                            } border`}
                         ></span>
                       </span>
                     </label>
@@ -8421,11 +8406,10 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
                           onChange={() => setValue2(false)}
                         />
                         <span
-                          className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                            value2 === false
-                              ? "border-[#F67067]"
-                              : "border-[#2F2F2F]"
-                          } border`}
+                          className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value2 === false
+                            ? "border-[#F67067]"
+                            : "border-[#2F2F2F]"
+                            } border`}
                         ></span>
                       </span>
                     </label>
@@ -8452,11 +8436,10 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
                 onChange={() => setIsChecked((prev) => !prev)}
               />
               <div
-                className={`w-[20px] h-[20px] rounded-sm flex items-center justify-center transition-colors duration-300 ${
-                  isChecked
-                    ? "bg-[#FF827F]"
-                    : "bg-[#D9D9D9] border border-[#2F2F2F]"
-                }`}
+                className={`w-[20px] h-[20px] rounded-sm flex items-center justify-center transition-colors duration-300 ${isChecked
+                  ? "bg-[#FF827F]"
+                  : "bg-[#D9D9D9] border border-[#2F2F2F]"
+                  }`}
               >
                 {isChecked && (
                   <svg
@@ -8709,11 +8692,10 @@ const FullyBookedRequestFormModal = ({
       />
       <div
         className={`w-[24px] h-[24px] rounded-sm flex items-center justify-center transition-colors duration-300
-            ${
-              days[key]
-                ? "bg-[#FF827F]"
-                : "bg-[#D9D9D9] border border-[#2F2F2F]"
-            }`}
+            ${days[key]
+            ? "bg-[#FF827F]"
+            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+          }`}
       >
         {days[key] && (
           <svg
@@ -9183,8 +9165,8 @@ const CalendarModal = ({ isOpen, onClose, handleOpenNewTime }) => {
               calendarClassName="custom-calendar"
               dayClassName={(date) =>
                 date.getDate() >= 6 &&
-                date.getDate() <= 12 &&
-                date?.getMonth() === 5
+                  date.getDate() <= 12 &&
+                  date?.getMonth() === 5
                   ? "highlight-range"
                   : ""
               }
@@ -9566,11 +9548,10 @@ const BookingCalendarModal = ({
                       />
                       <div
                         className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-colors duration-300
-                                                            ${
-                                                              services[key]
-                                                                ? "bg-[#FF827F]"
-                                                                : "bg-[#D9D9D9] border border-[#2F2F2F]"
-                                                            }`}
+                                                            ${services[key]
+                            ? "bg-[#FF827F]"
+                            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+                          }`}
                       >
                         {services[key] && (
                           <svg
@@ -9664,11 +9645,10 @@ const WaitingBookingFormModal = ({ isOpen, onClose, handleopenthirdmodal }) => {
       />
       <div
         className={`w-[24px] h-[24px] rounded-sm flex items-center justify-center transition-colors duration-300
-            ${
-              days[key]
-                ? "bg-[#FF827F]"
-                : "bg-[#D9D9D9] border border-[#2F2F2F]"
-            }`}
+            ${days[key]
+            ? "bg-[#FF827F]"
+            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+          }`}
       >
         {days[key] && (
           <svg
@@ -9898,88 +9878,184 @@ const PreAppointmentFormModal = ({
 
   const initialFormQuestions = [
     {
-      id: "goal",
-      text: "Goals / Expectations for this service",
+      id: 'goal',
+      text: 'Goals / Expectations for this service',
       required: true,
       optional: false,
-      answerType: "select",
+      answerType: 'select',
     },
     {
-      id: "allergies",
-      text: "Do you have any allergies or sensitivities?",
+      id: 'allergies',
+      text: 'Do you have any allergies or sensitivities?',
       required: false,
       optional: true,
-      answerType: "yesno",
+      answerType: 'yesno',
     },
     {
-      id: "sensitive",
-      text: "Are you tender-headed or sensitive to tension",
+      id: 'sensitive',
+      text: 'Are you tender-headed or sensitive to tension',
       required: false,
       optional: false,
-      answerType: "yesno",
+      answerType: 'yesno',
     },
     {
-      id: "washed",
-      text: "Will you arrive with hair pre-washed and detangles?",
+      id: 'washed',
+      text: 'Will you arrive with hair pre-washed and detangled?',
       required: false,
       optional: true,
-      answerType: "yesno",
+      answerType: 'yesno',
     },
     {
-      id: "pregnant",
-      text: "Are you pregnant or nursing?",
+      id: 'pregnant',
+      text: 'Are you pregnant or nursing?',
       required: false,
       optional: true,
-      answerType: "yesno",
+      answerType: 'yesno',
     },
     {
-      id: "upload",
-      text: "Upload Inspiration photo",
+      id: 'upload',
+      text: 'Upload Inspiration photo',
       required: false,
       optional: true,
-      answerType: "upload",
+      answerType: 'upload',
     },
   ];
 
   const availableQuestions = [
     {
       id: 1,
-      category: "Hair Service",
+      category: 'Cuts, Color & Silk Press',
       text: [
-        "What is your current hair routine?",
-        "Are you using any oils, serums, or treatments?",
+        'Have you recently had any chemical treatments?',
+        'What is your current hair texture and length?',
+        'Do you prefer your ends blunt, layered, or feathered?',
+        'Are you transitioning from natural to relaxed or vice versa?',
+        'Do you want heat protectant used during styling?',
+        'Do you have any color inspiration photos?',
       ],
     },
     {
       id: 2,
-      category: "Skincare & Spa",
+      category: 'Locs, Hair Care & Treatments',
       text: [
-        "Do you have any skin conditions (eczema, et.?)",
-        "Have you had any recent treatments or facials?",
+        'Are your locs fully matured or newly started?',
+        'When was your last retwist or detox?',
+        'Do you have product buildup, dandruff, or scalp irritation?',
+        'What length are your locs?',
+        'Would you like additional styling after your retwist?',
+        'Do you use any oils or products we should avoid?',
       ],
     },
     {
       id: 3,
-      category: "Glam & Meakeup",
+      category: 'Men’s Grooming Services',
       text: [
-        "Is this service for an event or photoshoot?",
-        "Do you prefer a matte, dewy, or natural finish? ",
+        'Would you like a hot towel included in your shave?',
+        'Do you prefer a fade, taper, or even cut?',
+        'Are you allergic to any grooming products?',
+        'Do you want beard trimming or sculpting included?',
+        'Is this cut for a special occasion or event?',
       ],
     },
     {
       id: 4,
-      category: "Universal Preferences?",
+      category: 'Nail Services',
       text: [
-        "Is anyone accompanying you?",
-        "Do you have fragrance sensitivity?",
-        "Any tension or discomfort areas to avoid?",
+        'Do you prefer acrylic, gel, or natural polish?',
+        'What shape would you like (square, almond, coffin, etc.)?',
+        'Will you arrive with previous product on your nails?',
+        'Do you have any known nail sensitivities or fungal issues?',
+        'Are you booking for a refill or full set?',
+      ],
+    },
+    {
+      id: 5,
+      category: 'Makeup & Glam Services',
+      text: [
+        'What type of look are you going for (soft glam, full glam, editorial)?',
+        'Do you have any makeup allergies or sensitivities?',
+        'Do you prefer matte, dewy, or natural finish?',
+        'Will you arrive with a clean, moisturized face?',
+        'Is this look for a photoshoot or special event?',
+        'Do you need lashes included?',
+      ],
+    },
+    {
+      id: 6,
+      category: 'Skincare Services',
+      text: [
+        'Do you have any skin conditions (eczema, rosacea, acne)?',
+        'Are you currently using retinol, AHAs, or any prescribed topicals?',
+        'Are you pregnant or nursing?',
+        'Have you had any facials in the last 30 days?',
+        'Do you have sensitive skin or fragrance intolerance?',
+        'What are your skincare goals for this session?',
+      ],
+    },
+    {
+      id: 7,
+      category: 'Spa Therapy & Relaxation',
+      text: [
+        'Are there any areas of tension you’d like us to focus on?',
+        'Do you prefer light, medium, or firm pressure?',
+        'Are you currently under any medical care (injuries, surgery)?',
+        'Do you want a quiet session or open to light conversation?',
+        'Do you have a fragrance-free preference?',
+        'Do you prefer aromatherapy included or not?',
+      ],
+    },
+    {
+      id: 8,
+      category: 'Lash & Brow Enhancements',
+      text: [
+        'Are you currently wearing lash extensions or strip lashes?',
+        'Do you have a preferred lash style (classic, hybrid, volume)?',
+        'Have you had a reaction to tint, glue, or lamination in the past?',
+        'Do you want brows shaped, laminated, or tinted?',
+        'Are you using any lash serums?',
+        'Will you arrive with makeup or mascara on?',
+      ],
+    },
+    {
+      id: 9,
+      category: 'Bridal & Event Packages',
+      text: [
+        'What is the event date and time?',
+        'Will you need touch-ups throughout the day?',
+        'How many people are being serviced?',
+        'Will you be on-site or coming to the studio?',
+        'Do you have a mood board or inspiration photos?',
+        'What’s your theme, color palette, or dress style?',
+      ],
+    },
+    {
+      id: 10,
+      category: 'Mobile Beauty Services',
+      text: [
+        'What is the service address/location?',
+        'Is there free and safe parking available?',
+        'Will the service be performed indoors or outdoors?',
+        'Do you have any pets or allergies the provider should be aware of?',
+        'Is there access to a power outlet and water if needed?',
+        'Will anyone else be present during the service?',
+      ],
+    },
+    {
+      id: 11,
+      category: 'Universal Preferences',
+      text: [
+        'Do you want a quiet appointment or open to chatting?',
+        'Are you bringing someone with you?',
+        'Do you have fragrance sensitivity?',
+        'Are you tender-headed or prone to irritation?',
+        'Do you need wheelchair or mobility accommodations?',
       ],
     },
   ];
 
   const [formQuestions, setFormQuestions] = useState(initialFormQuestions);
-  const [search, setSearch] = useState("");
-  const [yesNoAnswers, setYesNoAnswers] = useState({}); // 🗝️ stores answers for each yes/no
+  const [search, setSearch] = useState('');
+  const [yesNoAnswers, setYesNoAnswers] = useState({});
 
   const addQuestion = (itemText) => {
     setFormQuestions([
@@ -9988,7 +10064,7 @@ const PreAppointmentFormModal = ({
         id: Date.now() + Math.random(),
         text: itemText,
         required: false,
-        answerType: "text",
+        answerType: itemText.toLowerCase().includes('yes') || itemText.toLowerCase().includes('are') || itemText.toLowerCase().includes('do') || itemText.toLowerCase().includes('is') || itemText.toLowerCase().includes('will') || itemText.toLowerCase().includes('would') ? 'yesno' : 'text',
       },
     ]);
   };
@@ -10006,8 +10082,8 @@ const PreAppointmentFormModal = ({
   };
 
   return (
-    <div className="fixed inset-0  bg-opacity-40 z-30 flex items-center justify-center">
-      <div className="bg-white rounded-[10px] w-full max-w-sm sm:max-w-2xl p-3 shadow-xl overflow-y-auto h-[80vh] relative">
+    <div className="fixed inset-0 bg-opacity-40 z-30 flex items-center justify-center">
+      <div className="bg-white rounded-[10px] w-[50vw] p-3 shadow-xl overflow-y-auto h-[80vh] relative">
         {/* Header */}
         <div className="flex items-center gap-2 mb-2">
           <IoClose
@@ -10024,10 +10100,10 @@ const PreAppointmentFormModal = ({
         </p>
 
         {/* Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {/* Left: Selected Questions */}
-          <div className="md:col-span-2">
-            <div className="border border-[#2F2F2F] rounded-[10px] p-4">
+          <div className="w-full">
+            <div className="border border-[#2F2F2F] rounded-[10px] p-4 overflow-y-auto max-h-[60vh]">
               {formQuestions.map((q) => (
                 <div key={q.id} className="mb-5 flex items-start gap-1">
                   <IoClose
@@ -10036,7 +10112,7 @@ const PreAppointmentFormModal = ({
                   />
                   <div>
                     <p className="sm:text-[17px] text-[15px] font-[700] leading-[20px] text-charcoal font-sansation">
-                      {q.text}{" "}
+                      {q.text}{' '}
                       {q.required && (
                         <span className="font-[400]">(Required)</span>
                       )}
@@ -10045,7 +10121,7 @@ const PreAppointmentFormModal = ({
                       )}
                     </p>
 
-                    {q.answerType === "select" && (
+                    {q.answerType === 'select' && (
                       <select className="mt-2 border border-[#2F2F2F] p-2 rounded-[6px] w-full">
                         <option>Select...</option>
                         <option>Option 1</option>
@@ -10053,9 +10129,9 @@ const PreAppointmentFormModal = ({
                       </select>
                     )}
 
-                    {q.answerType === "yesno" && (
+                    {q.answerType === 'yesno' && (
                       <div className="flex space-x-6 mt-2">
-                        {["Yes", "No"].map((opt) => (
+                        {['Yes', 'No'].map((opt) => (
                           <label
                             key={opt}
                             className="flex items-center gap-1 font-[500] font-inter sm:text-[16px] text-[14px] text-[#2F2F2F] cursor-pointer"
@@ -10066,7 +10142,7 @@ const PreAppointmentFormModal = ({
                               value={opt}
                               checked={yesNoAnswers[q.id] === opt}
                               onChange={() => handleYesNoChange(q.id, opt)}
-                              className="accent-teal-800 "
+                              className="accent-teal-800"
                             />
                             {opt}
                           </label>
@@ -10074,16 +10150,16 @@ const PreAppointmentFormModal = ({
                       </div>
                     )}
 
-                    {q.answerType === "upload" && (
+                    {q.answerType === 'upload' && (
                       <div className="mt-2">
-                        <div className="flex itmes-center justify-center gap-2 cursor-pointer border border-[#2F2F2F] bg-[#FFFFFF] px-3 py-1 rounded-[6px] sm:text-[16px] text-[12px] font-[700] leading-[20px] text-charcoal font-sansation">
+                        <div className="flex items-center justify-center gap-2 cursor-pointer border border-[#2F2F2F] bg-[#FFFFFF] px-3 py-1 rounded-[6px] sm:text-[16px] text-[12px] font-[700] leading-[20px] text-charcoal font-sansation">
                           <FaRegImage />
                           Upload
                         </div>
                       </div>
                     )}
 
-                    {q.answerType === "text" && (
+                    {q.answerType === 'text' && (
                       <input
                         type="text"
                         placeholder="Answer here..."
@@ -10095,57 +10171,59 @@ const PreAppointmentFormModal = ({
               ))}
             </div>
             <div className="flex justify-center mt-4 gap-2">
-              <div className="border border-[#2F2F2F] bg-[#FFFFFF] cursor-pointer sm:text-[16px] text-[14px] font-[700] text-charcoal font-sansation  px-5 py-3 rounded-[6px]">
+              <div className="border border-[#2F2F2F] bg-[#FFFFFF] cursor-pointer sm:text-[16px] text-[14px] font-[700] text-charcoal font-sansation px-5 py-3 rounded-[6px]">
                 Preview
               </div>
-              <div className="border border-[#2F2F2F] bg-[#FFFFFF] cursor-pointer sm:text-[16px] text-[14px] font-[700] text-charcoal font-sansation  px-5 py-3 rounded-[6px]">
+              <div className="border border-[#2F2F2F] bg-[#FFFFFF] cursor-pointer sm:text-[16px] text-[14px] font-[700] text-charcoal font-sansation px-5 py-3 rounded-[6px]">
                 Save Template
               </div>
-              <div className="border border-[#2F2F2F] bg-[#FFFFFF] cursor-pointer sm:text-[16px] text-[14px] font-[700] text-charcoal font-sansation  px-5 py-3 rounded-[6px]">
+              <div className="border border-[#2F2F2F] bg-[#FFFFFF] cursor-pointer sm:text-[16px] text-[14px] font-[700] text-charcoal font-sansation px-5 py-3 rounded-[6px]">
                 Send Form
               </div>
             </div>
           </div>
 
           {/* Right: Available Questions */}
-          <div className="border rounded p-4">
-            <h3 className="sm:text-[16px] text-[15px] font-[700] text-charcoal font-sansation mb-2">
-              Add More Questions to Your Form:
-            </h3>
-            <div className="space-y-2 mb-2">
-              {filteredAvailable.map((q) => (
-                <div key={q.id}>
-                  <h6 className="sm:text-[15px] text-[14px] font-[700] text-charcoal font-sansation mb-1">
-                    {q.category}
-                  </h6>
-                  {q.text.map((item, index) => (
-                    <div
-                      key={index}
-                      className="sm:text-[13px] text-[12px] font-[700] leading-[20px] text-charcoal font-sansation flex items-center gap-1 mb-1"
-                    >
-                      <LuPlus
-                        color="#000000CC"
-                        size={20}
-                        onClick={() => addQuestion(item)}
-                        className="cursor-pointer"
-                      />
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
+          <div className="w-full">
+            <div className="border rounded p-4 overflow-y-auto max-h-[60vh]">
+              <h3 className="sm:text-[16px] text-[15px] font-[700] text-charcoal font-sansation mb-2">
+                Add More Questions to Your Form:
+              </h3>
+              <div className="space-y-2 mb-2">
+                {filteredAvailable.map((q) => (
+                  <div key={q.id}>
+                    <h6 className="sm:text-[15px] text-[14px] font-[700] text-charcoal font-sansation mb-1">
+                      {q.category}
+                    </h6>
+                    {q.text.map((item, index) => (
+                      <div
+                        key={index}
+                        className="sm:text-[13px] text-[12px] font-[700] leading-[20px] text-charcoal font-sansation flex items-center gap-1 mb-1"
+                      >
+                        <LuPlus
+                          color="#000000CC"
+                          size={20}
+                          onClick={() => addQuestion(item)}
+                          className="cursor-pointer"
+                        />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
 
-            <div className="border-1 border-[#2F2F2F] rounded-[6px] flex items-center h-[34px] ">
-              <input
-                type="text"
-                placeholder="Search..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-[90%] pl-2 outline-none"
-              />
-              <div className="border-l border-[#2F2F2F80] h-[34px] flex items-center justify-center p-1">
-                <FaArrowDown color="#00000080" size={15} />
+              <div className="border-1 border-[#2F2F2F] rounded-[6px] flex items-center h-[34px]">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-[90%] pl-2 outline-none"
+                />
+                <div className="border-l border-[#2F2F2F80] h-[34px] flex items-center justify-center p-1">
+                  <FaArrowDown color="#00000080" size={15} />
+                </div>
               </div>
             </div>
           </div>
@@ -10154,6 +10232,8 @@ const PreAppointmentFormModal = ({
     </div>
   );
 };
+
+export default PreAppointmentFormModal;
 
 const SendWaiverConfirmModal = ({ isOpen, onClose, handleOpenWaiver }) => {
   if (!isOpen) return null;
@@ -10257,11 +10337,10 @@ const SendWaiverModal = ({ isOpen, onClose }) => {
       />
       <div
         className={`w-[24px] h-[24px] rounded-full flex items-center justify-center transition-colors duration-300
-            ${
-              services[key]
-                ? "bg-[#2F2F2F]"
-                : "bg-[#D9D9D9] border border-[#2F2F2F]"
-            }`}
+            ${services[key]
+            ? "bg-[#2F2F2F]"
+            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+          }`}
       >
         {services[key] && (
           <svg
@@ -10812,11 +10891,10 @@ const AddSelectTargetNotificationModal = ({
       />
       <div
         className={`w-[28px] h-[28px] rounded-sm flex items-center justify-center transition-colors duration-300
-            ${
-              services[key]
-                ? "bg-[#FF827F]"
-                : "bg-[#D9D9D9] border border-[#2F2F2F]"
-            }`}
+            ${services[key]
+            ? "bg-[#FF827F]"
+            : "bg-[#D9D9D9] border border-[#2F2F2F]"
+          }`}
       >
         {services[key] && (
           <svg
@@ -10866,20 +10944,18 @@ const AddSelectTargetNotificationModal = ({
                 {options.map((option) => (
                   <div
                     key={option.label}
-                    className={`bg-[#FAF9F6] w-full flex flex-col items-center justify-center gap-2 sm:h-[150px] h-fit p-3 sm:p-0 rounded-[10px] cursor-pointer border-4 relative ${
-                      selectedOption === option.label
-                        ? "border-[#FF827F]"
-                        : "border-[#2F2F2F66]"
-                    }`}
+                    className={`bg-[#FAF9F6] w-full flex flex-col items-center justify-center gap-2 sm:h-[150px] h-fit p-3 sm:p-0 rounded-[10px] cursor-pointer border-4 relative ${selectedOption === option.label
+                      ? "border-[#FF827F]"
+                      : "border-[#2F2F2F66]"
+                      }`}
                     onClick={() => setSelectedOption(option.label)}
                   >
                     {option.icon}
                     <h6
-                      className={`font-sansation font-[700] sm:text-[20px] text-[15px] ${
-                        selectedOption === option.label
-                          ? "text-[#F67067]"
-                          : "text-charcoal"
-                      }`}
+                      className={`font-sansation font-[700] sm:text-[20px] text-[15px] ${selectedOption === option.label
+                        ? "text-[#F67067]"
+                        : "text-charcoal"
+                        }`}
                     >
                       {option.label}
                     </h6>
@@ -10910,11 +10986,10 @@ const AddSelectTargetNotificationModal = ({
                       onChange={() => setValue2(true)}
                     />
                     <span
-                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                        value2 === true
-                          ? "border-[#F67067]"
-                          : "border-[#2F2F2F]"
-                      } border`}
+                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value2 === true
+                        ? "border-[#F67067]"
+                        : "border-[#2F2F2F]"
+                        } border`}
                     ></span>
                   </span>
                 </label>
@@ -10932,11 +11007,10 @@ const AddSelectTargetNotificationModal = ({
                       onChange={() => setValue2(false)}
                     />
                     <span
-                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${
-                        value2 === false
-                          ? "border-[#F67067]"
-                          : "border-[#2F2F2F]"
-                      } border`}
+                      className={`absolute w-5 h-5 inset-0 rounded-full pointer-events-none ${value2 === false
+                        ? "border-[#F67067]"
+                        : "border-[#2F2F2F]"
+                        } border`}
                     ></span>
                   </span>
                 </label>
@@ -11076,11 +11150,10 @@ const NotificationMakepayment = ({
                     >
                       <div
                         className={`w-[28px] h-[28px] rounded-full
-                                        ${
-                                          selected === option
-                                            ? "bg-[#34A853]"
-                                            : "bg-[#D9D9D9]"
-                                        }`}
+                                        ${selected === option
+                            ? "bg-[#34A853]"
+                            : "bg-[#D9D9D9]"
+                          }`}
                       ></div>
                       <p className="sm:text-[17px] text-[15px] text-[#121111] font-[500]">
                         {option}

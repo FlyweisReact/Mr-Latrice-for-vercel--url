@@ -4,10 +4,10 @@ import Kit from "../../assets/images/signin/kit.svg";
 import Google from "../../assets/images/dashboard/img114.png";
 import apple from "../../assets/images/dashboard/img115.png";
 import AuthLayout from "../../components/AuthLayout";
-import { useDispatch } from "react-redux";
-import { useLoginMutation } from "../../redux/api/api";
-import { useProfessionalLoginMutation } from "../../redux/api/Professional/professionalApi";
-import { setCredentials, setProfessionalCredentials } from "../../redux/slices/authSlice";
+// import { useDispatch } from "react-redux";
+// import { useLoginMutation } from "../../redux/api/api";
+// import { useProfessionalLoginMutation } from "../../redux/api/Professional/professionalApi";
+// import { setCredentials, setProfessionalCredentials } from "../../redux/slices/authSlice";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -20,9 +20,9 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState(null);
 
-  const dispatch = useDispatch();
-  const [login, { isLoading: isUserLoading }] = useLoginMutation();
-  const [professionalLogin, { isLoading: isProfessionalLoading }] = useProfessionalLoginMutation();
+  // const dispatch = useDispatch();
+  // const [login, { isLoading: isUserLoading }] = useLoginMutation();
+  // const [professionalLogin, { isLoading: isProfessionalLoading }] = useProfessionalLoginMutation();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -41,31 +41,40 @@ const SignIn = () => {
     e.preventDefault();
     setApiError(null);
 
-    try {
-      const loginMutation = loginType === "USER" ? login : professionalLogin;
-      const res = await loginMutation({
-        email: formData.email,
-        password: formData.password,
-      }).unwrap();
-      dispatch(
-        loginType === "USER"
-          ? setCredentials({ user: res.data, accessToken: res.accessToken })
-          : setProfessionalCredentials({ user: res.data, accessToken: res.accessToken })
-      );
+    // try {
+    //   const loginMutation = loginType === "USER" ? login : professionalLogin;
+    //   const res = await loginMutation({
+    //     email: formData.email,
+    //     password: formData.password,
+    //   }).unwrap();
+    //   dispatch(
+    //     loginType === "USER"
+    //       ? setCredentials({ user: res.data, accessToken: res.accessToken })
+    //       : setProfessionalCredentials({ user: res.data, accessToken: res.accessToken })
+    //   );
 
-      const type = res.data.userType;
-      console.log(type, "fromlogin");
-      if (type === "USER") {
-        navigate("/dashboard/account-setting");
-      } else if (type === "SALOON") {
-        navigate("/business-owner/dashboard/account-setting");
-      } else if (type === "INDEPENDENT") {
-        navigate("/independent/dashboard/account-setting");
-      } else {
-        navigate("/dashboard/account-setting"); // Default to user dashboard
-      }
-    } catch (err) {
-      setApiError(err?.data?.message || "Login failed. Please check your credentials.");
+    //   const type = res.data.userType;
+    //   console.log(type, "fromlogin");
+    //   if (type === "USER") {
+    //     navigate("/dashboard/account-setting");
+    //   } else if (type === "SALOON") {
+    //     navigate("/business-owner/dashboard/account-setting");
+    //   } else if (type === "INDEPENDENT") {
+    //     navigate("/independent/dashboard/account-setting");
+    //   } else {
+    //     navigate("/dashboard/account-setting"); // Default to user dashboard
+    //   }
+    // } catch (err) {
+    //   setApiError(err?.data?.message || "Login failed. Please check your credentials.");
+    // }
+
+    // Navigate based on login type
+    if (loginType === "USER") {
+      navigate("/dashboard/account-setting");
+    } else if (loginType === "PROFESSIONAL") {
+      navigate("/business-owner/dashboard/account-setting");
+    } else if (loginType === "INDEPENDENT") {
+      navigate("/independent/dashboard/account-setting");
     }
   };
 
@@ -105,6 +114,15 @@ const SignIn = () => {
                 }`}
               >
                 Professional Login
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLoginTypeChange("INDEPENDENT")}
+                className={`flex-1 py-2 rounded-md font-medium text-sm sm:text-base transition-colors ${
+                  loginType === "INDEPENDENT" ? "bg-[#FFE4E0] text-secondary" : "bg-gray-200 text-[#2F2F2F]"
+                }`}
+              >
+                Independent Login
               </button>
             </div>
           </div>
@@ -226,10 +244,10 @@ const SignIn = () => {
 
             <button
               type="submit"
-              disabled={isUserLoading || isProfessionalLoading}
+              // disabled={isUserLoading || isProfessionalLoading}
               className="w-full bg-[#FFE4E0] text-secondary font-medium py-2 sm:py-3 rounded-[16px] hover:bg-[#FFD6D0] transition duration-300 shadow-[0px_2px_4px_0px_#00000030] text-sm sm:text-base disabled:opacity-50"
             >
-              {isUserLoading || isProfessionalLoading ? 'Signing in...' : 'Sign In'}
+              Sign In
             </button>
           </form>
 
