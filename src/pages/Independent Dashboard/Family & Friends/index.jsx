@@ -1,6 +1,15 @@
-import React from "react";
-import { useState } from "react";
-import { AddaMember } from "../../../components/Modals/Modal";
+
+
+
+import React, { useState } from "react";
+import {
+  AcceptMemberModal,
+  AddaMember,
+  DeactivateMemberModal,
+  DeclineMemberModal,
+  MakePaymentModal,
+  SalonDetailsPaymenSuccessModal,
+} from "../../../components/Modals/Modal";
 import img from "../../../assets/images/dashboard/img4.png";
 import FamilyCards from "./FamilyCards";
 import IndependentDashboardLayout from "../../../components/DashbaordLayout/Independent Dashbaord";
@@ -14,6 +23,8 @@ const data = {
       timeRemaining: "",
       service: "",
       paymentStatus: "",
+      btn1: "Change Payment Method",
+      btn2: "Cancel Payment Request",
     },
     {
       id: 2,
@@ -22,6 +33,8 @@ const data = {
       timeRemaining: "27:45",
       service: "Hair Service",
       paymentStatus: "Pending Payment",
+      btn1: "Pay Now",
+      btn2: "Decline Request",
     },
   ],
   pendingInvitations: [
@@ -51,11 +64,50 @@ const data = {
 
 const BusinessFamilyandFriends = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isDeactivateModalOpen, setDeactivateModalOpen] = useState(false);
+  const [isAcceptModalOpen, setAcceptModalOpen] = useState(false);
+  const [isDeclineModalOpen, setDeclineModalOpen] = useState(false);
+  const [isMakePaymentModalOpen, setMakePaymentModalOpen] = useState(false);
+  const [isPaymentSuccessModalOpen, setPaymentSuccessModalOpen] = useState(false);
   const [isfamilycard, setFamilyCard] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
 
   const handleshowfamilycard = () => {
     setModalOpen(false);
     setFamilyCard(true);
+  };
+
+  const handleDeactivateClick = (member) => {
+    setSelectedMember(member);
+    setDeactivateModalOpen(true);
+  };
+
+  const handleAcceptClick = (member) => {
+    setSelectedMember(member);
+    setAcceptModalOpen(true);
+  };
+
+  const handleDeclineClick = (member) => {
+    setSelectedMember(member);
+    setDeclineModalOpen(true);
+  };
+
+  const handleMakePaymentClick = () => {
+    setMakePaymentModalOpen(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    setMakePaymentModalOpen(false);
+    setPaymentSuccessModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setDeactivateModalOpen(false);
+    setAcceptModalOpen(false);
+    setDeclineModalOpen(false);
+    setMakePaymentModalOpen(false);
+    setPaymentSuccessModalOpen(false);
+    setSelectedMember(null);
   };
 
   return (
@@ -90,6 +142,10 @@ const BusinessFamilyandFriends = () => {
                   key={member.id}
                   data={member}
                   showmodal={() => setModalOpen(true)}
+                  showmodal1={() => handleDeactivateClick(member)}
+                  showmodal2={handleMakePaymentClick}
+                  showmodal5={() => handleDeclineClick(member)}
+                  showmodal6={() => handleAcceptClick(member)}
                 />
               ))}
             </div>
@@ -109,6 +165,9 @@ const BusinessFamilyandFriends = () => {
                   data={invitation}
                   isPending
                   showmodal={() => setModalOpen(true)}
+                  showmodal5={() => handleDeclineClick(invitation)}
+                  showmodal6={() => handleAcceptClick(invitation)}
+                  showmodal2={handleMakePaymentClick}
                 />
               ))}
             </div>
@@ -141,6 +200,33 @@ const BusinessFamilyandFriends = () => {
           </div>
         </div>
       )}
+
+      <DeactivateMemberModal
+        isOpen={isDeactivateModalOpen}
+        onClose={handleCloseModal}
+        memberName={selectedMember?.name}
+      />
+      <AcceptMemberModal
+        isOpen={isAcceptModalOpen}
+        onClose={handleCloseModal}
+        memberName={selectedMember?.name}
+      />
+      <DeclineMemberModal
+        isOpen={isDeclineModalOpen}
+        onClose={handleCloseModal}
+        memberName={selectedMember?.name}
+      />
+      <MakePaymentModal
+        isOpen={isMakePaymentModalOpen}
+        onClose={handleCloseModal}
+        onPay={handlePaymentSuccess}
+        showFamilyAndFriends={true}
+      />
+      <SalonDetailsPaymenSuccessModal
+        isOpen={isPaymentSuccessModalOpen}
+        onClose={handleCloseModal}
+        handlshowgiftcard={handleshowfamilycard}
+      />
     </IndependentDashboardLayout>
   );
 };

@@ -2385,7 +2385,7 @@ const Makepayment = ({ isOpen, onClose, handleopenfivth, handlebackfouth }) => {
   if (!isOpen) return null;
 
   const [selected, setSelected] = useState("Credit/Debit Cards");
-  const paymentOptions = ["Credit/Debit Cards", "UPI", "PayPal", "Wallets"];
+  const paymentOptions = ["Credit/Debit Cards", "PayPal", "Wallets"];
 
   return (
     <div className="fixed inset-0  bg-opacity-40 z-30 flex items-center justify-center">
@@ -11779,7 +11779,391 @@ const AcceptRequestConfirmModal = ({ isOpen, onClose }) => {
   );
 };
 
+
+const DeactivateMemberModal = ({ isOpen, onClose, memberName }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-opacity-40 z-30 flex items-center justify-center">
+      <div className="bg-white rounded-[10px] w-full max-w-sm sm:max-w-xl p-3 shadow-xl h-[35vh] overflow-auto relative">
+        <div className="mb-8 text-center px-2 py-5">
+          <p className="font-rasa font-[600] sm:text-[30px] text-[25px] text-charcoal">
+            Are you sure you want to deactivate {memberName}?
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center gap-3">
+          <button
+            className="w-full bg-[#97E7EC] text-[#123E41] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
+            onClick={onClose}
+          >
+            No
+          </button>
+          <button
+            className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
+            onClick={onClose}
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+const AcceptMemberModal = ({ isOpen, onClose, memberName }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-opacity-40 z-30 flex items-center justify-center">
+      <div className="bg-white rounded-[10px] w-full max-w-sm sm:max-w-xl p-3 shadow-xl h-[35vh] overflow-auto relative">
+        <div className="mb-8 text-center px-2 py-5">
+          <p className="font-rasa font-[600] sm:text-[30px] text-[25px] text-charcoal">
+            Are you sure you want to accept {memberName}?
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center gap-3">
+          <button
+            className="w-full bg-[#97E7EC] text-[#123E41] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
+            onClick={onClose}
+          >
+            No
+          </button>
+          <button
+            className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
+            onClick={onClose}
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+const DeclineMemberModal = ({ isOpen, onClose, memberName }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-opacity-40 z-30 flex items-center justify-center">
+      <div className="bg-white rounded-[10px] w-full max-w-sm sm:max-w-xl p-3 shadow-xl h-[35vh] overflow-auto relative">
+        <div className="mb-8 text-center px-2 py-5">
+          <p className="font-rasa font-[600] sm:text-[30px] text-[25px] text-charcoal">
+            Are you sure you want to decline {memberName}?
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center gap-3">
+          <button
+            className="w-full bg-[#97E7EC] text-[#123E41] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
+            onClick={onClose}
+          >
+            No
+          </button>
+          <button
+            className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
+            onClick={onClose}
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MakePaymentModal = ({
+  isOpen,
+  onClose,
+  handleBack,
+  onPay,
+  showFamilyAndFriends = false,
+}) => {
+  const [selected, setSelected] = useState("Credit/Debit Cards");
+  const [familyFriend, setFamilyFriend] = useState("");
+  const [agree, setAgree] = useState(false);
+
+  const paymentOptions = [
+    "Credit/Debit Cards",
+    "NFC",
+    "PayPal",
+    "Wallets",
+    ...(showFamilyAndFriends ? ["Family & Friends"] : []),
+  ];
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-30 flex items-center justify-center">
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/30" style={{ zIndex: 1 }}></div>
+
+      {/* Modal Container */}
+      <div
+        className="relative bg-white rounded-[10px] w-full sm:max-w-2xl max-w-md shadow-xl flex flex-col h-[90vh]"
+        style={{ zIndex: 2 }}
+      >
+        {/* Header */}
+        <div className="flex justify-end ">
+          <IoMdCloseCircleOutline
+            onClick={onClose}
+            color="#2F2F2F"
+            size={25}
+            className="cursor-pointer"
+          />
+        </div>
+        <div className="flex items-center justify-between px-4 py-3 flex-shrink-0">
+          <h2 className="sm:text-[28px] text-[18px] font-[600] text-charcoal font-rasa text-center flex-1">
+            Payment Method
+          </h2>
+          <div className="flex items-center gap-2">
+            <span className="font-rasa text-[#121111] font-[600] sm:text-[18px] text-[15px]">
+              03:00
+            </span>
+            <MdOutlineAccessAlarms className="text-[#2F2F2F]" size={22} />
+          </div>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="overflow-y-auto px-4 py-4 flex-1">
+          {/* Appointment Info */}
+          <div className="text-center mb-5">
+            <h6 className="font-rasa font-[600] sm:text-[24px] text-[18px] text-charcoal">
+              February, Wednesday 26 2025
+            </h6>
+            <p className="font-rasa font-[400] sm:text-[20px] text-[16px] text-charcoal m-0">
+              10:30 AM - 12:00 PM (1 hour 30 min)
+            </p>
+            <span className="font-rasa font-[500] sm:text-[13px] text-[11px] text-[#757575] m-0">
+              Omar Vaccaro Barber Shop
+            </span>
+            <div className="flex items-center justify-center mt-2">
+              <span className="font-[500] text-[#121111] sm:text-[18px] text-[15px]">
+                Total:&nbsp;
+              </span>
+              <span className="font-[700] text-[#121111] sm:text-[28px] text-[22px]">
+                $85.00
+              </span>
+            </div>
+          </div>
+
+          {/* Payment Options */}
+          <div>
+            <h6 className="font-rasa text-charcoal font-[600] sm:text-[22px] text-[18px] text-center mb-3">
+              Your Payment Options
+            </h6>
+
+            {/* Tabs */}
+            <div className="flex flex-wrap items-center justify-between mb-4 gap-y-2">
+              {paymentOptions.map((option) => (
+                <div
+                  key={option}
+                  onClick={() => setSelected(option)}
+                  className="flex items-center gap-2 cursor-pointer select-none"
+                >
+                  <div
+                    className={`w-[22px] h-[22px] rounded-full ${
+                      selected === option ? "bg-[#34A853]" : "bg-[#D9D9D9]"
+                    }`}
+                  ></div>
+                  <p className="sm:text-[16px] text-[14px] text-[#121111] font-[500]">
+                    {option}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Conditional Fields */}
+            {selected === "Credit/Debit Cards" && (
+              <div className="space-y-3">
+                <div>
+                  <label className="font-[700] sm:text-[16px] text-[14px] text-charcoal">
+                    Card Number
+                  </label>
+                  <div className="w-full border border-[#2F2F2F] px-3 py-2 rounded flex items-center">
+                    <input
+                      type="text"
+                      placeholder="1234 1234 1234 1234"
+                      className="outline-none border-none flex-1"
+                    />
+                    <div className="flex items-center space-x-2">
+                      <img src={img5} alt="Visa" className="h-5" />
+                      <img src={img6} alt="Discover" className="h-5" />
+                      <img src={img7} alt="Amex" className="h-5" />
+                      <img src={img8} alt="Mastercard" className="h-5" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="font-[700] sm:text-[16px] text-[14px] text-charcoal">
+                      Expiration Date
+                    </label>
+                    <div className="w-full border border-[#2F2F2F] px-3 py-2 rounded">
+                      <input
+                        type="text"
+                        placeholder="MM/YY"
+                        className="outline-none border-none w-full"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="font-[700] sm:text-[16px] text-[14px] text-charcoal">
+                      Security Code
+                    </label>
+                    <div className="w-full border border-[#2F2F2F] px-3 py-2 rounded flex items-center">
+                      <input
+                        type="text"
+                        placeholder="CVC"
+                        className="outline-none border-none flex-1"
+                      />
+                      <img src={img9} alt="CVC" className="h-4" />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="font-[700] sm:text-[16px] text-[14px] text-charcoal">
+                    Country
+                  </label>
+                  <select className="w-full border border-[#2F2F2F] px-3 py-2 rounded outline-none">
+                    <option value="">United States Of America</option>
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {selected === "NFC" && (
+              <div className="space-y-3">
+                {[img10, img11, img12].map((img, idx) => (
+                  <div key={idx}>
+                    <label className="font-[700] sm:text-[16px] text-[14px] text-charcoal">
+                      {["Google Pay", "Amazon Pay", "Apple Pay"][idx]}
+                    </label>
+                    <div className="w-full border border-[#2F2F2F] px-3 py-2 rounded flex items-center gap-2">
+                      <img src={img} alt="pay" className="h-5" />
+                      <input
+                        type="text"
+                        placeholder="Bank name*****123"
+                        className="outline-none border-none flex-1"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {selected === "PayPal" && (
+              <div>
+                <label className="font-[700] sm:text-[16px] text-[14px] text-charcoal">
+                  PayPal
+                </label>
+                <div className="w-full border border-[#2F2F2F] px-3 py-2 rounded flex items-center gap-2">
+                  <img src={img13} alt="PayPal" className="h-5" />
+                  <input
+                    type="text"
+                    placeholder="Bank name*****123"
+                    className="outline-none border-none flex-1"
+                  />
+                </div>
+              </div>
+            )}
+
+            {selected === "Wallets" && (
+              <div className="mt-2">
+                <h6 className="font-[700] sm:text-[18px] text-[16px] text-charcoal mb-1">
+                  Your wallet balance is $500.00
+                </h6>
+                <p className="text-[#757575] text-[13px]">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s.
+                </p>
+              </div>
+            )}
+
+            {showFamilyAndFriends && selected === "Family & Friends" && (
+              <div className="mt-2">
+                <h6 className="font-[600] sm:text-[18px] text-[16px] text-charcoal mb-2">
+                  Select family & friends from this list.
+                </h6>
+                <select
+                  className="w-full border border-[#2F2F2F] px-3 py-2 rounded outline-none text-[#757575]"
+                  value={familyFriend}
+                  onChange={(e) => setFamilyFriend(e.target.value)}
+                >
+                  <option value="">Select...</option>
+                  <option value="John Doe">John Doe</option>
+                  <option value="Jane Smith">Jane Smith</option>
+                  <option value="Alex Johnson">Alex Johnson</option>
+                </select>
+
+                <div className="flex items-center mt-2">
+                  <input
+                    type="checkbox"
+                    checked={agree}
+                    onChange={(e) => setAgree(e.target.checked)}
+                    className="mr-2"
+                  />
+                  <span className="text-[#121111] text-[14px]">
+                    You are agreeing to review the provider's work.
+                  </span>
+                </div>
+
+                <div className="mt-3">
+                  <span className="font-[700] text-[18px] mr-2 cursor-pointer select-none">
+                    +
+                  </span>
+                  <span className="underline font-[700] text-[16px] cursor-pointer select-none">
+                    Add Family & Friends
+                  </span>
+                </div>
+
+                <div className="mt-6 flex justify-center">
+                  <button
+                    className="w-full bg-[#FFE6D8] text-[#FF827F] font-semibold text-lg px-2 py-2 rounded-md shadow hover:bg-[#fbbcb5] transition"
+                    onClick={onPay}
+                  >
+                    Request
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Footer */}
+        {(!showFamilyAndFriends || selected !== "Family & Friends") && (
+          <div className="px-4 py-3 border-t border-gray-200 flex-shrink-0">
+            <button
+              className="w-full bg-[#FFE6D8] text-[#FF827F] font-semibold text-lg px-2 py-2 rounded-md shadow hover:bg-[#fbbcb5] transition"
+              onClick={onPay}
+            >
+              Pay
+            </button>
+            <p className="text-[#757575] sm:text-[13px] text-[11px] mt-2">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. It has been the industry's standard dummy text ever
+              since the 1500s.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+
+
 export {
+  DeactivateMemberModal,
+  AcceptMemberModal,
+  DeclineMemberModal,
+  MakePaymentModal,
   ChangePasswordModal,
   AddAddressModal,
   PostAProject,

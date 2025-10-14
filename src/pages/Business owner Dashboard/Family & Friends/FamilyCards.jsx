@@ -7,7 +7,6 @@ const FamilyCards = ({
   showmodal,
   showmodal1,
   showmodal2,
-  showmodal4,
   showmodal5,
   showmodal6,
 }) => {
@@ -45,13 +44,13 @@ const FamilyCards = ({
             <div className="flex gap-2">
               <div
                 onClick={showmodal5}
-                className=" cursor-pointer border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal"
+                className="cursor-pointer border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal"
               >
                 Decline
               </div>
               <div
                 onClick={showmodal6}
-                className="cursor-pointer  border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal"
+                className="cursor-pointer border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal"
               >
                 Accept
               </div>
@@ -67,7 +66,7 @@ const FamilyCards = ({
         </div>
 
         <div className="flex justify-end items-center gap-2">
-          {data.status == "remaining" && (
+          {data.status === "remaining" && (
             <div
               onClick={showmodal1}
               className="border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal cursor-pointer"
@@ -77,29 +76,29 @@ const FamilyCards = ({
           )}
           <div
             onClick={showmodal}
-            className=" cursor-pointer border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal"
+            className="cursor-pointer border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal"
           >
             See Details
           </div>
           {data.timeRemaining && isPending && (
             <>
               <ConfirmModal
-                text={`Confirm Payment & Connection?
-You’re about to pay $85 for Nicole White’s appointment and add her to your Family & Friends list.   To review the service details you are about to pay for, tap “See Details” in the previous screen before confirming.`}
-                onConfirm={() => {}}
-                confirmText="Confirm & Pay"
+                text={`Decline Connection & Payment Request?
+You’re about to decline ${data.name}’s request to connect and reject the payment request for her appointment. She will be notified and removed from your pending Family & Friends list.`}
+                onConfirm={showmodal5}
+                confirmText="Yes, Decline"
               >
-                <button className="cursor-pointer border! border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal">
+                <button className="cursor-pointer border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal">
                   Decline & Reject Payment
                 </button>
               </ConfirmModal>
               <ConfirmModal
-                text={`Decline Connection & Payment Request?
-You’re about to decline Nicole White’s request to connect and reject the payment request for her appointment.She will be notified and removed from your pending Family & Friends list.`}
-                confirmText="Yes, Decline"
-                onConfirm={() => {}}
+                text={`Confirm Payment & Connection?
+You’re about to pay $85 for ${data.name}’s appointment and add her to your Family & Friends list. To review the service details you are about to pay for, tap “See Details” in the previous screen before confirming.`}
+                onConfirm={showmodal2}
+                confirmText="Confirm & Pay"
               >
-                <button className="cursor-pointer border! border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal">
+                <button className="cursor-pointer border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal">
                   Accept & Pay Now
                 </button>
               </ConfirmModal>
@@ -117,9 +116,7 @@ You’re about to decline Nicole White’s request to connect and reject the pay
           )}
           {data.btn2 && (
             <div
-              onClick={
-                data.btn2 === "Decline Request" ? showmodal5 : showmodal4
-              }
+              onClick={showmodal5}
               className="border border-[#2F2F2F] px-2 py-1 rounded-[4px] text-[15px] sm:text-[18px] text-charcoal cursor-pointer"
             >
               {data.btn2}

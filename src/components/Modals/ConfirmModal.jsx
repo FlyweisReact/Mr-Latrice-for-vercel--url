@@ -23,10 +23,10 @@ export const ConfirmModal = ({ children, text, onConfirm, confirmText }) => {
     <>
       {trigger}
       {showModal && (
-        <div className="fixed inset-0  bg-opacity-40 z-30 flex items-center justify-center">
+        <div className="fixed inset-0 bg-opacity-40 z-30 flex items-center justify-center">
           <div className="bg-white rounded-[20px] w-full sm:max-w-xl max-w-md relative p-3 shadow-xl">
             <div className="modal2 text-center p-3">
-              <h6 className="font-rasa font-[600] sm:text-[30px] text-[25px] text-charcoal  mt-5">
+              <h6 className="font-rasa font-[600] sm:text-[30px] text-[25px] text-charcoal mt-5">
                 {text || "Are you sure?"}
               </h6>
             </div>
