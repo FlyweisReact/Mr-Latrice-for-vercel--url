@@ -91,6 +91,23 @@ const BusinessCustomerForms = () => {
     setModalOpen(false);
     setWaiverOpen(true);
   };
+  const formData = {
+    providerName: "Burt Nilson",
+    service: "Deep Massage",
+    date: "April 4, 2025",
+    duration: "1hr 30 mins",
+    status: "Pending",
+    appointmentFormAnswers: {
+      "Preferred Pressure": "Medium",
+      "Areas to Focus On": "Back and Shoulders",
+      "Areas to Avoid": "Neck",
+    },
+    waiverFormAnswers: {
+      "Do you have any allergies?": "No",
+      "Are you currently pregnant?": "No",
+      "Do you have any medical conditions?": "Yes, asthma",
+    },
+  };
 
   return (
     <BusinessOwnerDashboardLayout
@@ -125,6 +142,7 @@ const BusinessCustomerForms = () => {
         isOpen={isModalOpen4}
         onClose={() => setModalOpen4(false)}
         handleOpenAppointmentform={handleOpenAppointmentform}
+        formData={formData}
       />
       <WaiverFormModal
         isOpen={waiverOpen}

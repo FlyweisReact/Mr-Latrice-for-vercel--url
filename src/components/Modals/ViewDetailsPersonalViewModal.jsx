@@ -46,7 +46,7 @@ export const ViewDetailsPersonalViewModal = ({
                   {formData?.date || "N/A"}
                 </p>
                 <p className="sm:text-[22px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa mb-1">
-                  Duration: {formData?.duration || "N/A"}
+                  Duration: {formData?.duration || "1 hr 30 mins"}
                 </p>
               </div>
             </div>

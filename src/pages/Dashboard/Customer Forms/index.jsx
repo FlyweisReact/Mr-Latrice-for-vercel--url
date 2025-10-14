@@ -6,6 +6,7 @@ import FormsCards from "./FormsCards";
 import { AppointmentFormModal } from "../../../components/Modals/AppointmentFormModal";
 import { ViewDetailsPersonalViewModal } from "../../../components/Modals/ViewDetailsPersonalViewModal";
 import { WaiverFormModal } from "../../../components/Modals/WaiverFormModal";
+import { duration } from "moment";
 
 const data = {
   forms: [
@@ -14,6 +15,7 @@ const data = {
       providerName: "Burt Nilson",
       service: "Deep Massage",
       date: "April 4, 2025",
+      duration: "1hr 30 mins",
       status: "Response Sent",
       img: "img36.jpg",
       appointmentFormAnswers: {
@@ -76,6 +78,13 @@ const CustomerForms = () => {
     }
   };
 
+  const formData = {
+    providerName: "Burt Nilson", 
+    service: "Deep Massage",
+    date: "April 4, 2025",
+    duration: "1hr 30 mins",
+  }
+  
   return (
     <ClientDashboardLayout
       title="Customer Forms"
@@ -94,7 +103,7 @@ const CustomerForms = () => {
         }}
         handleOpenAppointmentform={() => handleOpenAppointmentform(selectedForm)}
         handleOpenWaiverForm={() => handleOpenWaiverForm(selectedForm)}
-        formData={selectedForm}
+        formData={formData}
         readOnly={selectedForm?.status === "Response Sent"}
       />
 
