@@ -95,6 +95,7 @@ import ChooseDatePicker from "../Date Time Picker/DatePicker";
 import DatePicker from "react-datepicker";
 import { enUS } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
+import { FinalizeYourAppointment } from "./FinalizeYourAppointment";
 
 const ChangePasswordModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -10433,6 +10434,7 @@ const SendWaiverModal = ({ isOpen, onClose }) => {
   );
 };
 
+
 const ViewDetailsWaiverModal = ({
   isOpen,
   onClose,
@@ -10440,8 +10442,145 @@ const ViewDetailsWaiverModal = ({
 }) => {
   if (!isOpen) return null;
 
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen1, setModalOpen1] = useState(false);
+  const [isModalOpen2, setModalOpen2] = useState(false);
+  const [isModalOpen3, setModalOpen3] = useState(false);
+  const [isModalOpen4, setModalOpen4] = useState(false);
+  const [isModalOpen5, setModalOpen5] = useState(false);
+  const [isModalOpen6, setModalOpen6] = useState(false);
+  const [isModalOpen7, setModalOpen7] = useState(false);
+  const [isModalOpen8, setModalOpen8] = useState(false);
+
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    setUser(true);
+  }, []);
+
+  const services = [
+    {
+      title: "Curly Hair Styling",
+      booked: 1,
+      price: 0, // Placeholder; actual price unknown from details
+      duration: "1 hr 30 min",
+      description: "Curly hair styling service.", // Placeholder description
+      rating: "5.0", // Placeholder
+      reviews: "10", // Placeholder
+      img: [], // No images available; empty array to avoid errors in mapping
+    },
+  ];
+
+  const handleopenfirst = () => {
+    setModalOpen(false);
+    setModalOpen1(true);
+  };
+
+  const handleopengofirst = () => {
+    setModalOpen1(false);
+    setModalOpen(true);
+  };
+
+  const handleopenSecondmodal = () => {
+    setModalOpen1(false);
+    setModalOpen2(true);
+  };
+  const handleopenthirdmodal = () => {
+    setModalOpen2(false);
+    setModalOpen3(true);
+  };
+  const handleopentforthmodal = () => {
+    setModalOpen3(false);
+    setModalOpen4(true);
+  };
+  const handleopensuccessmodal = () => {
+    setModalOpen5(false);
+    setModalOpen6(true);
+  };
+
+  const handlebacksecondmodal = () => {
+    setModalOpen2(false);
+    setModalOpen1(true);
+  };
+
+  const handlebackthirdmodal = () => {
+    setModalOpen3(false);
+    setModalOpen2(true);
+  };
+
+  const handleopenloginmodal = () => {
+    setModalOpen1(false);
+    setModalOpen5(false);
+    setModalOpen7(true);
+  };
+  const handlebackloginmodal = () => {
+    setModalOpen7(false);
+    setModalOpen1(true);
+  };
+
+  const handleopenwaiting = () => {
+    setModalOpen1(false);
+    setModalOpen8(true);
+  };
+
   return (
     <>
+      {/* Wrapper for booking modals with higher z-index */}
+      <div className="relative z-[70]">
+        <SalonDetailsSelectServiceModal
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+          services={services}
+          handleopenfirst={handleopenfirst}
+        />
+        <BookingCalendarModal
+          isOpen={isModalOpen1}
+          onClose={() => setModalOpen1(false)}
+          handleopengofirst={handleopengofirst}
+          handleopenSecondmodal={
+            user ? handleopenSecondmodal : handleopenloginmodal
+          }
+          handleopenwaiting={user ? handleopenwaiting : handleopenloginmodal}
+        />
+        <FinalizeYourAppointment
+          isOpen={isModalOpen2}
+          onClose={() => setModalOpen2(false)}
+          handleContinue={handleopenthirdmodal}
+          handleBack={handlebacksecondmodal}
+        />
+        <MakePaymentModal
+          isOpen={isModalOpen3}
+          onClose={() => setModalOpen3(false)}
+          onPay={handleopentforthmodal}
+          handleBack={handlebackthirdmodal}
+          showFamilyAndFriends
+        />
+        <SalonDetailsPaymenSuccessModal
+          isOpen={isModalOpen4}
+          onClose={() => setModalOpen4(false)}
+        />
+        <RequestFormModal
+          isOpen={isModalOpen5}
+          onClose={() => setModalOpen5(false)}
+          handleopensuccessmodal={
+            user ? handleopensuccessmodal : handleopenloginmodal
+          }
+        />
+        <RequestFormSuccessModal
+          isOpen={isModalOpen6}
+          onClose={() => setModalOpen6(false)}
+        />
+        <LogOrCreateAccountModal
+          isOpen={isModalOpen7}
+          onClose={() => setModalOpen7(false)}
+          handlebackloginmodal={handlebackloginmodal}
+        />
+        <WaitingBookingFormModal
+          isOpen={isModalOpen8}
+          onClose={() => setModalOpen8(false)}
+          handlebackloginmodal={handlebackloginmodal}
+        />
+      </div>
+
       <div className="fixed inset-0 bg-black/50 z-50"></div>
       <div className="fixed top-0 left-0 md:left-[260px] w-full md:w-[calc(100%-260px)] h-full flex items-center justify-center z-60">
         <div className="bg-white rounded-[10px] w-full max-w-sm sm:max-w-xl p-3 shadow-xl h-[70vh] overflow-auto relative">
@@ -10461,7 +10600,10 @@ const ViewDetailsWaiverModal = ({
                 <p className="sm:text-[25px] text-[18px] font-[700] text-charcoal font-rasa leading-[20px] mb-1">
                   Dominique R.
                 </p>
-                <p className="sm:text-[20px] text-[15px] font-[700] text-charcoal font-rasa leading-[20px] mb-1">
+                <p
+                  className="sm:text-[20px] text-[15px] font-[700] text-charcoal font-rasa leading-[20px] mb-1 cursor-pointer"
+                  onClick={() => setModalOpen1(true)}
+                >
                   Curly Hair Styling
                 </p>
                 <p className="sm:text-[20px] text-[15px] font-[400] text-charcoal font-rasa leading-[20px]">
@@ -10484,7 +10626,7 @@ const ViewDetailsWaiverModal = ({
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <div className="border border-[#2F2F2F] bg-[#FAF9F6] text-sm px-4.5 py-1 rounded-[10px]  sm:text-[18px] text-[15px] font-[700] text-charcoal text-center font-sansation">
+                  <div className="border border-[#2F2F2F] bg-[#FAF9F6] text-sm px-4.5 py-1 rounded-[10px] sm:text-[18px] text-[15px] font-[700] text-charcoal text-center font-sansation">
                     Nudge
                   </div>
                   <div className="border border-[#2F2F2F] bg-[#FAF9F6] text-sm px-4.5 py-1 rounded-[10px] sm:text-[18px] text-[15px] font-[700] text-charcoal text-center font-sansation">
@@ -10525,7 +10667,7 @@ const ViewDetailsWaiverModal = ({
                   </div>
                   <div>
                     <div className="flex gap-2">
-                      <div className="border border-[#2F2F2F] bg-[#FAF9F6] text-sm px-4.5 py-1 rounded-[10px]  sm:text-[18px] text-[15px] font-[700] text-charcoal text-center font-sansation">
+                      <div className="border border-[#2F2F2F] bg-[#FAF9F6] text-sm px-4.5 py-1 rounded-[10px] sm:text-[18px] text-[15px] font-[700] text-charcoal text-center font-sansation">
                         Resend
                       </div>
                       <div className="border border-[#2F2F2F] bg-[#FAF9F6] text-sm px-4.5 py-1 rounded-[10px] sm:text-[18px] text-[15px] font-[700] text-charcoal text-center font-sansation">
@@ -10560,7 +10702,7 @@ const ViewDetailsWaiverModal = ({
                   </h4>
                   <div
                     onClick={handleOpenWaiverConfirm}
-                    className="cursor-pointer border border-[#2F2F2F] bg-[#FAF9F6] text-sm px-4.5 py-1 rounded-[10px]  sm:text-[18px] text-[15px] font-[700] text-charcoal text-center font-sansation"
+                    className="cursor-pointer border border-[#2F2F2F] bg-[#FAF9F6] text-sm px-4.5 py-1 rounded-[10px] sm:text-[18px] text-[15px] font-[700] text-charcoal text-center font-sansation"
                   >
                     +Send New Waiver
                   </div>
@@ -10595,6 +10737,7 @@ const ViewDetailsWaiverModal = ({
     </>
   );
 };
+
 
 const NotificationOffercanceledModal = ({
   isOpen,
