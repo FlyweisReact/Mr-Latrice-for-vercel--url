@@ -77,17 +77,24 @@ const BusinessDetails = () => {
 
   // renderSlider and renderOption functions keep as is
 
-  const renderSlider = (label, key, Icon) => (
-    <label className="flex items-center justify-between" key={key}>
-      <div className="flex items-center gap-1">
-        {Icon && <Icon size={25} color="#000000" />}
-        <span className="flex items-center gap-1 font-[700] font-sansation sm:text-[17px] text-[15px] text-charcoal">
-          {label}
-          <IoMdInformationCircle color="#2F2F2F" size={30} />
-        </span>
-      </div>
+const renderSlider = (label, key, Icon) => (
+  <label className="flex items-center justify-between w-full" key={key}>
+    <div className="flex items-center gap-1">
+      {Icon && <Icon size={25} color="#000000" />}
+      <span className="flex items-center gap-1 font-[700] font-sansation sm:text-[17px] text-[15px] text-charcoal">
+        {label}
+        <IoMdInformationCircle color="#2F2F2F" size={30} />
+      </span>
+    </div>
 
-      {/* Switch */}
+    {/* Switch with dynamic Yes/No on left side */}
+    <div className="flex items-center gap-3">
+      {/* Dynamic label */}
+      <span className="font-sansation font-[600] text-[15px] text-charcoal min-w-[28px] text-right">
+        {sliderStates[key] ? "Yes" : "No"}
+      </span>
+
+      {/* Toggle */}
       <label className="inline-flex items-center cursor-pointer">
         <input
           type="checkbox"
@@ -102,8 +109,10 @@ const BusinessDetails = () => {
         />
         <div className="w-11 h-6 bg-[#D9D9D9] peer-checked:bg-[#123E41] rounded-full relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
       </label>
-    </label>
-  );
+    </div>
+  </label>
+);
+
 
 
   const renderOption = (label, key, Icon) => (
