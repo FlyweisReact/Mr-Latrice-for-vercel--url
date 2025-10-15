@@ -8017,6 +8017,97 @@ const SalonDetailsPaymenSuccessModal = ({ isOpen, handlshowgiftcard, onClose }) 
   );
 };
 
+
+const SizeLengthSelector = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedLength, setSelectedLength] = useState("");
+
+  const sizes = ["Micro", "Small", "Medium", "Large", "Jumbo", "Not applicable"];
+  const lengths = [
+    "Shoulder length",
+    "Bra strap length",
+    "Mid back length",
+    "Waist length",
+    "Butt length",
+  ];
+
+  return (
+    <div className="relative w-full font-rasa">
+      {/* Dropdown Header */}
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center justify-between bg-[#FAF9F6] w-full border border-[#2F2F2F80] rounded-[10px] px-3 py-3 text-[#014F8680] cursor-pointer"
+      >
+        {selectedSize || selectedLength
+          ? `${selectedSize}${selectedSize && selectedLength ? " / " : ""}${selectedLength}`
+          : "Select service size/Length"}
+        <span className="text-[#014F86] font-semibold">{isOpen ? "▲" : "▼"}</span>
+      </div>
+
+      {/* Dropdown Content */}
+      {isOpen && (
+        <div className="absolute top-full mt-2 left-0 w-full bg-white border border-[#2F2F2F80] rounded-[10px] shadow-md z-10 p-4 max-h-[250px] overflow-y-auto">
+          <div className="grid grid-cols-2 gap-6">
+            {/* Size Column */}
+            <div>
+              <input
+                type="text"
+                placeholder="enter size"
+                className="w-[120px] bg-[#FAF9F6] border border-[#2F2F2F80] rounded-[6px] px-2 py-1 mb-2 outline-none text-[14px] text-[#014F8680]"
+              />
+              <div className="space-y-2">
+                {sizes.map((size) => (
+                  <label
+                    key={size}
+                    className="flex items-center justify-between text-[15px] text-[#121111] font-[400] cursor-pointer"
+                  >
+                    {size}
+                    <input
+                      type="radio"
+                      name="size"
+                      checked={selectedSize === size}
+                      onChange={() => setSelectedSize(size)}
+                      className="accent-[#F67067] w-4 h-4 cursor-pointer"
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Length Column */}
+            <div>
+              <input
+                type="text"
+                placeholder="enter length"
+                className="w-[120px] bg-[#FAF9F6] border border-[#2F2F2F80] rounded-[6px] px-2 py-1 mb-2 outline-none text-[14px] text-[#014F8680]"
+              />
+              <div className="space-y-2">
+                {lengths.map((length) => (
+                  <label
+                    key={length}
+                    className="flex items-center justify-between text-[15px] text-[#121111] font-[400] cursor-pointer"
+                  >
+                    {length}
+                    <input
+                      type="radio"
+                      name="length"
+                      checked={selectedLength === length}
+                      onChange={() => setSelectedLength(length)}
+                      className="accent-[#F67067] w-4 h-4 cursor-pointer"
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
 const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
   if (!isOpen) return null;
 
@@ -8129,7 +8220,7 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
             </div>
           </div>
 
-          <form className="space-y-3">
+          <form className="space-y-3 font-rasa">
             <div className="flex items-center gap-2">
               <div className="w-full">
                 <label className="block font-[600] font-rasa sm:text-[20px] text-[15px] text-[#014F86] mb-1">
@@ -8144,9 +8235,7 @@ const RequestFormModal = ({ isOpen, onClose, handleopensuccessmodal }) => {
                   What size would you like
                   <IoMdInformationCircle />
                 </label>
-                <select className="bg-[#FAF9F6] w-full border border-[#2F2F2F80] rounded-[10px] px-3 py-3 outline-none text-[#014F8680]">
-                  <option> Select service name</option>
-                </select>
+                <SizeLengthSelector />
               </div>
             </div>
 
