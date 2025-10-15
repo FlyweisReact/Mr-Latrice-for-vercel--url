@@ -8018,7 +8018,7 @@ const SalonDetailsPaymenSuccessModal = ({ isOpen, handlshowgiftcard, onClose }) 
 };
 
 
-const SizeLengthSelector = () => {
+const SizeLengthSelector = ({ services = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedLength, setSelectedLength] = useState("");
@@ -8037,8 +8037,8 @@ const SizeLengthSelector = () => {
       {/* Dropdown Header */}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between bg-[#FAF9F6] w-full border border-[#2F2F2F80] rounded-[10px] px-3 py-3 text-[#014F8680] cursor-pointer"
-      >
+        className={`flex items-center justify-between bg-[#FAF9F6] w-full border border-[#2F2F2F80] rounded-[10px] px-3 py-3 text-[#014F8680] cursor-pointer ${services ? "rounded-[px] border-black font-sansation" : ""
+          }`}      >
         {selectedSize || selectedLength
           ? `${selectedSize}${selectedSize && selectedLength ? " / " : ""}${selectedLength}`
           : "Select service size/Length"}
@@ -12514,4 +12514,5 @@ export {
   PaymentRequestConfirmModal,
   DeclineRequestConfirmModal,
   AcceptRequestConfirmModal,
+  SizeLengthSelector
 };

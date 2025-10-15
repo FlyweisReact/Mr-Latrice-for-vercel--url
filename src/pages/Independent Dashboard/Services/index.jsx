@@ -9,6 +9,7 @@ import { AiFillEdit } from "react-icons/ai";
 
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import IndependentDashboardLayout from '../../../components/DashbaordLayout/Independent Dashbaord';
+import { SizeLengthSelector } from '../../../components/Modals/Modal';
 
 // InputField Component (Reusable)
 function InputField({ label, value, onChange, suffix }) {
@@ -198,10 +199,7 @@ const IndependentServicess = () => {
 
                             {/* Right side */}
                             <div className="flex flex-col gap-4">
-                                <select className="w-full p-3 border border-[#2F2F2F] rounded outline-none bg-white font-sansation font-[400] text-[16px] text-charcoal">
-                                    <option>Select service size/Length</option>
-                                </select>
-
+                                <SizeLengthSelector />
                                 <div className="flex items-center rounded px-3 py-2 border border-[#2F2F2F] relative">
                                     <input
                                         type="number"
