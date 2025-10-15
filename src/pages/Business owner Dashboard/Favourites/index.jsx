@@ -8,7 +8,7 @@ const BusinessFavourites = () => {
 
 
     return (
-        <BusinessOwnerDashboardLayout title="Favourites"
+        <BusinessOwnerDashboardLayout title="Favorites"
             gpnumber='2'
             titleAction={
                 <div className="flex gap-5">

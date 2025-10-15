@@ -8,7 +8,7 @@ const IndependentFavourites = () => {
 
 
     return (
-        <IndependentDashboardLayout title="Favourites"
+        <IndependentDashboardLayout title="Favorites"
             gpnumber='2'
             titleAction={
                 <div className="flex gap-5">

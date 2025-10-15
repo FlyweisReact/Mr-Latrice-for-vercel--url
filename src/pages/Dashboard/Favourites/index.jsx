@@ -10,7 +10,7 @@ const Favourites = () => {
 
     return (
         <ClientDashboardLayout
-            title="Favourites"
+            title="Favorites"
             gpnumber='2'
             titleAction={
                 <div className="flex gap-5">
