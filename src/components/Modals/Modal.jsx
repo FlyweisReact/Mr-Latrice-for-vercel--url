@@ -7454,12 +7454,19 @@ const IndependentHiringDetailsModal = ({
   handleAvailabilityBookingModal,
   handlesuccesmodal1,
 }) => {
+  const [isAvailabilityChecked, setIsAvailabilityChecked] = useState(false);
+
   if (!isOpen) return null;
 
+  const handleCheckAvailability = () => {
+    setIsAvailabilityChecked(true);
+    handleAvailabilityBookingModal();
+  };
+
   return (
-    <div className="fixed inset-0  bg-opacity-40 z-30 flex items-center justify-center">
+    <div className="fixed inset-0 bg-opacity-40 z-30 flex items-center justify-center">
       <div className="bg-white rounded-[10px] w-full sm:max-w-2xl max-w-md p-3 shadow-xl h-[80vh] overflow-auto">
-        {/* hearder  */}
+        {/* header */}
         <div className="relative">
           <h2 className="sm:text-[30px] text-[20px] font-[600] text-center text-charcoal font-rasa">
             Hiring Details
@@ -7470,7 +7477,7 @@ const IndependentHiringDetailsModal = ({
               onClick={onClose}
             />
           </div>
-          <div className="flex flex-col items-center  border border-[#2F2F2F33] bg-[#FFFFFF] rounded-[10px] px-1 py-1 absolute right-0 top-10">
+          <div className="flex flex-col items-center border border-[#2F2F2F33] bg-[#FFFFFF] rounded-[10px] px-1 py-1 absolute right-0 top-10">
             <IoMdEye
               className="cursor-pointer text-xl text-[#FF827F]"
               onClick={onClose}
@@ -7499,7 +7506,7 @@ const IndependentHiringDetailsModal = ({
           <div className="border border-[#2F2F2F33] rounded-[10px] p-2 mb-2">
             <div className="flex justify-between">
               <div className="w-[50%]">
-                <h3 className="font-[700]  text-[14px] font-gotu text-[#121111] mb-1">
+                <h3 className="font-[700] text-[14px] font-gotu text-[#121111] mb-1">
                   Gent's Standard
                 </h3>
                 <p className="text-[14px] text-[#494948] font-inter font-[400] mb-2">
@@ -7512,7 +7519,6 @@ const IndependentHiringDetailsModal = ({
                   $40.00
                 </h6>
                 <p className="text-[#757575] sm:text-[14px] text-[15px] font-[400] font-inter">
-                  {" "}
                   10:30 AM
                 </p>
               </div>
@@ -7535,7 +7541,7 @@ const IndependentHiringDetailsModal = ({
           </div>
           <div>
             <div className="w-full border border-[#2F2F2F] rounded-[6px] px-4 py-2 pr-10 flex items-center gap-2">
-              <span className=" text-[#000000] cursor-pointer">
+              <span className="text-[#000000] cursor-pointer">
                 <FaRegCommentDots />
               </span>
               <input
@@ -7552,7 +7558,7 @@ const IndependentHiringDetailsModal = ({
             <div className="flex items-center gap-2">
               <button
                 className="bg-[#123E41] p-[8px] rounded-[10px] font-[700] text-[#FAF9F6] sm:text-[14px] text-[12px]"
-                onClick={handleAvailabilityBookingModal}
+                onClick={handleCheckAvailability}
               >
                 Check Your Availability
               </button>
@@ -7584,14 +7590,15 @@ const IndependentHiringDetailsModal = ({
             Reject
           </button>
           <button
-            className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] text-lg px-2 py-4  rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
-            onClick={handlesuccesmodal1}
+            className={`w-full bg-[#FFE6D8] text-[#FF827F] font-[700] text-lg px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040] ${!isAvailabilityChecked ? 'opacity-50 cursor-not-allowed' : ''}`}
+            onClick={isAvailabilityChecked ? handlesuccesmodal1 : null}
+            disabled={!isAvailabilityChecked}
           >
             Accept
           </button>
         </div>
-        <p className="font-[400] text-[#757575]  sm:text-[13px] text-[10px] text-center mt-5">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
+        <p className="font-[400] text-[#757575] sm:text-[13px] text-[10px] text-center mt-5">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s
         </p>
@@ -7599,6 +7606,7 @@ const IndependentHiringDetailsModal = ({
     </div>
   );
 };
+
 
 const SalonDetailsSelectServiceModal = ({
   isOpen,
@@ -12108,9 +12116,8 @@ const MakePaymentModal = ({
                   className="flex items-center gap-2 cursor-pointer select-none"
                 >
                   <div
-                    className={`w-[22px] h-[22px] rounded-full ${
-                      selected === option ? "bg-[#34A853]" : "bg-[#D9D9D9]"
-                    }`}
+                    className={`w-[22px] h-[22px] rounded-full ${selected === option ? "bg-[#34A853]" : "bg-[#D9D9D9]"
+                      }`}
                   ></div>
                   <p className="sm:text-[16px] text-[14px] text-[#121111] font-[500]">
                     {option}
