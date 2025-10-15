@@ -42,9 +42,9 @@ const FavouritesCard = () => {
                     </div>
 
                     <div className="absolute bottom-2 right-2 flex items-center gap-1">
-                        <div className="backdrop-blur-lg bg-[#1A1A1A33]  rounded-full flex items-center justify-center w-[40px] h-[40px]">
+                        {/* <div className="backdrop-blur-lg bg-[#1A1A1A33]  rounded-full flex items-center justify-center w-[40px] h-[40px]">
                             <MdInfoOutline color="#FAF9F6" size={25} />
-                        </div>
+                        </div> */}
                         <div className="backdrop-blur-lg bg-[#1A1A1A33] px-5 py-2 rounded-full flex items-center justify-center gap-1">
                             <MdThumbUp color="#FAF9F6" size={15} />
                             <p className="text-[#FAF9F6] font-rasa sm:text-[14px] text-[12px] font-[500] m-0">Promoted</p>
@@ -88,9 +88,9 @@ const FavouritesCard = () => {
                     </div>
 
                     <div className="absolute bottom-2 right-2 flex items-center gap-1">
-                        <div className="backdrop-blur-lg bg-[#1A1A1A33]  rounded-full flex items-center justify-center w-[40px] h-[40px]">
+                        {/* <div className="backdrop-blur-lg bg-[#1A1A1A33]  rounded-full flex items-center justify-center w-[40px] h-[40px]">
                             <MdInfoOutline color="#FAF9F6" size={25} />
-                        </div>
+                        </div> */}
                         <div className="backdrop-blur-lg bg-[#1A1A1A33] px-5 py-2 rounded-full flex items-center justify-center gap-1">
                             <MdThumbUp color="#FAF9F6" size={15} />
                             <p className="text-[#FAF9F6] font-rasa sm:text-[14px] text-[12px] font-[500] m-0">Promoted</p>
@@ -134,9 +134,9 @@ const FavouritesCard = () => {
                     </div>
 
                     <div className="absolute bottom-2 right-2 flex items-center gap-1">
-                        <div className="backdrop-blur-lg bg-[#1A1A1A33]  rounded-full flex items-center justify-center w-[40px] h-[40px]">
+                        {/* <div className="backdrop-blur-lg bg-[#1A1A1A33]  rounded-full flex items-center justify-center w-[40px] h-[40px]">
                             <MdInfoOutline color="#FAF9F6" size={25} />
-                        </div>
+                        </div> */}
                         <div className="backdrop-blur-lg bg-[#1A1A1A33] px-5 py-2 rounded-full flex items-center justify-center gap-1">
                             <MdThumbUp color="#FAF9F6" size={15} />
                             <p className="text-[#FAF9F6] font-rasa sm:text-[14px] text-[12px] font-[500] m-0">Promoted</p>
