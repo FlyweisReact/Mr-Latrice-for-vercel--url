@@ -42,56 +42,41 @@ const times = [
 ];
 
 const dates = [
-  moment("2025-10-07"),
-  moment("2025-10-08"),
-  moment("2025-10-09"),
-  moment("2025-10-10"),
+  moment("2025-02-25"),
+  moment("2025-02-26"),
+  moment("2025-02-27"),
+  moment("2025-02-28"),
 ];
 
 const appointments = [
   {
-    date: "2025-10-08",
+    date: "2025-02-26",
     time: "10:30 AM",
-    title: "Braids",
+    title: "Hair Cut",
     location: "At Omar Vaccaro Salon",
     price: "$46.00",
     endTime: "11:00 AM",
     modalstatus: "QR",
-    client: "Jessica",
-    stylist: "Tina",
   },
   {
-    date: "2025-10-09",
+    date: "2025-02-27",
     time: "09:30 AM",
-    title: "Facial",
+    title: "Hair Cut",
     location: "At Omar Vaccaro Salon",
     price: "$46.00",
     endTime: "10:00 AM",
     status: "Provider rescheduled their appointment",
     modalstatus: "rescheduled",
-    client: "Maria",
-    stylist: "Sophia",
   },
   {
-    date: "2025-10-10",
+    date: "2025-02-28",
     time: "10:30 AM",
-    title: "Kids Cut",
+    title: "Hair Cut",
     location: "At Omar Vaccaro Salon",
     price: "$46.00",
     endTime: "11:00 AM",
     status: "Pending...",
     modalstatus: "pending",
-    client: "James",
-    stylist: "Omar",
-  },
-];
-
-const importedAppointments = [
-  {
-    date: "2025-10-08",
-    time: "12:00 PM",
-    title: "Imported Meeting",
-    endTime: "12:30 PM",
   },
 ];
 
@@ -125,8 +110,6 @@ export default function Currentbookings() {
   const [isModalOpen18, setModalOpen18] = useState(false);
 
   const [bookingStatus, setBookingStatus] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
 
   const handlopensecond = () => {
     setModalOpen(false);
@@ -255,12 +238,6 @@ export default function Currentbookings() {
     setModalOpen17(false);
   };
 
-  const handleOpenNewBooking = (date, time) => {
-    setSelectedDate(date);
-    setSelectedTime(time);
-    setModalOpen9(true); // Opens AddServiceDetailsModal for new booking flow
-  };
-
   return (
     <ClientDashboardLayout title="Appointment Scheduling">
       <BookingDetailsModal
@@ -305,6 +282,7 @@ export default function Currentbookings() {
         handleBack={handlebackthirdmodal}
         onPay={handlopenfivth}
       />
+
       <AppointmentCanceledSuccessModal
         isOpen={isModalOpen7}
         onClose={() => setModalOpen7(false)}
@@ -318,16 +296,12 @@ export default function Currentbookings() {
         onClose={() => setModalOpen9(false)}
         handleBackStapsecond={handleBackStapsecond}
         handleStapThird={handleStapThird}
-        selectedDate={selectedDate}
-        selectedTime={selectedTime}
       />
       <AddDateTimeModal
         isOpen={isModalOpen10}
         onClose={() => setModalOpen10(false)}
         handleBackStapThird={handleBackStapThird}
         handleStapForth={handleStapForth}
-        selectedDate={selectedDate}
-        selectedTime={selectedTime}
       />
       <AddSelectTargetModal
         isOpen={isModalOpen11}
@@ -371,10 +345,10 @@ export default function Currentbookings() {
         handleOpenNewdate1={handleOpenNewdate1}
         handleopenCanceledsuccessmodal={handleopenCanceledsuccessmodal}
       />
-      <div className="flex flex-col lg:flex-row w-full gap-4 max-w-full">
-        <div className="flex-1 overflow-x-auto lg:max-w-[calc(100%-400px)]">
+      <div className="flex flex-col lg:flex-row w-full gap-4">
+        <div className="flex-1 overflow-auto">
           {/* Tabs */}
-          <div className="flex flex-wrap w-full justify-center sm:justify-between gap-2 sm:gap-1 mb-3">
+          <div className="flex flex-wrap w-full overflow-hidden justify-center sm:justify-between gap-2 sm:gap-1 mb-3">
             {[
               "Current bookings",
               "Upcoming bookings",
@@ -400,21 +374,17 @@ export default function Currentbookings() {
               </Link>
             ))}
           </div>
-          <div className="overflow-x-auto w-full">
-            <table className="w-full table-auto border-collapse lg:min-w-0">
+          <div className="overflow-x-auto">
+            <table className="table-auto w-full border-collapse">
               <thead className="bg-[#123E41]">
                 <tr>
-                  <th className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 rounded-tl-2xl sticky left-0 bg-[#123E41] z-10 min-w-[80px]">
+                  <th className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 rounded-tl-2xl">
                     TIME
                   </th>
-                  {[
-                    ...Array(7)
-                      .fill()
-                      .map((_, i) => moment("2025-10-07").add(i, "days")),
-                  ].map((date, i) => (
+                  {dates.map((date, i) => (
                     <th
                       key={i}
-                      className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 whitespace-nowrap last:rounded-tr-2xl min-w-[100px]"
+                      className="font-[700] font-rasa sm:text-[18px] text-[15px] text-[#FAF9F6] p-2 last:rounded-tr-2xl"
                     >
                       {date.format("MMM DD YYYY")}
                     </th>
@@ -424,33 +394,20 @@ export default function Currentbookings() {
               <tbody className="bg-white shadow">
                 {times.map((time, rowIndex) => (
                   <tr key={rowIndex}>
-                    <td className="border border-[#A8A8A84D] font-rasa text-[#464646] font-[400] text-center text-[18px] py-2 sticky left-0 bg-white z-10 min-w-[80px]">
+                    <td className="border-b-1 border-[#A8A8A84D] font-rasa text-[#464646] font-[400] text-center text-[18px] py-2">
                       {time}
                     </td>
-                    {[
-                      ...Array(7)
-                        .fill()
-                        .map((_, i) => moment("2025-10-07").add(i, "days")),
-                    ].map((date, colIndex) => {
+                    {dates.map((date, colIndex) => {
                       const appointment = appointments.find(
                         (appt) =>
                           appt.date === date.format("YYYY-MM-DD") &&
                           appt.time === time
                       );
-                      const imported = importedAppointments.find(
-                        (appt) =>
-                          appt.date === date.format("YYYY-MM-DD") &&
-                          appt.time === time
-                      );
-
                       const borderColors = [
                         "#123E41",
                         "#FF827F",
                         "#FFCC4E",
-                        "#2E86AB",
-                        "#D74E09",
-                        "#6A0572",
-                        "#008C72",
+                        "#123E41",
                       ];
                       const borderColor =
                         borderColors[colIndex % borderColors.length];
@@ -458,47 +415,39 @@ export default function Currentbookings() {
                       return (
                         <td
                           key={colIndex}
-                          className="border border-[#A8A8A84D] h-20 min-w-[100px] relative"
+                          className="border border-[#A8A8A84D] h-20  relative"
                         >
                           {appointment ? (
                             <div
                               className="p-2 h-full cursor-pointer"
                               style={{ borderLeft: `4px solid ${borderColor}` }}
                               onClick={() =>
-                                handleOpenBookingdetails(appointment.modalstatus)
+                                handleOpenBookingdetails(
+                                  appointment.modalstatus
+                                )
                               }
                             >
                               <h6 className="font-[500] font-rasa sm:text-[18px] text-[15px] text-charcoal">
                                 {appointment.title}
                               </h6>
-                              <div className="font-[500] font-rasa sm:text-[16px] text-[14px] text-charcoal">
+                              <div className="font-[500] font-rasa sm:text-[18px] text-[15px] text-charcoal">
                                 {appointment.location}
                               </div>
                               <div className="font-[400] font-rasa sm:text-[15px] text-[12px] text-charcoal">
                                 {appointment.price}
                               </div>
                               <div className="font-[400] font-rasa sm:text-[12px] text-[10px] text-[#00000080]">
-                                {appointment.time} - {appointment.endTime}
+                                {appointment.time} to {appointment.endTime}
                                 {appointment.status && (
                                   <span> ({appointment.status})</span>
                                 )}
                               </div>
                             </div>
-                          ) : imported ? (
-                            <div
-                              className="p-2 h-full bg-gray-200 text-gray-700 font-medium"
-                              style={{ borderLeft: `4px solid ${borderColor}` }}
-                            >
-                              Blocked (Imported)
-                            </div>
                           ) : (
                             <div
-                              className="w-full h-full cursor-pointer hover:bg-gray-100 transition"
+                              className="w-full h-full"
                               style={{ borderLeft: `4px solid ${borderColor}` }}
-                              onClick={() =>
-                                handleOpenNewBooking(date.format("YYYY-MM-DD"), time)
-                              }
-                            />
+                            ></div>
                           )}
                         </td>
                       );
@@ -509,11 +458,8 @@ export default function Currentbookings() {
             </table>
           </div>
         </div>
-        <div className="lg:w-[280px] w-full sm:max-w-[280px] flex-shrink-0">
-          <RightDivAppointment
-            appointments={appointments}
-            importedAppointments={importedAppointments}
-          />
+        <div className="lg:w-fit w-full sm:max-w-1/3">
+          <RightDivAppointment />
         </div>
       </div>
     </ClientDashboardLayout>
