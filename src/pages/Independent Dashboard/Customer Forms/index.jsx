@@ -1,8 +1,5 @@
-
 import { useEffect, useState } from "react";
 import { IoMdInformationCircle } from "react-icons/io";
-
-import BusinessOwnerDashboardLayout from "../../../components/DashbaordLayout/Business Owner";
 
 import {
   PreAppointmentFormModal,
@@ -19,6 +16,7 @@ import img3 from "../../../assets/images/dashboard/img119.jpg";
 import { WaiverFormModal } from "../../../components/Modals/WaiverFormModal";
 import { AppointmentFormModal } from "../../../components/Modals/AppointmentFormModal";
 import { ClientsFormsCards, PersonalFormsCards } from "../../Business owner Dashboard/Customer Forms/FormsCards";
+import BusinessOwnerDashboardLayout from "../../../components/DashbaordLayout/Business Owner";
 
 const appointments = [
   {
@@ -31,7 +29,7 @@ const appointments = [
   },
   {
     id: 2,
-    title: "Hair treatement",
+    title: "Hair treatment",
     client: "Dominique R.",
     date: "July 11, 2024",
     duration: "2hrs",
@@ -93,6 +91,7 @@ const IndependentCustomerForms = () => {
     setModalOpen(false);
     setWaiverOpen(true);
   };
+
   const formData = {
     providerName: "Burt Nilson",
     service: "Deep Massage",
@@ -144,11 +143,13 @@ const IndependentCustomerForms = () => {
         isOpen={isModalOpen4}
         onClose={() => setModalOpen4(false)}
         handleOpenAppointmentform={handleOpenAppointmentform}
+        handleOpenWaiverForm={handleOpenWaiverForm}
         formData={formData}
       />
       <WaiverFormModal
         isOpen={waiverOpen}
         onClose={() => setWaiverOpen(false)}
+        formData={formData}
       />
       <AppointmentFormModal
         isOpen={isModalOpen5}
@@ -158,7 +159,7 @@ const IndependentCustomerForms = () => {
         {/* Tabs */}
         <div className="flex w-full bg-[#D9D9D9] rounded-[80px] overflow-hidden mb-2 p-1 max-w-4xl h-[60px]">
           <button
-            className={`flex-1 py-2 sm:text-[30px] text-[20px] font-[500] font-rasa rounded-[80px]  ${
+            className={`flex-1 py-2 sm:text-[30px] text-[20px] font-[500] font-rasa rounded-[80px] ${
               activeTab === "Your Clients"
                 ? "bg-white text-charcoal"
                 : "text-[#2F2F2F80]"
@@ -168,7 +169,7 @@ const IndependentCustomerForms = () => {
             Your Clients
           </button>
           <button
-            className={`flex-1 py-2 sm:text-[30px] text-[20px] font-[500] font-rasa rounded-[80px]  ${
+            className={`flex-1 py-2 sm:text-[30px] text-[20px] font-[500] font-rasa rounded-[80px] ${
               activeTab === "Personal View"
                 ? "bg-white text-charcoal"
                 : "text-[#2F2F2F80]"
@@ -184,7 +185,6 @@ const IndependentCustomerForms = () => {
               <h2 className="sm:text-[30px] text-[20px] font-[600] text-charcoal font-rasa">
                 Client Name
               </h2>
-
               <div className="flex flex-wrap gap-4">
                 {appointments.map((appt) => (
                   <ClientsFormsCards
@@ -198,22 +198,21 @@ const IndependentCustomerForms = () => {
               </div>
             </div>
           ) : (
-            <div className=" max-w-md border border-[#2F2F2F80] shadow-[0px_4px_4px_0px_#00000040] bg-white rounded-[40px] px-10 py-8 flex flex-col items-center justify-center gap-2">
+            <div className="max-w-md border border-[#2F2F2F80] shadow-[0px_4px_4px_0px_#00000040] bg-white rounded-[40px] px-10 py-8 flex flex-col items-center justify-center gap-2">
               <img src={img1} alt="" />
               <h6 className="sm:text-[30px] text-[20px] font-[600] text-charcoal font-rasa">
                 No Forms or
                 <br /> Waivers Sent Yet
               </h6>
               <p className="sm:text-[18px] text-[15px] font-[500] text-charcoal text-center font-rasa">
-                You’ll be able to send pre- appointment forms and and waivers to
+                You’ll be able to send pre-appointment forms and waivers to
                 clients once they’ve booked a service with you.
               </p>
               <p className="sm:text-[18px] text-[15px] font-[500] text-charcoal text-center font-rasa">
-                Use forms to gather preferences and service related details. Use
+                Use forms to gather preferences and service-related details. Use
                 waivers to cover important agreements like liability or media
                 consent.
               </p>
-
               <div className="w-full cursor-pointer mt-5 border-2 border-[#2F2F2F] px-2.5 py-4 rounded-[16px] sm:text-[20px] text-[15px] font-[600] text-charcoal text-center font-rasa underline">
                 Need help? Learn how
               </div>
@@ -221,7 +220,7 @@ const IndependentCustomerForms = () => {
           )
         ) : iscustomercard ? (
           <div className="mt-4">
-            <div className="flex flex-wrap gap-4 ">
+            <div className="flex flex-wrap gap-4">
               {appointments1.map((appt) => (
                 <PersonalFormsCards
                   key={appt.id}
@@ -232,7 +231,7 @@ const IndependentCustomerForms = () => {
             </div>
           </div>
         ) : (
-          <div className=" max-w-md border border-[#2F2F2F80] shadow-[0px_4px_4px_0px_#00000040] bg-white rounded-[40px] px-10 py-8 flex flex-col items-center justify-center gap-2">
+          <div className="max-w-md border border-[#2F2F2F80] shadow-[0px_4px_4px_0px_#00000040] bg-white rounded-[40px] px-10 py-8 flex flex-col items-center justify-center gap-2">
             <img src={img} alt="" />
             <h6 className="sm:text-[30px] text-[20px] font-[600] text-charcoal font-rasa">
               No Forms or
@@ -243,11 +242,10 @@ const IndependentCustomerForms = () => {
               required forms or waivers will appear here.
             </p>
             <p className="sm:text-[18px] text-[15px] font-[500] text-charcoal text-center font-rasa">
-              You’ll be able to responds to there questions or sing waivers
-              before you session.
+              You’ll be able to respond to their questions or sign waivers
+              before your session.
             </p>
-
-            <div className="w-full cursor-pointer mt-5 border-2 border-[#2F2F2F] px-2.5 py-4 rounded-[16px] sm:text-[20px] text-[15px] font-[600] text-charcoal text-center font-rasa ">
+            <div className="w-full cursor-pointer mt-5 border-2 border-[#2F2F2F] px-2.5 py-4 rounded-[16px] sm:text-[20px] text-[15px] font-[600] text-charcoal text-center font-rasa">
               Browse Professionals
             </div>
           </div>

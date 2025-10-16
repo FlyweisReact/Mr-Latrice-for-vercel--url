@@ -107,7 +107,7 @@ export const ViewDetailsPersonalViewModal = ({
 
             <div className="flex justify-center underline">
               <Link
-                to="/dashboard/appointments/current-bookings"
+                to="/business-owner/dashboard/appointments/current-bookings"
                 className="cursor-pointer sm:text-[25px] text-[15px] font-[600] text-charcoal leading-[20px] font-rasa text-center"
               >
                 See appointment
