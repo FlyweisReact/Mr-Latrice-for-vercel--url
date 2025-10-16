@@ -11,6 +11,9 @@ import BusinessOwnerDashboardLayout from "../../../components/DashbaordLayout/Bu
 import { TiArrowSortedDown } from "react-icons/ti";
 import { ProfessionalBookingDetailsModal } from "../../../components/Modals/ProfessionalBookingDetailsModal";
 import { ProfessionalNeedHelpBookingDetailsModal } from "../../../components/Modals/ProfessionalNeedHelpModal";
+import BookRegularAppointment from "./BookRegularAppointment";
+import ReviewAndConfirmModal from "./ReviewAndConfirmModal";
+import PaymentLinkSentPopup from "./PaymentLinkSentPopup";
 
 const times = [
   "08:30 AM",
@@ -110,6 +113,11 @@ export default function BusinessCurrentbookings() {
   const [isModalOpen3, setModalOpen3] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("Customer Bookings");
+  const [showBookModal, setShowBookModal] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
 
   const locations = ["Customer Bookings", "Personal Bookings"];
 
@@ -130,6 +138,19 @@ export default function BusinessCurrentbookings() {
   const handlebacknhelp = () => {
     setModalOpen(true);
     setModalOpen3(false);
+  };
+
+  const handleCellClick = (day, time) => {
+    if (!appointments.some((appt) => appt.date === day && appt.time === time)) {
+      setSelectedDate(`February, ${moment(day).format("dddd DD YYYY")}`);
+      setSelectedTime(time);
+      setShowBookModal(true);
+    }
+  };
+
+  const handlePaymentRequest = () => {
+    setShowReviewModal(false);
+    setShowPaymentPopup(true);
   };
 
   return (
@@ -195,6 +216,40 @@ export default function BusinessCurrentbookings() {
         isOpen={isModalOpen3}
         onClose={() => setModalOpen3(false)}
         handleBack={handlebacknhelp}
+      />
+      <BookRegularAppointment
+        isOpen={showBookModal}
+        onClose={() => setShowBookModal(false)}
+        handleContinue={() => setShowReviewModal(true)}
+        handleBack={() => setShowBookModal(false)}
+        selectedDate={selectedDate}
+        selectedTime={selectedTime}
+      />
+      <ReviewAndConfirmModal
+        isOpen={showReviewModal}
+        onClose={() => setShowReviewModal(false)}
+        bookingDetails={{
+          category: "Hair Services",
+          serviceName: "Gent's Standard",
+          date: selectedDate,
+          time: selectedTime,
+          cost: 40,
+          extras: [],
+          specialEvent: { enabled: false, price: 0 },
+          freeParking: false,
+          note: "N/A",
+          providerDrive: false,
+          bookingFee: 4,
+        }}
+        onRequestPayment={handlePaymentRequest}
+        handleEdit={() => {
+          setShowReviewModal(false);
+          setShowBookModal(true);
+        }}
+      />
+      <PaymentLinkSentPopup 
+        isOpen={showPaymentPopup}
+        onClose={() => setShowPaymentPopup(false)}
       />
       <div className="flex flex-col lg:flex-row w-full gap-4 mt-4">
         <div className="flex-1 overflow-auto">
@@ -265,7 +320,7 @@ export default function BusinessCurrentbookings() {
                       return (
                         <td
                           key={colIndex}
-                          className="border border-[#A8A8A84D] h-20  relative"
+                          className="border border-[#A8A8A84D] h-20 relative"
                         >
                           {appointment ? (
                             <div
@@ -291,8 +346,14 @@ export default function BusinessCurrentbookings() {
                             </div>
                           ) : (
                             <div
-                              className="w-full h-full"
+                              className="w-full h-full cursor-pointer"
                               style={{ borderLeft: `4px solid ${borderColor}` }}
+                              onClick={() =>
+                                handleCellClick(
+                                  date.format("YYYY-MM-DD"),
+                                  time
+                                )
+                              }
                             ></div>
                           )}
                         </td>

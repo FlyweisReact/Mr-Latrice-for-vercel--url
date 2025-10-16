@@ -2,6 +2,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import RightDivAppointment from "./RightDivAppointment";
 import { useState } from "react";
+
 import {
   BussinessChangeBookingDateTimeMOdal,
   BussinessResheduleSuccessModal,
@@ -11,6 +12,9 @@ import IndependentDashboardLayout from "../../../components/DashbaordLayout/Inde
 import { TiArrowSortedDown } from "react-icons/ti";
 import { ProfessionalBookingDetailsModal } from "../../../components/Modals/ProfessionalBookingDetailsModal";
 import { ProfessionalNeedHelpBookingDetailsModal } from "../../../components/Modals/ProfessionalNeedHelpModal";
+import BookRegularAppointment from "../../Business owner Dashboard/Appointment/BookRegularAppointment";
+import ReviewAndConfirmModal from "../../Business owner Dashboard/Appointment/ReviewAndConfirmModal";
+import PaymentLinkSentPopup from "../../Business owner Dashboard/Appointment/PaymentLinkSentPopup";
 
 const times = [
   "08:30 AM",
@@ -132,8 +136,11 @@ export default function IndependentCurrentBookings() {
   const [isHelpModalOpen, setHelpModalOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("Customer Bookings");
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
+  const [showBookModal, setShowBookModal] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
 
   const locations = ["Customer Bookings", "Personal Bookings"];
 
@@ -161,14 +168,21 @@ export default function IndependentCurrentBookings() {
     setHelpModalOpen(false);
     setModalOpen(true);
   };
-  const handleOpenNewBooking = (date, time) => {
-    setSelectedDate(date);
-    setSelectedTime(time);
-    setModalOpen(true); // Open ProfessionalBookingDetailsModal
-    console.log(
-      `New booking initiated: Date: ${date}, Time: ${time}, Client: [To be entered], Service: [To be entered], Amenities: [To be entered]`
-    );
-    console.log("Sending payment link to client for 15-minute payment window");
+
+  const handleCellClick = (day, time) => {
+    if (!appointments.some((appt) => appt.date === day && appt.time === time) &&
+        !importedAppointments.some((appt) => appt.date === day && appt.time === time)) {
+      setSelectedDate(`February, ${moment(day).format("dddd DD YYYY")}`);
+      setSelectedTime(time);
+      setShowBookModal(true);
+    } else if (appointments.some((appt) => appt.date === day && appt.time === time)) {
+      setModalOpen(true); // Open existing booking details
+    }
+  };
+
+  const handlePaymentRequest = () => {
+    setShowReviewModal(false);
+    setShowPaymentPopup(true);
   };
 
   return (
@@ -235,6 +249,40 @@ export default function IndependentCurrentBookings() {
         isOpen={isHelpModalOpen}
         onClose={() => setHelpModalOpen(false)}
         handleBack={handleBackNeedHelp}
+      />
+      <BookRegularAppointment
+        isOpen={showBookModal}
+        onClose={() => setShowBookModal(false)}
+        handleContinue={() => setShowReviewModal(true)}
+        handleBack={() => setShowBookModal(false)}
+        selectedDate={selectedDate}
+        selectedTime={selectedTime}
+      />
+      <ReviewAndConfirmModal
+        isOpen={showReviewModal}
+        onClose={() => setShowReviewModal(false)}
+        bookingDetails={{
+          category: "Hair Services",
+          serviceName: "Gent's Standard",
+          date: selectedDate,
+          time: selectedTime,
+          cost: 40,
+          extras: [],
+          specialEvent: { enabled: false, price: 0 },
+          freeParking: false,
+          note: "N/A",
+          providerDrive: false,
+          bookingFee: 4,
+        }}
+        onRequestPayment={handlePaymentRequest}
+        handleEdit={() => {
+          setShowReviewModal(false);
+          setShowBookModal(true);
+        }}
+      />
+      <PaymentLinkSentPopup
+        isOpen={showPaymentPopup}
+        onClose={() => setShowPaymentPopup(false)}
       />
       <div className="flex flex-col lg:flex-row w-full gap-4 mt-4">
         <div className="flex-1 overflow-auto">
@@ -327,7 +375,7 @@ export default function IndependentCurrentBookings() {
                             <div
                               className="w-full h-full cursor-pointer"
                               style={{ borderLeft: `4px solid ${borderColor}` }}
-                              onClick={() => handleOpenNewBooking(date.format("YYYY-MM-DD"), time)}
+                              onClick={() => handleCellClick(date.format("YYYY-MM-DD"), time)}
                             ></div>
                           )}
                         </td>
