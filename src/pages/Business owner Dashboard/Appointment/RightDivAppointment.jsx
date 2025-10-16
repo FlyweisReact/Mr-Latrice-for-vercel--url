@@ -58,9 +58,13 @@ export default function RightDivAppointment() {
             </button>
           </div>
         </div>
-        <div className="current-time">
-          <h5>Current Time:</h5>
-          <h6>{currentTime}</h6>
+        <div className="current-time font-rasa">
+          <h5>Upcoming Appointment:</h5>
+          <div className="flex items-center gap-4">
+            <h6>{currentTime}</h6>
+          <p className="text-white text-[14px] 2xl:text-[18px] mt-2 font-bold">Braids (Jessica M.)</p>
+          </div>
+          <p className="text-white text-[22px]">Starts in 45 minutes</p>
         </div>
       </div>
       <ImportBookingsModal

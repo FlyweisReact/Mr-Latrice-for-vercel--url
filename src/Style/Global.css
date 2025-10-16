@@ -406,7 +406,7 @@
 
 .current-time {
     width: 100%px;
-    height: 100px;
+    height: 135px;
     border-radius: 10px;
     background-image: url('../assets/images/dashboard/img27.jpg');
     background-size: cover;
@@ -422,21 +422,61 @@
 .current-time h5 {
     font-family: var(--font-rasa);
     font-weight: 600;
-    font-size: 20px;
+    font-size: 25px;
     line-height: 138%;
     color: #FFFFFF;
     margin: 0;
 }
 
+
+
 .current-time h6 {
-    font-family: 'DS-Digital', sans-serif;
-    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
     font-size: 36px;
-    line-height: 0;
     color: #FFFFFF;
     margin: 0;
     text-align: center;
+    /* margin-top: 1rem; */
+    letter-spacing: 2px;
+}
+
+
+.current-time1 {
+    width: 100%px;
+    height: 135px;
+    border-radius: 10px;
+    background-image: url('../assets/images/dashboard/img27.jpg');
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+    /* Safari support */
+    overflow: hidden;
+    padding: 0.5rem;
     margin-top: 1rem;
+}
+
+
+
+.current-time1 h5 {
+    font-family: var(--font-rasa);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 138%;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+
+
+.current-time1 h6 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    color: #FFFFFF;
+    margin: 0;
+    text-align: center;
+    /* margin-top: 1rem; */
+    letter-spacing: 2px;
 }
 
 .cancelbookings {
@@ -1053,7 +1093,7 @@
     text-decoration: line-through;
 }
 
-.mangertimedate2 .react-datepicker__day--has-waitinglist  {
+.mangertimedate2 .react-datepicker__day--has-waitinglist {
     color: #000000 !important;
     background-color: #FFE6D8 !important;
 }
@@ -1143,4 +1183,3 @@
     z-index: 1;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-

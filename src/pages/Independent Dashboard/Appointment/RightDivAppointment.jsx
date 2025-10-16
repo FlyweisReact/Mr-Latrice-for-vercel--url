@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import moment from 'moment';
 import { ConnectCalendarModal } from "../../../components/Modals/ConnectCalendarModal";
@@ -8,6 +8,28 @@ const RightDivAppointment = ({ appointments = [], importedAppointments = [] }) =
   const [currentDate, setCurrentDate] = useState(new Date(2025, 1, 1));
   const [isImportModalOpen, setImportModalOpen] = useState(false);
   const [isConnectCalendarModalOpen, setConnectCalendarModalOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState(getFormattedTime());
+
+
+  function getFormattedTime() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert to 12-hour format
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )} ${ampm}`;
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(getFormattedTime());
+    }, 1000); // update every second
+
+    return () => clearInterval(interval); // cleanup
+  }, []);
 
   // Debug prop values
   console.log('Appointments:', appointments);
@@ -146,22 +168,13 @@ const RightDivAppointment = ({ appointments = [], importedAppointments = [] }) =
           </div>
         </div>
       </div>
-      <div className="bg-[#2F3333] rounded-2xl p-4">
-        <h5 className="text-white font-medium mb-4">Upcoming Appointments</h5>
-        <ul className="space-y-3">
-          {Array.isArray(appointments) && appointments.length > 0 ? (
-            appointments
-              .filter((appt) => new Date(appt.date + ' ' + appt.time) > new Date())
-              .sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + a.time))
-              .map((appt, idx) => (
-                <li key={idx} className="text-white text-sm font-medium">
-                  {appt.time} · {appt.title} – {appt.client} (with {appt.stylist})
-                </li>
-              ))
-          ) : (
-            <li className="text-white text-sm font-medium">No upcoming appointments</li>
-          )}
-        </ul>
+      <div className="current-time1 font-rasa">
+        <h5>Upcoming Appointment:</h5>
+        <div className="flex items-center gap-4 my-2">
+          <h6>{currentTime}</h6>
+          <p className="text-white text-[14px] 2xl:text-[16px] mt-2 font-bold">Braids (Jessica M.)</p>
+        </div>
+        <p className="text-white text-[20px]">Starts in 45 minutes</p>
       </div>
       <ImportBookingsModal
         isOpen={isImportModalOpen}
