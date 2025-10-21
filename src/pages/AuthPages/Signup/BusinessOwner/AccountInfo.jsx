@@ -5,7 +5,6 @@ import AuthLayout from "../../../../components/AuthLayout";
 import UploadBar from "../../../../assets/images/signup/upload.png";
 import { useDispatch } from "react-redux";
 import { useProfessionalLoginMutation, useProfessionalSignupMutation } from "../../../../redux/api/Professional/professionalApi";
-import { setProfessionalCredentials } from "../../../../redux/slices/authSlice";
 
 const AccountInfo = () => {
   const navigate = useNavigate();
@@ -95,7 +94,7 @@ const AccountInfo = () => {
         email: formData.email,
         password: formData.password,
       }).unwrap();
-      dispatch(setProfessionalCredentials({ user: loginResponse.data, accessToken: loginResponse.accessToken }));
+      // dispatch(setProfessionalCredentials({ user: loginResponse.data, accessToken: loginResponse.accessToken }));
       navigate(`/business-owner/profile-image`);
     } catch (err) {
       setError(err?.data?.message || "Registration or login failed. Please try again.");

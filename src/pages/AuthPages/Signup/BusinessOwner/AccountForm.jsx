@@ -5,7 +5,7 @@ import AuthLayout from "../../../../components/AuthLayout";
 import UploadBar from "../../../../assets/images/signup/upload.png";
 import { useDispatch } from "react-redux";
 import { useProfessionalSignupMutation } from "../../../../redux/api/Professional/professionalApi";
-import { setProfessionalCredentials } from "../../../../redux/slices/authSlice";
+// import { setProfessionalCredentials } from "../../../../redux/slices/authSlice";
 
 const AccountForm = () => {
   const navigate = useNavigate();
@@ -86,7 +86,7 @@ const AccountForm = () => {
 
     try {
       const response = await professionalSignup(body).unwrap();
-      dispatch(setProfessionalCredentials({ user: response.data, accessToken: response.accessToken }));
+      // dispatch(setProfessionalCredentials({ user: response.data, accessToken: response.accessToken }));
       navigate("/business-owner/profile-image");
     } catch (err) {
       setError(err?.data?.message || "Registration failed. Please try again.");
