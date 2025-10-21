@@ -1,7 +1,7 @@
+// src/components/MainLayout.js (or wherever it's located)
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ServiceFilter, ExtraFilter, Filterby } from "../Service Filter/ServiceFilter";
-
 
 import Facebook from "../../assets/images/home/fb.png";
 import Instagram from "../../assets/images/home/intsa.png";
@@ -9,14 +9,12 @@ import Twitter from "../../assets/images/home/twitter.png";
 import Linkdin from "../../assets/images/home/link.png";
 import Basket from "../../assets/images/home/basket.png";
 
-
 import { VscSettings } from "react-icons/vsc";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { IoIosSearch } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
-
 
 import Footer from "../Footer";
 
@@ -30,15 +28,19 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
     const [showFilter, setShowFilter] = useState(false);
     const [showFilter1, setShowFilter1] = useState(false);
     const [showFilter2, setShowFilter2] = useState(false);
-    const [user, setUser] = useState(null);
-      const { isAuthenticated, userType } = useSelector((state) => state.auth);
+    const { user, token, loginType } = useSelector((state) => state.auth);
+    const isAuthenticated = !!token;
 
-    useEffect(() => {
-        const localUser = localStorage.getItem("user");
-        if (localUser) {
-            setUser(JSON.parse(localUser));
+    let basePath = '';
+    if (isAuthenticated) {
+        if (loginType === 'USER') {
+            basePath = '/dashboard';
+        } else if (loginType === 'BUSINESS') {
+            basePath = '/business-owner/dashboard';
+        } else if (loginType === 'INDEPENDENT') {
+            basePath = '/independent/dashboard';
         }
-    }, []);
+    }
 
     return (
         <>
@@ -71,7 +73,7 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
             <div className="bg-primary h-full">
                 <div className="container mx-auto px-4">
                     {/* Header */}
-                    {user ? (
+                    {isAuthenticated ? (
                         <header className="py-4">
                             <div className="flex flex-wrap justify-between items-center">
                                 {/* Logo */}
@@ -119,19 +121,19 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
                                             Home
                                         </Link>
                                         <Link
-                                            to="/dashboard/favorite"
+                                            to={`${basePath}/favorite`}
                                             className="text-primary text-[15px] sm:text-[18px] font-outfit font-[500]"
                                         >
                                             Favorites
                                         </Link>
                                         <Link
-                                            to="/dashboard/know-more/contact-us"
+                                            to={`${basePath}/know-more/contact-us`}
                                             className="text-primary text-[15px] sm:text-[18px] font-outfit font-[500]"
                                         >
                                             Contact Us
                                         </Link>
                                         <Link
-                                            to="/dashboard/post-project"
+                                            to={`${basePath}/post-project`}
                                             className="text-primary text-[15px] sm:text-[18px] font-outfit font-[500]"
                                         >
                                             Post a Project
@@ -141,7 +143,7 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
                                     {/* Buttons - Desktop */}
                                     <div className="flex items-center gap-4">
                                         <Link
-                                            to="/dashboard/basket"
+                                            to={`${basePath}/basket`}
                                         >
                                             <button className="relative text-[13px] bg-secondary text-black px-4 py-2 rounded-[30px] shadow-[0px_4px_4px_0px_#00000040] flex items-center justify-center">
                                                 <img
@@ -154,7 +156,7 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
                                             </button>
                                         </Link>
                                         <Link
-                                            to="/dashboard/account-setting"
+                                            to={`${basePath}/account-setting`}
                                         >
                                             <div className="w-9 h-9 rounded-full cursor-pointer">
                                                 <img
@@ -179,19 +181,19 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
                                             Home
                                         </Link>
                                         <Link
-                                            to="/dashboard/favorite"
+                                            to={`${basePath}/favorite`}
                                             className="text-primary text-[15px] sm:text-[20px] font-outfit font-[500]"
                                         >
                                             Favorites
                                         </Link>
                                         <Link
-                                            to="/dashboard/know-more/contact-us"
+                                            to={`${basePath}/know-more/contact-us`}
                                             className="text-primary text-[15px] sm:text-[20px] font-outfit font-[500]"
                                         >
                                             Contact Us
                                         </Link>
                                         <Link
-                                            to="/dashboard/post-project"
+                                            to={`${basePath}/post-project`}
                                             className="text-primary text-[15px] sm:text-[20px] font-outfit font-[500]"
                                         >
                                             Post a Project
@@ -201,7 +203,7 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
                                     {/* Mobile Buttons */}
                                     <div className="flex flex-wrap gap-2 mt-4">
                                         <Link
-                                            to="/dashboard/basket"
+                                            to={`${basePath}/basket`}
                                         >
                                             <button className="relative text-[13px] bg-secondary text-black px-3 py-2 rounded-[30px] shadow-[0px_4px_4px_0px_#00000040] flex items-center justify-center">
                                                 <img
@@ -214,7 +216,7 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
                                             </button>
                                         </Link>
                                         <Link
-                                            to="/dashboard/account-setting"
+                                            to={`${basePath}/account-setting`}
                                         >
                                             <div className="w-9 h-9 rounded-full cursor-pointer">
                                                 <img
@@ -349,13 +351,13 @@ export default function MainLayout({ children, showfooter = true, showfilters = 
                                             Professional Account
                                         </Link>
                                         <Link
-                                            to="/favorites"
+                                            to="/signin"
                                             className="text-primary text-[15px] sm:text-[20px] font-outfit font-[500]"
                                         >
                                             Favorites
                                         </Link>
                                         <Link
-                                            to="/contact"
+                                            to="/contact-us"
                                             className="text-primary text-[15px] sm:text-[20px] font-outfit font-[500]"
                                         >
                                             Contact Us

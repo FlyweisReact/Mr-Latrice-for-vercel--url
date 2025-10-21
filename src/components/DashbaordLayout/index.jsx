@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/slices/authSlice";
+import { persistor } from "../../redux/store";
 import Line from "../../assets/images/dashboard/line.png";
 import "./scrollbar.css";
 import {
@@ -29,45 +32,45 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { ServiceFilter, ExtraFilter } from "../Service Filter/ServiceFilter";
 import NotificationOffcanvas from "../Notification Offcanvas/NotificationOffcanvas";
 
-/**
- * Dashboard Layout Component
- *
- * A responsive layout component that provides a consistent structure for dashboard pages
- * with a collapsible sidebar navigation, header, and main content area.
- *
- * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - Child components to render in the main content area
- */
-const DashboardLayout = ({ children, title = "", headerAction = null, titleAction = null, gpnumber = "", }) => {
+const DashboardLayout = ({ children, title = "", headerAction = null, titleAction = null, gpnumber = "" }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [showFilter, setShowFilter] = useState(false);
   const [showFilter1, setShowFilter1] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-
+  const { loginType } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  let basePath = '';
+  if (loginType === 'USER') {
+    basePath = '/dashboard';
+  } else if (loginType === 'BUSINESS') {
+    basePath = '/business-owner/dashboard';
+  } else if (loginType === 'INDEPENDENT') {
+    basePath = '/independent/dashboard';
+  }
 
   // Navigation items configuration
   const navItems = [
-    { name: "Appointments", icon: AppointmentsIcon, path: "/dashboard/appointments/current-bookings" },
-    { name: "Post A Project", icon: PostIcon, path: "/dashboard/post-project" },
-    { name: "Gift Cards", icon: GiftCardsIcon, path: "/dashboard/gift-cards" },
-    { name: "Family & Friends", icon: FamilyFriendsIcon, path: "/dashboard/family-friends" },
-    { name: "Favorite", icon: FavoriteIcon, path: "/dashboard/favorite" },
-    { name: "Discount & Promotion", icon: DiscountsIcon, path: "/dashboard/discounts" },
-    { name: "Reviews", icon: ReviewsIcon, path: "/dashboard/reviews" },
-    { name: "Chat", icon: ChatIcon, path: "/dashboard/chat" },
-    { name: "Payments", icon: PaymentsIcon, path: "/dashboard/payments" },
-    { name: "Customer Forms", icon: Customer, path: "/dashboard/customer-forms" },
-    { name: "Know More", icon: AvailabilityIcon, path: "/dashboard/know-more/about-us" },
+    { name: "Appointments", icon: AppointmentsIcon, path: `${basePath}/appointments/current-bookings` },
+    { name: "Post A Project", icon: PostIcon, path: `${basePath}/post-project` },
+    { name: "Gift Cards", icon: GiftCardsIcon, path: `${basePath}/gift-cards` },
+    { name: "Family & Friends", icon: FamilyFriendsIcon, path: `${basePath}/family-friends` },
+    { name: "Favorite", icon: FavoriteIcon, path: `${basePath}/favorite` },
+    { name: "Discount & Promotion", icon: DiscountsIcon, path: `${basePath}/discounts` },
+    { name: "Reviews", icon: ReviewsIcon, path: `${basePath}/reviews` },
+    { name: "Chat", icon: ChatIcon, path: `${basePath}/chat` },
+    { name: "Payments", icon: PaymentsIcon, path: `${basePath}/payments` },
+    { name: "Customer Forms", icon: Customer, path: `${basePath}/customer-forms` },
+    { name: "Know More", icon: AvailabilityIcon, path: `${basePath}/know-more/about-us` },
   ];
 
   // Handle window resize
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
-      // Close mobile menu when resizing to desktop
       if (window.innerWidth >= 768) {
         setIsMobileMenuOpen(false);
       }
@@ -82,8 +85,6 @@ const DashboardLayout = ({ children, title = "", headerAction = null, titleActio
     const handleClickOutside = (event) => {
       if (isMobileMenuOpen && windowWidth < 768) {
         const sidebar = document.getElementById("mobile-sidebar");
-        // const menuToggle = document.querySelector("[data-menu-toggle]");
-
         if (sidebar && !sidebar.contains(event.target)) {
           if (!event.target.closest("[data-menu-toggle]")) {
             setIsMobileMenuOpen(false);
@@ -98,6 +99,23 @@ const DashboardLayout = ({ children, title = "", headerAction = null, titleActio
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      // Dispatch logout action to clear Redux state
+      dispatch(logout());
+      // Purge persisted state
+      await persistor.purge();
+      // Close mobile menu if open
+      if (windowWidth < 768) {
+        setIsMobileMenuOpen(false);
+      }
+      // Redirect to home page
+      navigate('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   return (
@@ -164,10 +182,9 @@ const DashboardLayout = ({ children, title = "", headerAction = null, titleActio
         </nav>
 
         <div className="w-full px-4 pb-12 mt-2">
-          <Link
-            to="/logout"
-            className="flex items-center px-4 py-3 text-sm group hover:bg-[#FFE6D8] hover:rounded-[15px] hover:shadow-md transition-colors duration-200"
-            onClick={() => windowWidth < 768 && setIsMobileMenuOpen(false)}
+          <button
+            onClick={handleLogout}
+            className="flex items-center px-4 py-3 text-sm group hover:bg-[#FFE6D8] hover:rounded-[15px] hover:shadow-md transition-colors duration-200 w-full"
           >
             <div className="w-[33px] h-[30px] rounded-[12px] flex justify-center items-center bg-[#FF827F] mr-3 group-hover:bg-white group-hover:shadow-xl transition-all">
               <img src={Logout} alt="Logout" className="group-hover:brightness-0" />
@@ -175,14 +192,14 @@ const DashboardLayout = ({ children, title = "", headerAction = null, titleActio
             <span className="font-rasa text-[16px] text-[#FF827F] group-hover:text-[#2F2F2F]">
               Log Out
             </span>
-          </Link>
+          </button>
         </div>
       </aside>
 
       {/* Main Content */}
       <div className="flex-1 md:ml-[282px] w-full">
         {/* Header */}
-        <header className="bg-[#123E41] text-[#FAF9F6] p-2 sm:p-4 flex flex-col-reverse sm:flex-row  items-center justify-between gap-2 shadow-md fixed top-0 right-0 left-0 md:left-[282px] z-30">
+        <header className="bg-[#123E41] text-[#FAF9F6] p-2 sm:p-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-2 shadow-md fixed top-0 right-0 left-0 md:left-[282px] z-30">
           <div className="">
             <div className="client-navbar-filters">
               <div className="client-navbar-search-group">
@@ -220,7 +237,6 @@ const DashboardLayout = ({ children, title = "", headerAction = null, titleActio
                   )}
                 </div>
 
-
                 <div className="relative">
                   <button
                     onClick={() => setShowFilter((prev) => !prev)}
@@ -253,12 +269,12 @@ const DashboardLayout = ({ children, title = "", headerAction = null, titleActio
             </button>
             <div className="client-navbar-icons">
               <div className="w-[30px] h-[30px] bg-[#F5F7FA] rounded-full flex items-center justify-center cursor-pointer text-[#FFCC4E] flex-shrink-0 hover:bg-[#FFCC4E] hover:text-[#FFFFFF] transition duration-300"
-                onClick={() => navigate('/dashboard/basket')}
+                onClick={() => navigate(`${basePath}/basket`)}
               >
                 <IoMdCart />
               </div>
               <div className="w-[30px] h-[30px] bg-[#F5F7FA] rounded-full flex items-center justify-center cursor-pointer text-[#718EBF] flex-shrink-0 hover:bg-[#718EBF] hover:text-[#FFFFFF] transition duration-300"
-                onClick={() => navigate('/dashboard/account-setting')}
+                onClick={() => navigate(`${basePath}/account-setting`)}
               >
                 <IoSettingsOutline />
               </div>
@@ -292,7 +308,7 @@ const DashboardLayout = ({ children, title = "", headerAction = null, titleActio
         {/* Main Content Area */}
         <main className="p-2 sm:p-4 pt-60 sm:pt-24 w-full overflow-x-hidden">
           <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
-            <div className={` flex items-center gap-${gpnumber} flex-wrap`}>
+            <div className={`flex items-center gap-${gpnumber} flex-wrap`}>
               <h2 className="sm:text-[40px] text-2xl font-[600] text-charcoal font-rasa whitespace-nowrap">
                 {title}
               </h2>
@@ -305,7 +321,6 @@ const DashboardLayout = ({ children, title = "", headerAction = null, titleActio
               {headerAction}
             </div>
           </div>
-
 
           {children}
         </main>

@@ -31,8 +31,8 @@ import { ServiceFilter, ExtraFilter, SalonsList } from "../../Service Filter/Ser
 import NotificationOffcanvas from "../../Notification Offcanvas/NotificationOffcanvas";
 
 import img1 from '../../../assets/images/dashboard/img111.png'
-import { logout } from "../../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/slices/authSlice";
 
 /**
  * Dashboard Layout Component
@@ -111,11 +111,20 @@ const BusinessOwnerDashboardLayout = ({ children, title = "", headerAction = nul
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/');
-    if (windowWidth < 768) {
-      setIsMobileMenuOpen(false);
+  const handleLogout = async () => {
+    try {
+      // Dispatch logout action to clear Redux state
+      dispatch(logout());
+      // Purge persisted state
+      await persistor.purge();
+      // Close mobile menu if open
+      if (windowWidth < 768) {
+        setIsMobileMenuOpen(false);
+      }
+      // Redirect to home page
+      navigate('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
     }
   };
 

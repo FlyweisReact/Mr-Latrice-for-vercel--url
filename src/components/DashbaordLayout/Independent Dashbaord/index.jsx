@@ -1,5 +1,9 @@
+// IndependentDashboardLayout.js
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/slices/authSlice";
+import { persistor } from "../../../redux/store";
 import Line from "../../../assets/images/dashboard/line.png";
 import "../scrollbar.css";
 import {
@@ -31,15 +35,6 @@ import { ServiceFilter, ExtraFilter, SalonsList } from "../../Service Filter/Ser
 import NotificationOffcanvas from "../../Notification Offcanvas/NotificationOffcanvas";
 import img1 from '../../../assets/images/dashboard/img111.png'
 
-/**
- * Dashboard Layout Component
- *
- * A responsive layout component that provides a consistent structure for dashboard pages
- * with a collapsible sidebar navigation, header, and main content area.
- *
- * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - Child components to render in the main content area
- */
 const IndependentDashboardLayout = ({ children, title = "", headerAction = null, titleAction = null, gpnumber = "", }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -48,7 +43,8 @@ const IndependentDashboardLayout = ({ children, title = "", headerAction = null,
     const [showNotification, setShowNotification] = useState(false);
 
     const location = useLocation();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     // Navigation items configuration
     const navItems = [
@@ -105,6 +101,23 @@ const IndependentDashboardLayout = ({ children, title = "", headerAction = null,
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
+    const handleLogout = async () => {
+        try {
+            // Dispatch logout action to clear Redux state
+            dispatch(logout());
+            // Purge persisted state
+            await persistor.purge();
+            // Close mobile menu if open
+            if (windowWidth < 768) {
+                setIsMobileMenuOpen(false);
+            }
+            // Redirect to home page
+            navigate('/');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };
+
     return (
         <div className="flex h-screen bg-[#FAF9F6] relative overflow-x-hidden">
             {/* Mobile Overlay */}
@@ -130,7 +143,6 @@ const IndependentDashboardLayout = ({ children, title = "", headerAction = null,
                             </h1>
                         </div>
                     </Link>
-                    {/* <h1 className="text-2xl text-[#FFE6D8] font-rasa font-bold text-center cursor-pointer" onClick={() => navigate('/')}>Latrice</h1> */}
                     <button
                         className="md:hidden text-white focus:outline-none"
                         onClick={toggleMobileMenu}
@@ -177,18 +189,17 @@ const IndependentDashboardLayout = ({ children, title = "", headerAction = null,
                 </nav>
 
                 <div className="w-full px-4 pb-12 mt-2">
-                    <Link
-                        to="/"
-                        className="flex items-center px-4 py-3 text-sm group hover:bg-[#FFE6D8] hover:rounded-[15px] hover:shadow-md transition-colors duration-200"
-                        onClick={() => windowWidth < 768 && setIsMobileMenuOpen(false)}
-                    >
-                        <div className="w-[33px] h-[30px] rounded-[12px] flex justify-center items-center bg-[#FF827F] mr-3 group-hover:bg-white group-hover:shadow-xl transition-all">
-                            <img src={Logout} alt="Logout" className="group-hover:brightness-0" />
-                        </div>
-                        <span className="font-rasa text-[16px] text-[#FF827F] group-hover:text-[#2F2F2F]">
-                            Log Out
-                        </span>
-                    </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center px-4 py-3 text-sm group hover:bg-[#FFE6D8] hover:rounded-[15px] hover:shadow-md transition-colors duration-200 w-full"
+                  >
+                    <div className="w-[33px] h-[30px] rounded-[12px] flex justify-center items-center bg-[#FF827F] mr-3 group-hover:bg-white group-hover:shadow-xl transition-all">
+                      <img src={Logout} alt="Logout" className="group-hover:brightness-0" />
+                    </div>
+                    <span className="font-rasa text-[16px] text-[#FF827F] group-hover:text-[#2F2F2F]">
+                      Log Out
+                    </span>
+                  </button>
                 </div>
             </aside>
 
@@ -311,7 +322,9 @@ const IndependentDashboardLayout = ({ children, title = "", headerAction = null,
                             <h2 className="sm:text-[40px] text-2xl font-[600] text-charcoal font-rasa whitespace-nowrap">
                                 {title}
                             </h2>
-                            {titleAction}
+                            <div>
+                                {titleAction}
+                            </div>
                         </div>
 
                         <div className="flex items-center gap-2">

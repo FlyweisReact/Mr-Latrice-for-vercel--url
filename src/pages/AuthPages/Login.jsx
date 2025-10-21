@@ -1,13 +1,13 @@
+// src/pages/AuthPages/Login.js (Modified SignIn component)
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Kit from "../../assets/images/signin/kit.svg";
 import Google from "../../assets/images/dashboard/img114.png";
 import apple from "../../assets/images/dashboard/img115.png";
 import AuthLayout from "../../components/AuthLayout";
-// import { useDispatch } from "react-redux";
-// import { useLoginMutation } from "../../redux/api/api";
-// import { useProfessionalLoginMutation } from "../../redux/api/Professional/professionalApi";
-// import { setCredentials, setProfessionalCredentials } from "../../redux/slices/authSlice";
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../redux/slices/authSlice';
+import { useLoginProfessionalMutation, useLoginUserMutation } from "../../redux/api/authApi";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -17,12 +17,14 @@ const SignIn = () => {
   });
   const [loginType, setLoginType] = useState("USER"); // Default to user login
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState(null);
 
-  // const dispatch = useDispatch();
-  // const [login, { isLoading: isUserLoading }] = useLoginMutation();
-  // const [professionalLogin, { isLoading: isProfessionalLoading }] = useProfessionalLoginMutation();
+  const [loginUser, { isLoading: isUserLoading }] = useLoginUserMutation();
+  const [loginProfessional, { isLoading: isProfLoading }] = useLoginProfessionalMutation();
+
+  const isLoading = isUserLoading || isProfLoading;
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -41,40 +43,39 @@ const SignIn = () => {
     e.preventDefault();
     setApiError(null);
 
-    // try {
-    //   const loginMutation = loginType === "USER" ? login : professionalLogin;
-    //   const res = await loginMutation({
-    //     email: formData.email,
-    //     password: formData.password,
-    //   }).unwrap();
-    //   dispatch(
-    //     loginType === "USER"
-    //       ? setCredentials({ user: res.data, accessToken: res.accessToken })
-    //       : setProfessionalCredentials({ user: res.data, accessToken: res.accessToken })
-    //   );
+    const { email, password } = formData;
 
-    //   const type = res.data.userType;
-    //   console.log(type, "fromlogin");
-    //   if (type === "USER") {
-    //     navigate("/dashboard/account-setting");
-    //   } else if (type === "SALOON") {
-    //     navigate("/business-owner/dashboard/account-setting");
-    //   } else if (type === "INDEPENDENT") {
-    //     navigate("/independent/dashboard/account-setting");
-    //   } else {
-    //     navigate("/dashboard/account-setting"); // Default to user dashboard
-    //   }
-    // } catch (err) {
-    //   setApiError(err?.data?.message || "Login failed. Please check your credentials.");
-    // }
+    try {
+      let response;
+      let userLoginType;
 
-    // Navigate based on login type
-    if (loginType === "USER") {
-      navigate("/dashboard/account-setting");
-    } else if (loginType === "PROFESSIONAL") {
-      navigate("/business-owner/dashboard/account-setting");
-    } else if (loginType === "INDEPENDENT") {
-      navigate("/independent/dashboard/account-setting");
+      if (loginType === "USER") {
+        response = await loginUser({ email, password }).unwrap();
+        userLoginType = "USER";
+      } else {
+        response = await loginProfessional({ email, password }).unwrap();
+        const profType = response.data.professionalType;
+        if (loginType === "PROFESSIONAL" && profType !== "Business") {
+          throw new Error("This account is not a Business Professional. Please select the correct login type.");
+        } else if (loginType === "INDEPENDENT" && profType !== "Individual") {
+          throw new Error("This account is not an Independent Professional. Please select the correct login type.");
+        }
+        userLoginType = loginType === "PROFESSIONAL" ? "BUSINESS" : "INDEPENDENT";
+      }
+
+      const { data: user, accessToken: token } = response;
+      dispatch(setCredentials({ user, token, loginType: userLoginType }));
+
+      // Navigate based on login type
+      if (loginType === "USER") {
+        navigate("/dashboard/account-setting");
+      } else if (loginType === "PROFESSIONAL") {
+        navigate("/business-owner/dashboard/account-setting");
+      } else if (loginType === "INDEPENDENT") {
+        navigate("/independent/dashboard/account-setting");
+      }
+    } catch (err) {
+      setApiError(err?.data?.message || err?.error || err.message || "Login failed. Please try again.");
     }
   };
 
@@ -127,7 +128,7 @@ const SignIn = () => {
             </div>
           </div>
 
-          {/* Social login buttons */}
+          {/* Social login buttons (placeholders; implement if needed) */}
           <div className="w-full md:w-[60%] flex justify-center sm:justify-start gap-4 mb-4 sm:mb-6 relative z-10">
             <button className="transition-transform hover:scale-105">
               <img
@@ -244,10 +245,10 @@ const SignIn = () => {
 
             <button
               type="submit"
-              // disabled={isUserLoading || isProfessionalLoading}
+              disabled={isLoading}
               className="w-full bg-[#FFE4E0] text-secondary font-medium py-2 sm:py-3 rounded-[16px] hover:bg-[#FFD6D0] transition duration-300 shadow-[0px_2px_4px_0px_#00000030] text-sm sm:text-base disabled:opacity-50"
             >
-              Sign In
+              {isLoading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
 

@@ -1,33 +1,27 @@
+// src/redux/store.js
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-import sessionStorage from 'redux-persist/lib/storage/session'; // 👈 use session storage
+import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import authReducer from './slices/authSlice';
-import { api } from './api/api';
-import { professionalApi } from './api/Professional/professionalApi';
+import { authApi } from './api/authApi';
 
 const persistConfig = {
-  key: 'root',
-  storage: sessionStorage, // 👈 session storage here
-  whitelist: ['auth'], // only auth will persist
+  key: 'auth',
+  storage,
 };
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  [api.reducerPath]: api.reducer,
-  [professionalApi.reducerPath]: professionalApi.reducer,
+  auth: persistReducer(persistConfig, authReducer),
+  [authApi.reducerPath]: authApi.reducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
-      },
-    }).concat(api.middleware, professionalApi.middleware),
+      serializableCheck: false,
+    }).concat(authApi.middleware),
 });
 
 export const persistor = persistStore(store);

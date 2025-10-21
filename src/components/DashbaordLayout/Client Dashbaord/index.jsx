@@ -102,13 +102,23 @@ const ClientDashboardLayout = ({ children, title = "", headerAction = null, titl
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    // localStorage.removeItem("user");
-    navigate('/')
-  };
-
-
+   const handleLogout = async () => {
+     try {
+       // Dispatch logout action to clear Redux state
+       dispatch(logout());
+       // Purge persisted state
+       await persistor.purge();
+       // Close mobile menu if open
+       if (windowWidth < 768) {
+         setIsMobileMenuOpen(false);
+       }
+       // Redirect to home page
+       navigate('/');
+     } catch (error) {
+       console.error('Logout failed:', error);
+     }
+   };
+ 
   return (
     <div className="flex h-screen bg-[#FAF9F6] relative overflow-x-hidden">
       {/* Mobile Overlay */}
