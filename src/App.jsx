@@ -82,6 +82,7 @@ const BusinessCurrentbookings = lazy(() => import('./pages/Business owner Dashbo
 const BusinessUpcomingbookings = lazy(() => import('./pages/Business owner Dashboard/Appointment/Upcomingbookings'));
 const BusinessPastbookings = lazy(() => import('./pages/Business owner Dashboard/Appointment/Pastbookings'));
 const BusinessClaimDispute = lazy(() => import('./pages/Business owner Dashboard/Appointment/ClaimDispute'));
+const BusinessWaitlist = lazy(() => import('./pages/Business owner Dashboard/Appointment/Waitlist'));
 const BusinessPostProject = lazy(() => import('./pages/Business owner Dashboard/Post A Project'));
 const Services = lazy(() => import('./pages/Business owner Dashboard/Services'));
 const Staffs = lazy(() => import('./pages/Business owner Dashboard/Staffs'));
@@ -253,6 +254,7 @@ export default function App() {
                 <Route path="/business-owner/dashboard/appointments/upcoming-bookings" element={<BusinessUpcomingbookings />} />
                 <Route path="/business-owner/dashboard/appointments/past-bookings" element={<BusinessPastbookings />} />
                 <Route path="/business-owner/dashboard/appointments/claim/dispute-bookings" element={<BusinessClaimDispute />} />
+                <Route path="/business-owner/dashboard/appointments/waitlist" element={<BusinessWaitlist />} />
                 <Route path="/business-owner/dashboard/post-project" element={<BusinessPostProject />} />
                 <Route path="/business-owner/dashboard/services" element={<Services />} />
                 <Route path="/business-owner/dashboard/staffs" element={<Staffs />} />

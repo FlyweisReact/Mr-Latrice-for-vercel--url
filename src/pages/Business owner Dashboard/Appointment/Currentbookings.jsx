@@ -99,11 +99,10 @@ const appointments = [
 
 const routeMapping = {
   "Current bookings": "/business-owner/dashboard/appointments/current-bookings",
-  "Upcoming bookings":
-    "/business-owner/dashboard/appointments/upcoming-bookings",
+  "Upcoming bookings": "/business-owner/dashboard/appointments/upcoming-bookings",
   "Past bookings": "/business-owner/dashboard/appointments/past-bookings",
-  "Claim/Dispute":
-    "/business-owner/dashboard/appointments/claim/dispute-bookings",
+  "Claim/Dispute": "/business-owner/dashboard/appointments/claim/dispute-bookings",
+  "Waitlist": "/business-owner/dashboard/appointments/waitlist",
 };
 
 export default function BusinessCurrentbookings() {
@@ -169,9 +168,7 @@ export default function BusinessCurrentbookings() {
             </p>
             <TiArrowSortedDown
               size={20}
-              className={`transition-transform duration-200 ${
-                isOpen ? "rotate-180" : ""
-              }`}
+              className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
               color="#2F2F2F"
             />
           </div>
@@ -182,7 +179,7 @@ export default function BusinessCurrentbookings() {
               {locations.map((location, index) => (
                 <div
                   key={index}
-                  className="px-2  font-rasa font-[600] sm:text-[28px] text-[20px] text-[#2F2F2F] cursor-pointer"
+                  className="px-2 font-rasa font-[600] sm:text-[28px] text-[20px] text-[#2F2F2F] cursor-pointer"
                   onClick={() => {
                     setSelectedLocation(location);
                     setIsOpen(false);
@@ -247,7 +244,7 @@ export default function BusinessCurrentbookings() {
           setShowBookModal(true);
         }}
       />
-      <PaymentLinkSentPopup 
+      <PaymentLinkSentPopup
         isOpen={showPaymentPopup}
         onClose={() => setShowPaymentPopup(false)}
       />
@@ -260,6 +257,7 @@ export default function BusinessCurrentbookings() {
               "Upcoming bookings",
               "Past bookings",
               "Claim/Dispute",
+              "Waitlist",
             ].map((item, index) => (
               <Link key={index} to={routeMapping[item]}>
                 <button
