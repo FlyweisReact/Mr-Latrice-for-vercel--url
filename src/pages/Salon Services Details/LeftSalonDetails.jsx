@@ -10,11 +10,9 @@ import {
 } from "../../components/Modals/Modal";
 import ClientReviews from "../Business owner Dashboard/Reviews/ClientReviews";
 import YourReviews from "../Business owner Dashboard/Reviews/YourReviews";
-
 import img1 from "../../assets/images/dashboard/img9.jpg";
 import img2 from "../../assets/images/dashboard/img10.jpg";
 import img3 from "../../assets/images/dashboard/img11.jpg";
-
 import { IoIosStarOutline } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdOutlineDirectionsCarFilled } from "react-icons/md";
@@ -26,7 +24,7 @@ import { IoMdSearch } from "react-icons/io";
 import { MakePaymentModal } from "../../components/Modals/MakePaymentModal";
 import { FinalizeYourAppointment } from "../../components/Modals/FinalizeYourAppointment";
 
-const LeftSalonDetails = () => {
+const LeftSalonDetails = ({ salon }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpen1, setModalOpen1] = useState(false);
   const [isModalOpen2, setModalOpen2] = useState(false);
@@ -36,17 +34,12 @@ const LeftSalonDetails = () => {
   const [isModalOpen6, setModalOpen6] = useState(false);
   const [isModalOpen7, setModalOpen7] = useState(false);
   const [isModalOpen8, setModalOpen8] = useState(false);
-
   const [user, setUser] = useState(null);
-  // useEffect(() => {
-  //   const localUser = localStorage.getItem("user");
-  //   if (localUser) {
-  //     setUser(JSON.parse(localUser));
-  //   }
-  // }, []);
-  useEffect(()=>{
-    setUser(true)
-  },[])
+
+  useEffect(() => {
+    setUser(true);
+  }, []);
+
   const services = [
     {
       title: "Gent’s Standard",
@@ -107,14 +100,17 @@ const LeftSalonDetails = () => {
     setModalOpen1(false);
     setModalOpen2(true);
   };
+
   const handleopenthirdmodal = () => {
     setModalOpen2(false);
     setModalOpen3(true);
   };
+
   const handleopentforthmodal = () => {
     setModalOpen3(false);
     setModalOpen4(true);
   };
+
   const handleopensuccessmodal = () => {
     setModalOpen5(false);
     setModalOpen6(true);
@@ -135,6 +131,7 @@ const LeftSalonDetails = () => {
     setModalOpen5(false);
     setModalOpen7(true);
   };
+
   const handlebackloginmodal = () => {
     setModalOpen7(false);
     setModalOpen1(true);
@@ -154,23 +151,19 @@ const LeftSalonDetails = () => {
     </div>
   );
 
+  const amenities = [
+    { label: "Parking Space", key: "parkingSpace", icon: MdOutlineDirectionsCarFilled },
+    { label: "Wi-Fi", key: "wifi", icon: FaWifi },
+    { label: "Credit Cards Accepted", key: "creditCardAccepted", icon: IoCardOutline },
+    { label: "Child-Friendly", key: "childFriendly", icon: PiPuzzlePieceBold },
+    { label: "Accessible For People With Disabilities", key: "accessibleForPeopleWithDisabilities", icon: PiWheelchairDuotone },
+  ].filter(amenity => salon?.[amenity.key]);
+
   const selectedPolicies = [
-    {
-      label: "No-Show / Late Cancellation Policy",
-      icon: MdOutlineDirectionsCarFilled,
-    },
-    {
-      label: "Refund Policy",
-      icon: FaWifi,
-    },
-    {
-      label: "Rescheduling Policy",
-      icon: IoCardOutline,
-    },
-    {
-      label: "Service Guarantee Policy",
-      icon: PiPuzzlePieceBold,
-    },
+    { label: "No-Show / Late Cancellation Policy", icon: MdOutlineDirectionsCarFilled },
+    { label: "Refund Policy", icon: FaWifi },
+    { label: "Rescheduling Policy", icon: IoCardOutline },
+    { label: "Service Guarantee Policy", icon: PiPuzzlePieceBold },
   ];
 
   return (
@@ -178,61 +171,14 @@ const LeftSalonDetails = () => {
       <SalonDetailsSelectServiceModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
-        services={[
-          {
-            title: "Gent’s Standard",
-            booked: 1,
-            price: 57,
-            duration: "30 min",
-            description:
-              "Professional consultation, haircut, hot lather neck shave, shampoo and conditioner",
-            rating: "5.0",
-            reviews: "252",
-            img: [{ img: img3 }],
-          },
-          {
-            title: "The Executive",
-            booked: 2,
-            price: 72,
-            duration: "45 min",
-            description:
-              "Professional consultation, haircut, hot lather Neck Shave, shampoo and conditioner, Scalp massage, etc.",
-            rating: "5.0",
-            reviews: "64",
-            img: [{ img: img1 }, { img: img2 }],
-          },
-          {
-            title: "Gent’s Standard",
-            booked: 1,
-            price: 57,
-            duration: "30 min",
-            description:
-              "Professional consultation, haircut, hot lather neck shave, shampoo and conditioner",
-            rating: "5.0",
-            reviews: "252",
-            img: [{ img: img3 }],
-          },
-          {
-            title: "The Executive",
-            booked: 2,
-            price: 72,
-            duration: "45 min",
-            description:
-              "Professional consultation, haircut, hot lather Neck Shave, shampoo and conditioner, Scalp massage, etc.",
-            rating: "5.0",
-            reviews: "64",
-            img: [{ img: img1 }, { img: img2 }],
-          },
-        ]}
+        services={services}
         handleopenfirst={handleopenfirst}
       />
       <BookingCalendarModal
         isOpen={isModalOpen1}
         onClose={() => setModalOpen1(false)}
         handleopengofirst={handleopengofirst}
-        handleopenSecondmodal={
-          user ? handleopenSecondmodal : handleopenloginmodal
-        }
+        handleopenSecondmodal={user ? handleopenSecondmodal : handleopenloginmodal}
         handleopenwaiting={user ? handleopenwaiting : handleopenloginmodal}
       />
       <FinalizeYourAppointment
@@ -241,7 +187,6 @@ const LeftSalonDetails = () => {
         handleContinue={handleopenthirdmodal}
         handleBack={handlebacksecondmodal}
       />
-
       <MakePaymentModal
         isOpen={isModalOpen3}
         onClose={() => setModalOpen3(false)}
@@ -256,9 +201,7 @@ const LeftSalonDetails = () => {
       <RequestFormModal
         isOpen={isModalOpen5}
         onClose={() => setModalOpen5(false)}
-        handleopensuccessmodal={
-          user ? handleopensuccessmodal : handleopenloginmodal
-        }
+        handleopensuccessmodal={user ? handleopensuccessmodal : handleopenloginmodal}
       />
       <RequestFormSuccessModal
         isOpen={isModalOpen6}
@@ -269,23 +212,21 @@ const LeftSalonDetails = () => {
         onClose={() => setModalOpen7(false)}
         handlebackloginmodal={handlebackloginmodal}
       />
-
       <WaitingBookingFormModal
         isOpen={isModalOpen8}
         onClose={() => setModalOpen8(false)}
         handlebackloginmodal={handlebackloginmodal}
       />
-
       <div className="">
         <div className="flex items-center justify-center gap-3 mb-5">
           <button
-            className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] font-sansation sm:text-[20px] text-[15px] px-2 py-4  rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
+            className="w-full bg-[#FFE6D8] text-[#FF827F] font-[700] font-sansation sm:text-[20px] text-[15px] px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
             onClick={() => setModalOpen(true)}
           >
             Book Now
           </button>
           <button
-            className="w-full bg-[#D9D9D9] text-[#2F2F2F] font-[700] font-sansation sm:text-[20px] text-[15px] px-2 py-4  rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
+            className="w-full bg-[#D9D9D9] text-[#2F2F2F] font-[700] font-sansation sm:text-[20px] text-[15px] px-2 py-4 rounded-[10px] shadow-[0px_4px_4px_0px_#00000040]"
             onClick={() => setModalOpen5(true)}
           >
             Set Custom Booking
@@ -316,14 +257,12 @@ const LeftSalonDetails = () => {
                     {service.title}
                   </h3>
                   <div className="text-[11.63px] text-[#494948] font-inter font-[400] mb-2">
-                    #{service.booked} booked • ${service.price} •{" "}
-                    {service.duration}
+                    #{service.booked} booked • ${service.price} • {service.duration}
                   </div>
                   <p className="text-[12px] text-[#494948] font-inter font-[400] mb-2">
                     {service.description}
                   </p>
-
-                  <div className="flex items-center gap-1 text-[12px]  text-[#494948] font-inter font-[400]">
+                  <div className="flex items-center gap-1 text-[12px] text-[#494948] font-inter font-[400]">
                     <IoIosStarOutline />
                     {service.rating} ({service.reviews})
                     <div className="flex gap-2">
@@ -399,14 +338,12 @@ const LeftSalonDetails = () => {
                       {service.title}
                     </h3>
                     <div className="text-[11.63px] text-[#494948] font-inter font-[400] mb-2">
-                      #{service.booked} booked • ${service.price} •{" "}
-                      {service.duration}
+                      #{service.booked} booked • ${service.price} • {service.duration}
                     </div>
                     <p className="text-[12px] text-[#494948] font-inter font-[400] mb-2">
                       {service.description}
                     </p>
-
-                    <div className="flex items-center gap-1 text-[12px]  text-[#494948] font-inter font-[400]">
+                    <div className="flex items-center gap-1 text-[12px] text-[#494948] font-inter font-[400]">
                       <IoIosStarOutline />
                       {service.rating} ({service.reviews})
                       <div className="flex gap-2">
@@ -449,14 +386,12 @@ const LeftSalonDetails = () => {
                       {service.title}
                     </h3>
                     <div className="text-[11.63px] text-[#494948] font-inter font-[400] mb-2">
-                      #{service.booked} booked • ${service.price} •{" "}
-                      {service.duration}
+                      #{service.booked} booked • ${service.price} • {service.duration}
                     </div>
                     <p className="text-[12px] text-[#494948] font-inter font-[400] mb-2">
                       {service.description}
                     </p>
-
-                    <div className="flex items-center gap-1 text-[12px]  text-[#494948] font-inter font-[400]">
+                    <div className="flex items-center gap-1 text-[12px] text-[#494948] font-inter font-[400]">
                       <IoIosStarOutline />
                       {service.rating} ({service.reviews})
                       <div className="flex gap-2">
@@ -483,7 +418,6 @@ const LeftSalonDetails = () => {
             <IoIosArrowDown />
           </div>
         </div>
-
         <div className="space-y-2 mb-5">
           <h2 className="font-rasa font-[600] text-[30px] text-charcoal">
             Specialty Services
@@ -500,14 +434,12 @@ const LeftSalonDetails = () => {
                       {service.title}
                     </h3>
                     <div className="text-[11.63px] text-[#494948] font-inter font-[400] mb-2">
-                      #{service.booked} booked • ${service.price} •{" "}
-                      {service.duration}
+                      #{service.booked} booked • ${service.price} • {service.duration}
                     </div>
                     <p className="text-[12px] text-[#494948] font-inter font-[400] mb-2">
                       {service.description}
                     </p>
-
-                    <div className="flex items-center gap-1 text-[12px]  text-[#494948] font-inter font-[400]">
+                    <div className="flex items-center gap-1 text-[12px] text-[#494948] font-inter font-[400]">
                       <IoIosStarOutline />
                       {service.rating} ({service.reviews})
                       <div className="flex gap-2">
@@ -540,27 +472,14 @@ const LeftSalonDetails = () => {
           </h2>
           <div className="bg-[#FAF9F6] shadow-[0px_0px_4px_0px_#00000040] rounded-[10px] px-3 py-2">
             <div className="flex flex-col sm:flex-row flex-wrap gap-2 bg-[#FFFFFF] rounded-[10px] border border-[#2F2F2F33] px-3 py-2">
-              {renderCheckbox(
-                "Parking Space",
-                "undoHair",
-                MdOutlineDirectionsCarFilled
-              )}
-              {renderCheckbox("Wi-Fi", "washHair", FaWifi)}
-              {renderCheckbox(
-                "Credit Cards Accepted",
-                "blowDryHair",
-                IoCardOutline
-              )}
-              {renderCheckbox(
-                "Child-Friendly",
-                "Child-Friendly",
-                PiPuzzlePieceBold
-              )}
-              {renderCheckbox(
-                "Accessible For People With Disabilities",
-                "notapplication",
-                PiWheelchairDuotone
-              )}
+              {amenities.map((amenity, index) => (
+                <div key={index} className="flex items-center gap-2 bg-[#123E41] rounded-[10px] p-[10px]">
+                  {amenity.icon && <amenity.icon size={20} color="#FAF9F6" />}
+                  <span className="font-[600] font-sansation sm:text-[15px] text-[15px] text-[#FAF9F6]">
+                    {amenity.label}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -572,29 +491,17 @@ const LeftSalonDetails = () => {
             <div className="">
               <div className="flex items-center gap-2 mb-2">
                 <div
-                  className={`px-8 py-2 sm:text-[20px] text-[15px] font-[600] font-rasa rounded-[10px] flex items-center justify-center  cursor-pointer  ${activeTab === "Client Reviews"
+                  className={`px-8 py-2 sm:text-[20px] text-[15px] font-[600] font-rasa rounded-[10px] flex items-center justify-center cursor-pointer ${
+                    activeTab === "Client Reviews"
                       ? "bg-[#123E41] text-[#FAF9F6] border border-[#FAF9F6]"
-                      : " text-[#2F2F2F]"
-                    }`}
+                      : "text-[#2F2F2F]"
+                  }`}
                   onClick={() => setActiveTab("Client Reviews")}
                 >
                   Client Reviews
                 </div>
-                {/* <div
-                  className={`px-8 py-2  sm:text-[20px] text-[15px] font-[500] font-rasa rounded-[10px] flex items-center justify-center cursor-pointer  ${activeTab === 'Your Reviews' ? 'bg-[#123E41] text-[#FAF9F6] border border-[#FAF9F6]' : 'text-[#2F2F2F]'
-                    }`}
-                  onClick={() => setActiveTab('Your Reviews')}
-                >
-
-                  Your Reviews
-                </div> */}
               </div>
-
-              {activeTab === "Client Reviews" ? (
-                <ClientReviews />
-              ) : (
-                <YourReviews />
-              )}
+              {activeTab === "Client Reviews" ? <ClientReviews /> : <YourReviews />}
             </div>
           </div>
         </div>

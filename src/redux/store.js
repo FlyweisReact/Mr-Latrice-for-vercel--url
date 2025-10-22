@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 import authReducer from './slices/authSlice';
 import { authApi } from './api/authApi';
 import { categoryApi } from './api/categoryApi';
+import { salonApi } from './api/salonApi';
 
 const persistConfig = {
   key: 'auth',
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   auth: persistReducer(persistConfig, authReducer),
   [authApi.reducerPath]: authApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,
+  [salonApi.reducerPath]: salonApi.reducer,
 });
 
 export const store = configureStore({
@@ -22,7 +24,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(authApi.middleware, categoryApi.middleware),
+    }).concat(authApi.middleware, categoryApi.middleware, salonApi.middleware),
 });
 
 export const persistor = persistStore(store);

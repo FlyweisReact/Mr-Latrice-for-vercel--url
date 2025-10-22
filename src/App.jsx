@@ -1,4 +1,3 @@
-// src/App.js
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { logout } from './redux/slices/authSlice';
@@ -179,7 +178,7 @@ export default function App() {
             <Routes>
               {/* Main routes */}
               <Route path="/" element={<HomePage />} />
-              <Route path="/services-details" element={<SalonServicesDetails />} />
+              <Route path="/services-details/:id" element={<SalonServicesDetails />} />
               <Route path="/salons/:city" element={<CitybySalonsList />} />
               <Route path="/about-us" element={<AboutUss />} />
               <Route path="/privacy-policy" element={<PrivacyPolicys />} />
